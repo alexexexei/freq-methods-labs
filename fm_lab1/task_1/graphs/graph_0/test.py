@@ -15,17 +15,25 @@ sns.set_theme()
 sns.set_style("whitegrid", {'grid.linestyle': '--'})
 
 f_t = test_func(t)
-N = 15
+N_0_1 = 15
+N_0_2 = 50
+N_0_3 = 60
 
 def build_F_N__f_t(N):
     F_N = calcs.calc_F_N(N, gap_start, gap_end, test_func)
-    sp.plot((f_t, (t, gap_start, gap_end)), (F_N, (t, gap_start, gap_end)), axis_center=(0, 0),
-            xlim=(0, gap_start_val + gap_end_val), ylim=(0, gap_end_val + 1), xlabel='t', ylabel='f(t)')
+    sp.plot((f_t, (t, gap_start, gap_end)), (F_N, (t, gap_start, gap_end)), 
+            axis_center=(0, 0), xlim=(0, gap_start_val + gap_end_val), 
+            ylim=(0, gap_end_val + 1), xlabel=r'$t$', ylabel=r'$f(t)$')
 
 def build_G_N__f_t(N):
     G_N = calcs.calc_G_N(N, gap_start, gap_end, test_func)
-    sp.plot((f_t, (t, gap_start, gap_end)), (G_N, (t, gap_start, gap_end)), axis_center=(0, 0),
-            xlim=(0, gap_start_val + gap_end_val), ylim=(0, gap_end_val + 1), xlabel='t', ylabel='f(t)')
-    
-build_F_N__f_t(N)
-build_G_N__f_t(N)
+    sp.plot((f_t, (t, gap_start, gap_end)), (G_N, (t, gap_start, gap_end)), 
+            axis_center=(0, 0), xlim=(0, gap_start_val + gap_end_val), 
+            ylim=(0, gap_end_val + 1), xlabel=r'$t$', ylabel=r'$f(t)$')
+
+build_F_N__f_t(N_0_1)
+build_F_N__f_t(N_0_2)
+build_F_N__f_t(N_0_3)
+build_G_N__f_t(N_0_1)
+build_G_N__f_t(N_0_2)
+build_G_N__f_t(N_0_3)

@@ -19,17 +19,17 @@ f_t_2 = square_wave_b(t)
 
 def build_f_t():
     sp.plot((f_t_1, (t, gap_start, gap_mid)), (f_t_2, (t, gap_mid, gap_end)), axis_center=(0, 0),
-            xlim=(0, gap_end_val + 1), ylim=(0, gap_end_val + 1), xlabel='t', ylabel='f(t)')
+            xlim=(0, gap_end_val + 1), ylim=(0, gap_end_val + 1), xlabel=r'$t$', ylabel=r'$f(t)$')
 
 def build_F_N__f_t(N):
     F_N = calcs.calc_F_N_sys2(N, gap_start, gap_mid, gap_mid, gap_end, square_wave_a, square_wave_b)
     sp.plot((f_t_1, (t, gap_start, gap_mid)), (f_t_2, (t, gap_mid, gap_end)), (F_N, (t, gap_start, gap_end)),
-            axis_center=(0, 0), xlim=(0, gap_end_val + 1), ylim=(0, gap_end_val + 1), xlabel='t', ylabel='f(t)')
+            axis_center=(0, 0), xlim=(0, gap_end_val + 1), ylim=(0, gap_end_val + 1), xlabel=r'$t$', ylabel=r'$f(t)$')
 
 def build_G_N__f_t(N):
     G_N = calcs.calc_G_N_sys2(N, gap_start, gap_mid, gap_mid, gap_end, square_wave_a, square_wave_b)
     sp.plot((f_t_1, (t, gap_start, gap_mid)), (f_t_2, (t, gap_mid, gap_end)), (G_N, (t, gap_start, gap_end)),
-            axis_center=(0, 0), xlim=(0, gap_end_val + 1), ylim=(0, gap_end_val + 1), xlabel='t', ylabel='f(t)')
+            axis_center=(0, 0), xlim=(0, gap_end_val + 1), ylim=(0, gap_end_val + 1), xlabel=r'$t$', ylabel=r'$f(t)$')
 
 # TODO do parseval equality
 

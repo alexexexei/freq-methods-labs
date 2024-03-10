@@ -65,7 +65,8 @@ def build_Im_G_N(N):
     sp.plot((sp.im(G_N), (t, gap_1[0], gap_4[1])),
             xlabel=r'$t$', ylabel=r'Im$(G_{N}(t))$')
 
-def sum_c_n(N, gap_1, gap_2, gap_3, gap_4, gap_len, f_c_1, f_c_2, f_c_3, f_c_4):
+def sum_c_n(N, gap_1, gap_2, gap_3, gap_4, gap_len, 
+            f_c_1, f_c_2, f_c_3, f_c_4):
     c_n_1 = calcs.calc_c_n(N, gap_1[0], gap_1[1], gap_len, f_c_1)
     c_n_2 = calcs.calc_c_n(N, gap_2[0], gap_2[1], gap_len, f_c_2)
     c_n_3 = calcs.calc_c_n(N, gap_3[0], gap_3[1], gap_len, f_c_3)

@@ -18,17 +18,17 @@ f_t = not_even_or_odd_periodic_func(t)
 
 def build_f_t():
     sp.plot((f_t, (t, gap_start, gap_end)), axis_center=(0, 0),
-            xlim=(0, gap_end_val + 1), ylim=(0, gap_end_val + 2), xlabel='t', ylabel='f(t)')
+            xlim=(0, gap_end_val + 1), ylim=(0, gap_end_val + 2), xlabel=r'$t$', ylabel=r'$f(t)$')
 
 def build_F_N__f_t(N):
     F_N = calcs.calc_F_N(N, gap_start, gap_end, not_even_or_odd_periodic_func)
     sp.plot((f_t, (t, gap_start, gap_end)), (F_N, (t, gap_start, gap_end)), axis_center=(0, 0),
-            xlim=(0, gap_end_val + 1), ylim=(0, gap_end_val + 2), xlabel='t', ylabel='f(t)')
+            xlim=(0, gap_end_val + 1), ylim=(0, gap_end_val + 2), xlabel=r'$t$', ylabel=r'$f(t)$')
 
 def build_G_N__f_t(N):
     G_N = calcs.calc_G_N(N, gap_start, gap_end, not_even_or_odd_periodic_func)
     sp.plot((f_t, (t, gap_start, gap_end)), (G_N, (t, gap_start, gap_end)), axis_center=(0, 0),
-            xlim=(0, gap_end_val + 1), ylim=(0, gap_end_val + 2), xlabel='t', ylabel='f(t)')
+            xlim=(0, gap_end_val + 1), ylim=(0, gap_end_val + 2), xlabel=r'$t$', ylabel=r'$f(t)$')
 
 # TODO do parseval equality
 

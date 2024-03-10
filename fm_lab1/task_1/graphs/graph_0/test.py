@@ -14,7 +14,7 @@ import seaborn as sns
 sns.set_theme()
 sns.set_style("whitegrid", {'grid.linestyle': '--'})
 
-f_t = t
+f_t = test_func(t)
 N = 15
 
 def build_F_N__f_t(N):

@@ -14,7 +14,7 @@ import seaborn as sns
 sns.set_theme()
 sns.set_style("whitegrid", {'grid.linestyle': '--'})
 
-f_t = sp.cos(t) + t
+f_t = not_even_or_odd_periodic_func(t)
 
 def build_f_t():
     sp.plot((f_t, (t, gap_start, gap_end)), axis_center=(0, 0),

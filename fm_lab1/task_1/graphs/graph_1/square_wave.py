@@ -6,7 +6,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 task_1_dir = os.path.abspath(os.path.join(current_dir, '..', '..'))
 sys.path.append(task_1_dir)
 
-from static import square_wave_a, square_wave_b, t, a, b, gap_start, gap_mid, gap_end, gap_end_val, N, N_1, N_2, N_3, N_4, N_5
+from static import square_wave_a, square_wave_b, t, gap_start, gap_mid, gap_end, gap_end_val, N, N_1, N_2, N_3, N_4, N_5
 import calculations as calcs
 import sympy as sp
 import seaborn as sns
@@ -14,8 +14,8 @@ import seaborn as sns
 sns.set_theme()
 sns.set_style("whitegrid", {'grid.linestyle': '--'})
 
-f_t_1 = a
-f_t_2 = b
+f_t_1 = square_wave_a(t)
+f_t_2 = square_wave_b(t)
 
 def build_f_t():
     sp.plot((f_t_1, (t, gap_start, gap_mid)), (f_t_2, (t, gap_mid, gap_end)), axis_center=(0, 0),

@@ -1,0 +1,98 @@
+import sympy as sp
+
+t = sp.Symbol('t')
+
+def calc_coeff(complex: bool, gap_len):
+    if complex:
+        return 1 / gap_len
+    return 2 / gap_len
+
+def calc_omega_n(n, gap_len):
+    return (2 * sp.pi * n) / gap_len
+
+def calc_a_n(n, start, end, gap_len, f):
+    coeff = calc_coeff(False, gap_len)
+    integrand = coeff * f(t)
+    if n != 0:
+        omega_n = calc_omega_n(n, gap_len)
+        integrand = integrand * sp.cos(omega_n * t)
+    
+    result = sp.integrate(integrand, (t, start, end))
+    return result
+
+def calc_b_n(n, start, end, gap_len, f):
+    if (n == 0):
+        return 0
+
+    coeff = calc_coeff(False, gap_len)
+    omega_n = calc_omega_n(n, gap_len)
+    integrand = coeff * f(t) * sp.sin(omega_n * t)
+    
+    result = sp.integrate(integrand, (t, start, end))
+    return result
+
+def calc_c_n(n, start, end, gap_len, f):
+    coeff = calc_coeff(True, gap_len)
+    omega_n = calc_omega_n(n, gap_len)
+    integrand = coeff * f(t) * sp.exp(-1j * omega_n * t)
+
+    result = sp.integrate(integrand, (t, start, end))
+    return result
+
+def calc_F_N(N, start, end, f):
+    gap_len = end - start
+
+    a_0 = calc_a_n(0, start, end, gap_len, f)
+
+    F_N = a_0 / 2
+    for n in range(1, N + 1):
+        a_n = calc_a_n(n, start, end, gap_len, f)
+        b_n = calc_b_n(n, start, end, gap_len, f)
+        omega_n = calc_omega_n(n, gap_len)
+        F_N += a_n * sp.cos(omega_n * t) + b_n * sp.sin(omega_n * t)
+
+    return F_N
+
+def calc_F_N_generic(N, gaps, functions):
+    if (len(gaps) != len(functions)):
+        return None
+
+    gap_len = gaps[-1][1] - gaps[0][0]
+
+    a_0 = sum(calc_a_n(0, gap[0], gap[1], gap_len, functions[i]) for i, gap in enumerate(gaps))
+
+    F_N = a_0 / 2
+    for n in range(1, N + 1):
+        a_n = sum(calc_a_n(n, gap[0], gap[1], gap_len, functions[i]) for i, gap in enumerate(gaps))
+        b_n = sum(calc_b_n(n, gap[0], gap[1], gap_len, functions[i]) for i, gap in enumerate(gaps))
+
+        omega_n = calc_omega_n(n, gap_len)
+        F_N += a_n * sp.cos(omega_n * t) + b_n * sp.sin(omega_n * t)
+
+    return F_N
+
+def calc_G_N(N, start, end, f):
+    G_N = 0
+    gap_len = end - start
+    for n in range(-N, N + 1):
+        c_n = calc_c_n(n, start, end, gap_len, f)
+        omega_n = calc_omega_n(n, gap_len)
+        G_N += c_n * sp.exp(1j * omega_n * t)
+
+    return G_N
+
+def calc_G_N_generic(N, gaps, functions):
+    if (len(gaps) != len(functions)):
+        return None
+
+    G_N = 0
+    gap_len = gaps[-1][1] - gaps[0][0]
+    for n in range(-N, N + 1):
+        c_n = sum(calc_c_n(n, gap[0], gap[1], gap_len, functions[i]) for i, gap in enumerate(gaps))
+        
+        omega_n = calc_omega_n(n, gap_len)
+        G_N += c_n * sp.exp(1j * omega_n * t)
+
+    return G_N
+
+# TODO parseval equality

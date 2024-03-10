@@ -21,8 +21,12 @@ gap_mid_val = float(gap_mid.evalf())
 gap_end = 2 * sp.pi
 gap_end_val = float(gap_end.evalf())
 
-gap_length = gap_end - gap_start
-gap_length_val = float(gap_length.evalf())
+gap_len = gap_end - gap_start
+gap_len_val = float(gap_len.evalf())
+
+gap_1 = [gap_start, gap_mid]
+gap_2 = [gap_mid, gap_end]
+gaps = [gap_1, gap_2]
 
 # can not check if "t" is in [gap_start, gap_mid)
 # and etc. because "t" is a symbol so bad code here

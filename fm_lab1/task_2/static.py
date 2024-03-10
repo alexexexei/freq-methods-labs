@@ -32,6 +32,7 @@ gap_1 = [point_1, point_2]
 gap_2 = [point_2, point_3]
 gap_3 = [point_3, point_4]
 gap_4 = [point_4, point_5]
+gaps = [gap_1, gap_2, gap_3, gap_4]
 
 gap_len = gap_4[1] - gap_1[0]
 gap_len_val = float(gap_len.evalf())

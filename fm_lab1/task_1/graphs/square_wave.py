@@ -22,33 +22,50 @@ f_t_2 = square_wave_b(t)
 funcs = [square_wave_a, square_wave_b]
 
 def build_f_t():
-    sp.plot((f_t_1, (t, gaps[0][0], gaps[0][1])), (f_t_2, (t, gaps[1][0], gaps[1][1])), axis_center=(0, 0),
-            xlim=(0, gap_end_val + 1), ylim=(0, gap_end_val + 1), xlabel=r'$t$', ylabel=r'$f(t)$')
+    sp.plot((f_t_1, (t, gaps[0][0], gaps[0][1])), 
+            (f_t_2, (t, gaps[1][0], gaps[1][1])), 
+            axis_center=(0, 0), xlim=(0, gap_end_val + 1), 
+            ylim=(0, gap_end_val + 1), xlabel=r'$t$', 
+            ylabel=r'$f(t)$')
 
 def build_F_N__f_t(N):
     F_N = calcs.calc_F_N_generic(N, gaps, funcs)
-    sp.plot((f_t_1, (t, gaps[0][0], gaps[0][1])), (f_t_2, (t, gaps[1][0], gaps[1][1])), (F_N, (t, gaps[0][0], gaps[-1][1])),
-            axis_center=(0, 0), xlim=(0, gap_end_val + 1), ylim=(0, gap_end_val + 1), xlabel=r'$t$', ylabel=r'$f(t)$')
+    sp.plot((f_t_1, (t, gaps[0][0], gaps[0][1])), 
+            (f_t_2, (t, gaps[1][0], gaps[1][1])), 
+            (F_N, (t, gaps[0][0], gaps[-1][1])),
+            axis_center=(0, 0), xlim=(0, gap_end_val + 1), 
+            ylim=(0, gap_end_val + 1), xlabel=r'$t$', 
+            ylabel=r'$f(t)$')
 
 def build_G_N__f_t(N):
     G_N = calcs.calc_G_N_generic(N, gaps, funcs)
-    sp.plot((f_t_1, (t, gaps[0][0], gaps[0][1])), (f_t_2, (t, gaps[1][0], gaps[1][1])), (G_N, (t, gaps[0][0], gaps[-1][1])),
-            axis_center=(0, 0), xlim=(0, gap_end_val + 1), ylim=(0, gap_end_val + 1), xlabel=r'$t$', ylabel=r'$f(t)$')
+    sp.plot((f_t_1, (t, gaps[0][0], gaps[0][1])), 
+            (f_t_2, (t, gaps[1][0], gaps[1][1])), 
+            (G_N, (t, gaps[0][0], gaps[-1][1])),
+            axis_center=(0, 0), xlim=(0, gap_end_val + 1), 
+            ylim=(0, gap_end_val + 1), xlabel=r'$t$', 
+            ylabel=r'$f(t)$')
 
 def sum_a_n(N, gaps, gap_len, funcs):
-    a_n = sum(calcs.calc_a_n(N, gap[0], gap[1], gap_len, funcs[i]) for i, gap in enumerate(gaps))
+    a_n = sum(calcs.calc_a_n(N, gap[0], gap[1], gap_len, funcs[i]) 
+              for i, gap in enumerate(gaps))
+
     if (isinstance(a_n, int)):
         return a_n
     return a_n.evalf()
 
 def sum_b_n(N, gaps, gap_len, funcs):
-    b_n = sum(calcs.calc_b_n(N, gap[0], gap[1], gap_len, funcs[i]) for i, gap in enumerate(gaps))
+    b_n = sum(calcs.calc_b_n(N, gap[0], gap[1], gap_len, funcs[i]) 
+              for i, gap in enumerate(gaps))
+
     if (isinstance(b_n, int)):
         return b_n
     return b_n.evalf()
 
 def sum_c_n(N, gaps, gap_len, funcs):
-    c_n = sum(calcs.calc_c_n(N, gap[0], gap[1], gap_len, funcs[i]) for i, gap in enumerate(gaps))
+    c_n = sum(calcs.calc_c_n(N, gap[0], gap[1], gap_len, funcs[i]) 
+              for i, gap in enumerate(gaps))
+    
     if (isinstance(c_n, int)):
         return c_n
     return c_n.evalf()

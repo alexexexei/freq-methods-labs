@@ -24,13 +24,15 @@ N_0_3 = 60
 
 def build_F_N__f_t(N):
     F_N = calcs.calc_F_N(N, gaps[0][0], gaps[-1][1], test_func)
-    sp.plot((f_t, (t, gaps[0][0], gaps[-1][1])), (F_N, (t, gaps[0][0], gaps[-1][1])), 
+    sp.plot((f_t, (t, gaps[0][0], gaps[-1][1])), 
+            (F_N, (t, gaps[0][0], gaps[-1][1])), 
             axis_center=(0, 0), xlim=(0, gap_start_val + gap_end_val), 
             ylim=(0, gap_end_val + 1), xlabel=r'$t$', ylabel=r'$f(t)$')
 
 def build_G_N__f_t(N):
     G_N = calcs.calc_G_N(N, gaps[0][0], gaps[-1][1], test_func)
-    sp.plot((f_t, (t, gaps[0][0], gaps[-1][1])), (G_N, (t, gaps[0][0], gaps[-1][1])), 
+    sp.plot((f_t, (t, gaps[0][0], gaps[-1][1])), 
+            (G_N, (t, gaps[0][0], gaps[-1][1])), 
             axis_center=(0, 0), xlim=(0, gap_start_val + gap_end_val), 
             ylim=(0, gap_end_val + 1), xlabel=r'$t$', ylabel=r'$f(t)$')
 

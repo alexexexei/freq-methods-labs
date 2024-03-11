@@ -48,23 +48,29 @@ def calc_F_N(N, start, end, f):
     for n in range(1, N + 1):
         a_n = calc_a_n(n, start, end, gap_len, f)
         b_n = calc_b_n(n, start, end, gap_len, f)
+
         omega_n = calc_omega_n(n, gap_len)
         F_N += a_n * sp.cos(omega_n * t) + b_n * sp.sin(omega_n * t)
 
     return F_N
 
-def calc_F_N_generic(N, gaps, functions):
-    if (len(gaps) != len(functions)):
+def calc_F_N_generic(N, gaps, functions: list):
+    if (len(gaps) != len(functions) 
+        or len(gaps) <= 0 
+        or len(functions) <= 0):
         return None
 
     gap_len = gaps[-1][1] - gaps[0][0]
 
-    a_0 = sum(calc_a_n(0, gap[0], gap[1], gap_len, functions[i]) for i, gap in enumerate(gaps))
+    a_0 = sum(calc_a_n(0, gap[0], gap[1], gap_len, functions[i]) 
+              for i, gap in enumerate(gaps))
 
     F_N = a_0 / 2
     for n in range(1, N + 1):
-        a_n = sum(calc_a_n(n, gap[0], gap[1], gap_len, functions[i]) for i, gap in enumerate(gaps))
-        b_n = sum(calc_b_n(n, gap[0], gap[1], gap_len, functions[i]) for i, gap in enumerate(gaps))
+        a_n = sum(calc_a_n(n, gap[0], gap[1], gap_len, functions[i]) 
+                  for i, gap in enumerate(gaps))
+        b_n = sum(calc_b_n(n, gap[0], gap[1], gap_len, functions[i]) 
+                  for i, gap in enumerate(gaps))
 
         omega_n = calc_omega_n(n, gap_len)
         F_N += a_n * sp.cos(omega_n * t) + b_n * sp.sin(omega_n * t)
@@ -76,19 +82,23 @@ def calc_G_N(N, start, end, f):
     gap_len = end - start
     for n in range(-N, N + 1):
         c_n = calc_c_n(n, start, end, gap_len, f)
+
         omega_n = calc_omega_n(n, gap_len)
         G_N += c_n * sp.exp(1j * omega_n * t)
 
     return G_N
 
-def calc_G_N_generic(N, gaps, functions):
-    if (len(gaps) != len(functions)):
+def calc_G_N_generic(N, gaps, functions: list):
+    if (len(gaps) != len(functions) 
+        or len(gaps) <= 0 
+        or len(functions) <= 0):
         return None
 
     G_N = 0
     gap_len = gaps[-1][1] - gaps[0][0]
     for n in range(-N, N + 1):
-        c_n = sum(calc_c_n(n, gap[0], gap[1], gap_len, functions[i]) for i, gap in enumerate(gaps))
+        c_n = sum(calc_c_n(n, gap[0], gap[1], gap_len, functions[i]) 
+                  for i, gap in enumerate(gaps))
         
         omega_n = calc_omega_n(n, gap_len)
         G_N += c_n * sp.exp(1j * omega_n * t)

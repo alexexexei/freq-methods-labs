@@ -20,18 +20,23 @@ sns.set_style("whitegrid", {'grid.linestyle': '--'})
 f_t = odd_periodic_func(t)
 
 def build_f_t():
-    sp.plot((f_t, (t, gaps[0][0], gaps[-1][1])), axis_center=(0, 0),
-            xlim=(0, gap_end_val + 1), ylim=(-1.5, 1.5), xlabel=r'$t$', ylabel=r'$f(t)$')
+    sp.plot((f_t, (t, gaps[0][0], gaps[-1][1])), 
+            axis_center=(0, 0), xlim=(0, gap_end_val + 1), 
+            ylim=(-1.5, 1.5), xlabel=r'$t$', ylabel=r'$f(t)$')
 
 def build_F_N__f_t(N):
     F_N = calcs.calc_F_N(N, gaps[0][0], gaps[-1][1], odd_periodic_func)
-    sp.plot((f_t, (t, gaps[0][0], gaps[-1][1])), (F_N, (t, gaps[0][0], gaps[-1][1])), axis_center=(0, 0),
-            xlim=(0, gap_end_val + 1), ylim=(-1.5, 1.5), xlabel=r'$t$', ylabel=r'$f(t)$')
+    sp.plot((f_t, (t, gaps[0][0], gaps[-1][1])), 
+            (F_N, (t, gaps[0][0], gaps[-1][1])), 
+            axis_center=(0, 0), xlim=(0, gap_end_val + 1), 
+            ylim=(-1.5, 1.5), xlabel=r'$t$', ylabel=r'$f(t)$')
 
 def build_G_N__f_t(N):
     G_N = calcs.calc_G_N(N, gaps[0][0], gaps[-1][1], odd_periodic_func)
-    sp.plot((f_t, (t, gaps[0][0], gaps[-1][1])), (G_N, (t, gaps[0][0], gaps[-1][1])), axis_center=(0, 0),
-            xlim=(0, gap_end_val + 1), ylim=(-1.5, 1.5), xlabel=r'$t$', ylabel=r'$f(t)$')
+    sp.plot((f_t, (t, gaps[0][0], gaps[-1][1])), 
+            (G_N, (t, gaps[0][0], gaps[-1][1])), 
+            axis_center=(0, 0), xlim=(0, gap_end_val + 1), 
+            ylim=(-1.5, 1.5), xlabel=r'$t$', ylabel=r'$f(t)$')
 
 a_N = calcs.calc_a_n(N, gaps[0][0], gaps[-1][1], gap_len, odd_periodic_func)
 if (not isinstance(a_N, int)):

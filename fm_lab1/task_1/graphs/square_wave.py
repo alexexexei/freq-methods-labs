@@ -5,7 +5,7 @@ import os
 current_dir = os.path.dirname(os.path.abspath(__file__))
 task_1_dir = os.path.abspath(os.path.join(current_dir, '..'))
 sys.path.append(task_1_dir)
-from static import square_wave_a, square_wave_b, t, gaps, gap_end_val, gap_len, N, N_1, N_2, N_3, N_4, N_5
+from static import square_wave_a, square_wave_b, t, gaps, gap_end_val, gap_len, pN, N, N_1, N_2, N_3, N_4, N_5
 
 task_1_dir = os.path.abspath(os.path.join(current_dir, '..', '..'))
 sys.path.append(task_1_dir)
@@ -20,6 +20,7 @@ sns.set_style("whitegrid", {'grid.linestyle': '--'})
 f_t_1 = square_wave_a(t)
 f_t_2 = square_wave_b(t)
 funcs = [square_wave_a, square_wave_b]
+funcs_t = [f_t_1, f_t_2]
 
 def build_f_t():
     sp.plot((f_t_1, (t, gaps[0][0], gaps[0][1])), 
@@ -70,24 +71,35 @@ def sum_c_n(N, gaps, gap_len, funcs):
         return c_n
     return c_n.evalf()
 
-a_0 = sum_a_n(0, gaps, gap_len, funcs)
-a_1 = sum_a_n(1, gaps, gap_len, funcs)
-a_2 = sum_a_n(2, gaps, gap_len, funcs)
-a_N = sum_a_n(N, gaps, gap_len, funcs)
+def find_a_b_c(N):
+    a_0 = sum_a_n(0, gaps, gap_len, funcs)
+    a_1 = sum_a_n(1, gaps, gap_len, funcs)
+    a_2 = sum_a_n(2, gaps, gap_len, funcs)
+    a_N = sum_a_n(N, gaps, gap_len, funcs)
 
-b_0 = sum_b_n(0, gaps, gap_len, funcs)
-b_1 = sum_b_n(1, gaps, gap_len, funcs)
-b_2 = sum_b_n(2, gaps, gap_len, funcs)
-b_N = sum_b_n(N, gaps, gap_len, funcs)
+    b_0 = sum_b_n(0, gaps, gap_len, funcs)
+    b_1 = sum_b_n(1, gaps, gap_len, funcs)
+    b_2 = sum_b_n(2, gaps, gap_len, funcs)
+    b_N = sum_b_n(N, gaps, gap_len, funcs)
 
-c_0 = sum_c_n(0, gaps, gap_len, funcs)
-c_1 = sum_c_n(1, gaps, gap_len, funcs)
-c_2 = sum_c_n(2, gaps, gap_len, funcs)
-c_N = sum_c_n(N, gaps, gap_len, funcs)
+    c_0 = sum_c_n(0, gaps, gap_len, funcs)
+    c_1 = sum_c_n(1, gaps, gap_len, funcs)
+    c_2 = sum_c_n(2, gaps, gap_len, funcs)
+    c_N = sum_c_n(N, gaps, gap_len, funcs)
 
-print(f'a_0={a_0}\na_1={a_1}\na_2={a_2}\na_{N}={a_N}\n')
-print(f'b_0={b_0}\nb_1={b_1}\nb_2={b_2}\nb_{N}={b_N}\n')
-print(f'c_0={c_0}\nc_1={c_1}\nc_2={c_2}\nc_{N}={c_N}\n')
+    print(f'a_0={a_0}\na_1={a_1}\na_2={a_2}\na_{N}={a_N}\n')
+    print(f'b_0={b_0}\nb_1={b_1}\nb_2={b_2}\nb_{N}={b_N}\n')
+    print(f'c_0={c_0}\nc_1={c_1}\nc_2={c_2}\nc_{N}={c_N}\n')
+
+def find_parseval(N):
+    coeffs_sum = calcs.calc_parseval_coeffs_generic(N, gaps, funcs)
+    sqf_res = calcs.calc_parseval_square_func_generic(gaps, funcs_t)
+
+    print(f'coeffs_sum={coeffs_sum.evalf()}')
+    print(f'sqf_res={sqf_res.evalf()}')
+
+find_a_b_c(N)
+find_parseval(pN)
 
 build_f_t()
 build_F_N__f_t(N_1)

@@ -118,10 +118,35 @@ def calc_parseval_coeffs(N, start, end, f):
 
     return coeffs
 
+def calc_parseval_coeffs_generic(N, gaps: list, functions: list):
+    if (len(gaps) != len(functions) 
+        or len(gaps) <= 0 
+        or len(functions) <= 0):
+        return None
+    
+    coeffs = 0
+    gap_len = gaps[-1][1] - gaps[0][0]
+    for n in range(-N, N + 1):
+        c_n = sum(calc_c_n(n, gap[0], gap[1], gap_len, functions[i]) 
+                  for i, gap in enumerate(gaps))
+        
+        coeffs += sp.re(c_n) ** 2 + sp.im(c_n) ** 2
+
+    return coeffs
+
 def calc_parseval_square_func(start, end, f):
     integrand = f * sp.conjugate(f)
 
     result = sp.integrate(integrand, (t, start, end))
 
     gap_len = end - start
+    return (1 / gap_len) * result
+
+def calc_parseval_square_func_generic(gaps: list, functions: list):
+    result = 0
+    for i in range(len(gaps)):
+        integrand = functions[i] * sp.conjugate(functions[i])
+        result += sp.integrate(integrand, (t, gaps[i][0], gaps[i][1]))
+    
+    gap_len = gaps[-1][1] - gaps[0][0]
     return (1 / gap_len) * result

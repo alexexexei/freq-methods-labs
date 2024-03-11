@@ -7,7 +7,7 @@ task_2_dir = os.path.abspath(os.path.join(current_dir, '..'))
 sys.path.append(task_2_dir)
 import calculations as calcs
 
-from static import gap_1_cfunc, gap_2_cfunc, gap_3_cfunc, gap_4_cfunc, t, gaps, gap_len, N, N_1, N_2, N_3, N_4
+from static import gap_1_cfunc, gap_2_cfunc, gap_3_cfunc, gap_4_cfunc, t, gaps, gap_len, pN, N, N_1, N_2, N_3, N_4
 import sympy as sp
 import seaborn as sns
 
@@ -19,6 +19,7 @@ f_c_2 = gap_2_cfunc(t)
 f_c_3 = gap_3_cfunc(t)
 f_c_4 = gap_4_cfunc(t)
 funcs = [gap_1_cfunc, gap_2_cfunc, gap_3_cfunc, gap_4_cfunc]
+funcs_t = [gap_1_cfunc(t), gap_2_cfunc(t), gap_3_cfunc(t), gap_4_cfunc(t)]
 
 def build_f_t():
     sp.plot_parametric((sp.re(f_c_1), sp.im(f_c_1), (t, gaps[0][0], gaps[0][1])),
@@ -61,15 +62,27 @@ def build_Im_G_N(N):
             xlabel=r'$t$', ylabel=r'Im$(G_{N}(t))$')
 
 def sum_c_n(N, gaps, gap_len, funcs):
-    c_n = sum(calcs.calc_c_n(N, gap[0], gap[1], gap_len, funcs[i]) for i, gap in enumerate(gaps))
+    c_n = sum(calcs.calc_c_n(N, gap[0], gap[1], gap_len, funcs[i]) 
+              for i, gap in enumerate(gaps))
     return c_n.evalf()
 
-c_0 = sum_c_n(0, gaps, gap_len, funcs)
-c_1 = sum_c_n(1, gaps, gap_len, funcs)
-c_2 = sum_c_n(2, gaps, gap_len, funcs)
-c_N = sum_c_n(N, gaps, gap_len, funcs)
+def find_c(N):
+    c_0 = sum_c_n(0, gaps, gap_len, funcs)
+    c_1 = sum_c_n(1, gaps, gap_len, funcs)
+    c_2 = sum_c_n(2, gaps, gap_len, funcs)
+    c_N = sum_c_n(N, gaps, gap_len, funcs)
 
-print(f'c_0={c_0}\nc_1={c_1}\nc_2={c_2}\nc_{N}={c_N}\n')
+    print(f'c_0={c_0}\nc_1={c_1}\nc_2={c_2}\nc_{N}={c_N}\n')
+
+def find_parseval(N):
+    coeffs_sum = calcs.calc_parseval_coeffs_generic(N, gaps, funcs)
+    sqf_res = calcs.calc_parseval_square_func_generic(gaps, funcs_t)
+
+    print(f'coeffs_sum={coeffs_sum.evalf()}')
+    print(f'sqf_res={sqf_res.evalf()}')
+
+find_c(N)
+find_parseval(pN)
 
 build_f_t()
 build_G_N__f_t(N_1)

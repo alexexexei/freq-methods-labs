@@ -3,6 +3,7 @@ import sympy as sp
 R = 2
 T = 2 * sp.pi
 
+pN = 25
 N = 3
 N_1 = 1
 N_2 = 2

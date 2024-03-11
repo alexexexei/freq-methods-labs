@@ -5,7 +5,7 @@ import os
 current_dir = os.path.dirname(os.path.abspath(__file__))
 task_1_dir = os.path.abspath(os.path.join(current_dir, '..'))
 sys.path.append(task_1_dir)
-from static import odd_periodic_func, t, gaps, gap_end_val, gap_len, N, N_1, N_2, N_3, N_4, N_5
+from static import odd_periodic_func, t, gaps, gap_end_val, gap_len, pN, N, N_1, N_2, N_3, N_4, N_5
 
 task_1_dir = os.path.abspath(os.path.join(current_dir, '..', '..'))
 sys.path.append(task_1_dir)
@@ -38,21 +38,32 @@ def build_G_N__f_t(N):
             axis_center=(0, 0), xlim=(0, gap_end_val + 1), 
             ylim=(-1.5, 1.5), xlabel=r'$t$', ylabel=r'$f(t)$')
 
-a_N = calcs.calc_a_n(N, gaps[0][0], gaps[-1][1], gap_len, odd_periodic_func)
-if (not isinstance(a_N, int)):
-    a_N = a_N.evalf()
+def find_a_b_c(N):
+    a_N = calcs.calc_a_n(N, gaps[0][0], gaps[-1][1], gap_len, odd_periodic_func)
+    if (not isinstance(a_N, int)):
+        a_N = a_N.evalf()
 
-b_N = calcs.calc_b_n(N, gaps[0][0], gaps[-1][1], gap_len, odd_periodic_func)
-if (not isinstance(b_N, int)):
-    b_N = b_N.evalf()
+    b_N = calcs.calc_b_n(N, gaps[0][0], gaps[-1][1], gap_len, odd_periodic_func)
+    if (not isinstance(b_N, int)):
+        b_N = b_N.evalf()
 
-c_N = calcs.calc_c_n(N, gaps[0][0], gaps[-1][1], gap_len, odd_periodic_func)
-if (not isinstance(c_N, int)):
-    c_N = c_N.evalf()
+    c_N = calcs.calc_c_n(N, gaps[0][0], gaps[-1][1], gap_len, odd_periodic_func)
+    if (not isinstance(c_N, int)):
+        c_N = c_N.evalf()
 
-print(f'a_{N}={a_N}')
-print(f'b_{N}={b_N}')
-print(f'c_{N}={c_N}')
+    print(f'a_{N}={a_N}')
+    print(f'b_{N}={b_N}')
+    print(f'c_{N}={c_N}')
+
+def find_parseval(N):
+    coeffs_sum = calcs.calc_parseval_coeffs(N, gaps[0][0], gaps[-1][1], odd_periodic_func)
+    sqf_res = calcs.calc_parseval_square_func(gaps[0][0], gaps[-1][1], odd_periodic_func(t))
+
+    print(f'coeffs_sum={coeffs_sum.evalf()}')
+    print(f'sqf_res={sqf_res.evalf()}')
+
+find_a_b_c(N)
+find_parseval(pN)
 
 build_f_t()
 build_F_N__f_t(N_1)

@@ -3,6 +3,7 @@ import sympy as sp
 a = 1
 b = 2
 
+pN = 25
 N = 3
 N_1 = 10
 N_2 = 20

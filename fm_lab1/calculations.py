@@ -8,36 +8,39 @@ def calc_coeff(complex: bool, gap_len):
     return 2 / gap_len
 
 def calc_omega_n(n, gap_len):
-    return (2 * sp.pi * n) / gap_len
+    return 2 * sp.pi * n / gap_len
 
 def calc_a_n(n, start, end, gap_len, f):
-    coeff = calc_coeff(False, gap_len)
-    integrand = coeff * f(t)
+    integrand = f(t)
     if n != 0:
         omega_n = calc_omega_n(n, gap_len)
-        integrand = integrand * sp.cos(omega_n * t)
+        integrand *= sp.cos(omega_n * t)
     
     result = sp.integrate(integrand, (t, start, end))
-    return result
+
+    coeff = calc_coeff(False, gap_len)
+    return coeff * result
 
 def calc_b_n(n, start, end, gap_len, f):
     if (n == 0):
         return 0
 
-    coeff = calc_coeff(False, gap_len)
     omega_n = calc_omega_n(n, gap_len)
-    integrand = coeff * f(t) * sp.sin(omega_n * t)
+    integrand = f(t) * sp.sin(omega_n * t)
     
     result = sp.integrate(integrand, (t, start, end))
-    return result
+
+    coeff = calc_coeff(False, gap_len)
+    return coeff * result
 
 def calc_c_n(n, start, end, gap_len, f):
-    coeff = calc_coeff(True, gap_len)
     omega_n = calc_omega_n(n, gap_len)
-    integrand = coeff * f(t) * sp.exp(-1j * omega_n * t)
+    integrand = f(t) * sp.exp(-1j * omega_n * t)
 
     result = sp.integrate(integrand, (t, start, end))
-    return result
+
+    coeff = calc_coeff(True, gap_len)
+    return coeff * result
 
 def calc_F_N(N, start, end, f):
     gap_len = end - start
@@ -54,7 +57,7 @@ def calc_F_N(N, start, end, f):
 
     return F_N
 
-def calc_F_N_generic(N, gaps, functions: list):
+def calc_F_N_generic(N, gaps: list, functions: list):
     if (len(gaps) != len(functions) 
         or len(gaps) <= 0 
         or len(functions) <= 0):
@@ -88,7 +91,7 @@ def calc_G_N(N, start, end, f):
 
     return G_N
 
-def calc_G_N_generic(N, gaps, functions: list):
+def calc_G_N_generic(N, gaps: list, functions: list):
     if (len(gaps) != len(functions) 
         or len(gaps) <= 0 
         or len(functions) <= 0):
@@ -105,4 +108,20 @@ def calc_G_N_generic(N, gaps, functions: list):
 
     return G_N
 
-# TODO parseval equality
+def calc_parseval_coeffs(N, start, end, f):
+    coeffs = 0
+    gap_len = end - start
+    for n in range(-N, N + 1):
+        c_n = calc_c_n(n, start, end, gap_len, f)
+
+        coeffs += sp.re(c_n) ** 2 + sp.im(c_n) ** 2
+
+    return coeffs
+
+def calc_parseval_square_func(start, end, f):
+    integrand = f * sp.conjugate(f)
+
+    result = sp.integrate(integrand, (t, start, end))
+
+    gap_len = end - start
+    return (1 / gap_len) * result

@@ -1,16 +1,5 @@
-# script for import
-import sys
-import os
-
-current_dir = os.path.dirname(os.path.abspath(__file__))
-task_1_dir = os.path.abspath(os.path.join(current_dir, '..'))
-sys.path.append(task_1_dir)
 from static import square_wave_a, square_wave_b, t, gaps, gap_end_val, gap_len, pN, N, N_1, N_2, N_3, N_4, N_5
-
-task_1_dir = os.path.abspath(os.path.join(current_dir, '..', '..'))
-sys.path.append(task_1_dir)
 import calculations as calcs
-
 import sympy as sp
 import seaborn as sns
 

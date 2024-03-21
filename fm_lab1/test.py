@@ -1,16 +1,5 @@
-# script for import
-import sys
-import os
-
-current_dir = os.path.dirname(os.path.abspath(__file__))
-task_1_dir = os.path.abspath(os.path.join(current_dir, '..'))
-sys.path.append(task_1_dir)
 from static import test_func, t, gaps, gap_start_val, gap_end_val
-
-task_1_dir = os.path.abspath(os.path.join(current_dir, '..', '..'))
-sys.path.append(task_1_dir)
 import calculations as calcs
-
 import sympy as sp
 import seaborn as sns
 

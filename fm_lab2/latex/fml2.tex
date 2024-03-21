@@ -1,0 +1,64 @@
+\documentclass[a4paper, 16pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english, russian]{babel} 
+\usepackage[left=20mm, top=20mm, right=20mm,
+ bottom=20mm, head=1mm, foot=1mm]{geometry}
+\usepackage{tikz} 
+\usepackage{amsmath, amsfonts, amssymb}
+\usepackage{graphicx}
+\usepackage{fancybox, fancyhdr}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{xcolor}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Лабораторная работа №1}
+\fancyhead[R]{Частотные методы}
+\fancyfoot[C]{\thepage}
+\graphicspath{{images/}} % different dir p.s. check renders
+\usetikzlibrary{patterns}
+\definecolor{LightGray}{gray}{0.95}
+\lstdefinestyle{pycode}{
+    language=Python,
+    basicstyle=\footnotesize\ttfamily,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=5pt,
+    backgroundcolor=\color{LightGray},
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=4,
+    captionpos=b,
+    breaklines=true,
+    breakatwhitespace=false,
+    frame=none, % single
+    framexleftmargin=-1mm,
+    framexrightmargin=-1mm,
+    rulecolor=\color{black},
+    linewidth=\linewidth,
+    keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{green!40!black},
+    stringstyle=\color{orange},
+    escapeinside={\%*}{*)},
+    xleftmargin=0pt,
+    framexleftmargin=0pt,
+    framexrightmargin=0pt
+}
+\lstset{style=pycode}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={contents setup},
+    pdfpagemode=FullScreen,
+}
+\allowdisplaybreaks
+\newcommand{\frc}[2]{\raisebox{2pt}{$#1$}\big/\raisebox{-3pt}{$#2$}}
+
+\begin{document}
+
+\end{document}

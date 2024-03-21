@@ -1,67 +1,20 @@
 from static import even_periodic_func, t, gaps, gap_end_val, gap_len, pN, N, N_1, N_2, N_3, N_4, N_5
-import calculations as calcs
-import sympy as sp
-import seaborn as sns
-
-sns.set_theme()
-sns.set_style("whitegrid", {'grid.linestyle': '--'})
+from builder import build_f_t, build_F_N__f_t, build_G_N__f_t
+from finder import find_a_b_c, find_parseval
 
 f_t = even_periodic_func(t)
 
-def build_f_t():
-    sp.plot((f_t, (t, gaps[0][0], gaps[-1][1])), 
-            axis_center=(0, 0), xlim=(0, gap_end_val + 1), 
-            ylim=(-1.5, 1.5), xlabel=r'$t$', ylabel=r'$f(t)$')
+find_a_b_c(N, even_periodic_func, gaps, gap_len)
+find_parseval(pN, even_periodic_func, f_t, gaps)
 
-def build_F_N__f_t(N):
-    F_N = calcs.calc_F_N(N, gaps[0][0], gaps[-1][1], even_periodic_func)
-    sp.plot((f_t, (t, gaps[0][0], gaps[-1][1])), 
-            (F_N, (t, gaps[0][0], gaps[-1][1])), 
-            axis_center=(0, 0), xlim=(0, gap_end_val + 1), 
-            ylim=(-1.5, 1.5), xlabel=r'$t$', ylabel=r'$f(t)$')
-
-def build_G_N__f_t(N):
-    G_N = calcs.calc_G_N(N, gaps[0][0], gaps[-1][1], even_periodic_func)
-    sp.plot((f_t, (t, gaps[0][0], gaps[-1][1])), 
-            (G_N, (t, gaps[0][0], gaps[-1][1])), 
-            axis_center=(0, 0), xlim=(0, gap_end_val + 1), 
-            ylim=(-1.5, 1.5), xlabel=r'$t$', ylabel=r'$f(t)$')
-
-def find_a_b_c(N):
-    a_N = calcs.calc_a_n(N, gaps[0][0], gaps[-1][1], gap_len, even_periodic_func)
-    if (not isinstance(a_N, int)):
-        a_N = a_N.evalf()
-
-    b_N = calcs.calc_b_n(N, gaps[0][0], gaps[-1][1], gap_len, even_periodic_func)
-    if (not isinstance(b_N, int)):
-        b_N = b_N.evalf()
-
-    c_N = calcs.calc_c_n(N, gaps[0][0], gaps[-1][1], gap_len, even_periodic_func)
-    if (not isinstance(c_N, int)):
-        c_N = c_N.evalf()
-
-    print(f'a_{N}={a_N}')
-    print(f'b_{N}={b_N}')
-    print(f'c_{N}={c_N}')
-
-def find_parseval(N):
-    coeffs_sum = calcs.calc_parseval_coeffs(N, gaps[0][0], gaps[-1][1], even_periodic_func)
-    sqf_res = calcs.calc_parseval_square_func(gaps[0][0], gaps[-1][1], even_periodic_func(t))
-
-    print(f'coeffs_sum={coeffs_sum.evalf()}')
-    print(f'sqf_res={sqf_res.evalf()}')
-
-find_a_b_c(N)
-find_parseval(pN)
-
-build_f_t()
-build_F_N__f_t(N_1)
-build_F_N__f_t(N_2)
-build_F_N__f_t(N_3)
-build_F_N__f_t(N_4)
-build_F_N__f_t(N_5)
-build_G_N__f_t(N_1)
-build_G_N__f_t(N_2)
-build_G_N__f_t(N_3)
-build_G_N__f_t(N_4)
-build_G_N__f_t(N_5)
+build_f_t(f_t, gaps, 0, gap_end_val + 1, -1.5, 1.5, 0, 0)
+build_F_N__f_t(N_1, even_periodic_func, f_t, gaps, 0, gap_end_val + 1, -1.5, 1.5, 0, 0)
+build_F_N__f_t(N_2, even_periodic_func, f_t, gaps, 0, gap_end_val + 1, -1.5, 1.5, 0, 0)
+build_F_N__f_t(N_3, even_periodic_func, f_t, gaps, 0, gap_end_val + 1, -1.5, 1.5, 0, 0)
+build_F_N__f_t(N_4, even_periodic_func, f_t, gaps, 0, gap_end_val + 1, -1.5, 1.5, 0, 0)
+build_F_N__f_t(N_5, even_periodic_func, f_t, gaps, 0, gap_end_val + 1, -1.5, 1.5, 0, 0)
+build_G_N__f_t(N_1, even_periodic_func, f_t, gaps, 0, gap_end_val + 1, -1.5, 1.5, 0, 0)
+build_G_N__f_t(N_2, even_periodic_func, f_t, gaps, 0, gap_end_val + 1, -1.5, 1.5, 0, 0)
+build_G_N__f_t(N_3, even_periodic_func, f_t, gaps, 0, gap_end_val + 1, -1.5, 1.5, 0, 0)
+build_G_N__f_t(N_4, even_periodic_func, f_t, gaps, 0, gap_end_val + 1, -1.5, 1.5, 0, 0)
+build_G_N__f_t(N_5, even_periodic_func, f_t, gaps, 0, gap_end_val + 1, -1.5, 1.5, 0, 0)

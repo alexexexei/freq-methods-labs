@@ -1,4 +1,4 @@
-import sympy as sp
+from sympy import Symbol, cos, sin, pi
 
 a = 1
 b = 2
@@ -11,15 +11,15 @@ N_3 = 30
 N_4 = 40
 N_5 = 50
 
-t = sp.Symbol('t')
+t = Symbol('t')
 
-gap_start = 0.5 * sp.pi
+gap_start = 0.5 * pi
 gap_start_val = float(gap_start.evalf())
 
-gap_mid = 1.5 * sp.pi
+gap_mid = 1.5 * pi
 gap_mid_val = float(gap_mid.evalf())
 
-gap_end = 2 * sp.pi
+gap_end = 2 * pi
 gap_end_val = float(gap_end.evalf())
 
 gap_len = gap_end - gap_start
@@ -38,13 +38,13 @@ def square_wave_b(t):
     return b
 
 def even_periodic_func(t):
-    return sp.cos(t)
+    return cos(t)
 
 def odd_periodic_func(t):
-    return sp.sin(t)
+    return sin(t)
 
 def not_even_or_odd_periodic_func(t):
-    return sp.cos(t) + t
+    return cos(t) + t
 
 def test_func(t):
     return t

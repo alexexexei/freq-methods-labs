@@ -1,22 +1,23 @@
-import sympy as sp
+from sympy import Symbol, Piecewise, Abs, sinc, E, oo
 
-t = sp.Symbol('t')
-omega = sp.Symbol('omega')
+t = Symbol('t')
+omega = Symbol('omega')
 
-intervals = [(-10000000, 10000000), (-sp.oo, sp.oo)]
+intervals = [(-10000000, 10000000), (-oo, oo)]
 a_b_pars = [(1, 2), (2, 3), (3, 4)]
+colors_strs = ['red', 'purple', 'blue'] 
 
 def rectangular_function(a, b):
-    return sp.Piecewise((a, sp.Abs(t) <= b), (0, sp.Abs(t) > b))
+    return Piecewise((a, Abs(t) <= b), (0, Abs(t) > b))
 
 def triangular_function(a, b):
-    return sp.Piecewise((a - sp.Abs(a * t / b), sp.Abs(t) <= b), (0, sp.Abs(t) > b))
+    return Piecewise((a - Abs(a * t / b), Abs(t) <= b), (0, Abs(t) > b))
 
 def cardinal_sinus(a, b):
-    return a * sp.sinc(b * t)
+    return a * sinc(b * t)
 
 def gaussian_function(a, b):
-    return a * sp.E ** (-b * t ** 2)
+    return a * E ** (-b * t ** 2)
 
 def double_attenuation(a, b):
-    return a * sp.E ** (-b * sp.Abs(t))
+    return a * E ** (-b * Abs(t))

@@ -1,7 +1,7 @@
-import sympy as sp
+from sympy import Symbol, pi
 
 R = 2
-T = 2 * sp.pi
+T = 2 * pi
 
 pN = 25
 N = 3
@@ -10,7 +10,7 @@ N_2 = 2
 N_3 = 3
 N_4 = 10
 
-t = sp.Symbol('t')
+t = Symbol('t')
 
 point_common = T / 8
 

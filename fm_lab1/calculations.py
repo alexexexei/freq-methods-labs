@@ -1,6 +1,5 @@
-import sympy as sp
-
-t = sp.Symbol('t')
+from sympy import integrate, conjugate, cos, sin, re, im, E, I, pi
+from static import t
 
 def calc_coeff(complex: bool, gap_len):
     if complex:
@@ -8,15 +7,15 @@ def calc_coeff(complex: bool, gap_len):
     return 2 / gap_len
 
 def calc_omega_n(n, gap_len):
-    return 2 * sp.pi * n / gap_len
+    return 2 * pi * n / gap_len
 
 def calc_a_n(n, start, end, gap_len, f):
     integrand = f(t)
     if n != 0:
         omega_n = calc_omega_n(n, gap_len)
-        integrand *= sp.cos(omega_n * t)
+        integrand *= cos(omega_n * t)
     
-    result = sp.integrate(integrand, (t, start, end))
+    result = integrate(integrand, (t, start, end))
 
     coeff = calc_coeff(False, gap_len)
     return coeff * result
@@ -26,18 +25,18 @@ def calc_b_n(n, start, end, gap_len, f):
         return 0
 
     omega_n = calc_omega_n(n, gap_len)
-    integrand = f(t) * sp.sin(omega_n * t)
+    integrand = f(t) * sin(omega_n * t)
     
-    result = sp.integrate(integrand, (t, start, end))
+    result = integrate(integrand, (t, start, end))
 
     coeff = calc_coeff(False, gap_len)
     return coeff * result
 
 def calc_c_n(n, start, end, gap_len, f):
     omega_n = calc_omega_n(n, gap_len)
-    integrand = f(t) * sp.exp(-1j * omega_n * t)
+    integrand = f(t) * E ** (-I * omega_n * t)
 
-    result = sp.integrate(integrand, (t, start, end))
+    result = integrate(integrand, (t, start, end))
 
     coeff = calc_coeff(True, gap_len)
     return coeff * result
@@ -53,7 +52,7 @@ def calc_F_N(N, start, end, f):
         b_n = calc_b_n(n, start, end, gap_len, f)
 
         omega_n = calc_omega_n(n, gap_len)
-        F_N += a_n * sp.cos(omega_n * t) + b_n * sp.sin(omega_n * t)
+        F_N += a_n * cos(omega_n * t) + b_n * sin(omega_n * t)
 
     return F_N
 
@@ -76,7 +75,7 @@ def calc_F_N_generic(N, gaps: list, functions: list):
                   for i, gap in enumerate(gaps))
 
         omega_n = calc_omega_n(n, gap_len)
-        F_N += a_n * sp.cos(omega_n * t) + b_n * sp.sin(omega_n * t)
+        F_N += a_n * cos(omega_n * t) + b_n * sin(omega_n * t)
 
     return F_N
 
@@ -87,7 +86,7 @@ def calc_G_N(N, start, end, f):
         c_n = calc_c_n(n, start, end, gap_len, f)
 
         omega_n = calc_omega_n(n, gap_len)
-        G_N += c_n * sp.exp(1j * omega_n * t)
+        G_N += c_n * E ** (I * omega_n * t)
 
     return G_N
 
@@ -104,7 +103,7 @@ def calc_G_N_generic(N, gaps: list, functions: list):
                   for i, gap in enumerate(gaps))
         
         omega_n = calc_omega_n(n, gap_len)
-        G_N += c_n * sp.exp(1j * omega_n * t)
+        G_N += c_n * E ** (I * omega_n * t)
 
     return G_N
 
@@ -114,7 +113,7 @@ def calc_parseval_coeffs(N, start, end, f):
     for n in range(-N, N + 1):
         c_n = calc_c_n(n, start, end, gap_len, f)
 
-        coeffs += sp.re(c_n) ** 2 + sp.im(c_n) ** 2
+        coeffs += re(c_n) ** 2 + im(c_n) ** 2
 
     return coeffs
 
@@ -130,14 +129,14 @@ def calc_parseval_coeffs_generic(N, gaps: list, functions: list):
         c_n = sum(calc_c_n(n, gap[0], gap[1], gap_len, functions[i]) 
                   for i, gap in enumerate(gaps))
         
-        coeffs += sp.re(c_n) ** 2 + sp.im(c_n) ** 2
+        coeffs += re(c_n) ** 2 + im(c_n) ** 2
 
     return coeffs
 
 def calc_parseval_square_func(start, end, f):
-    integrand = f * sp.conjugate(f)
+    integrand = f * conjugate(f)
 
-    result = sp.integrate(integrand, (t, start, end))
+    result = integrate(integrand, (t, start, end))
 
     gap_len = end - start
     return (1 / gap_len) * result
@@ -145,8 +144,8 @@ def calc_parseval_square_func(start, end, f):
 def calc_parseval_square_func_generic(gaps: list, functions: list):
     result = 0
     for i in range(len(gaps)):
-        integrand = functions[i] * sp.conjugate(functions[i])
-        result += sp.integrate(integrand, (t, gaps[i][0], gaps[i][1]))
+        integrand = functions[i] * conjugate(functions[i])
+        result += integrate(integrand, (t, gaps[i][0], gaps[i][1]))
     
     gap_len = gaps[-1][1] - gaps[0][0]
     return (1 / gap_len) * result

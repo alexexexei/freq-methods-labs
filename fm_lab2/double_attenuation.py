@@ -1,13 +1,15 @@
 from static import double_attenuation, a_b_pars, intervals, colors_strs
-from builder import build_f_t, build_fimg
+from help import get_fs, get_fimgs, get_parsevals, print_parsevals
+from builder import build_f_t_rec, build_fimg2_rec
 
-f_t_1 = double_attenuation(a_b_pars[0][0], a_b_pars[0][1])
-f_t_2 = double_attenuation(a_b_pars[1][0], a_b_pars[1][1])
-f_t_3 = double_attenuation(a_b_pars[2][0], a_b_pars[2][1])
+interval = intervals[1]
+fs_color = colors_strs[0]
+fimgs_color = colors_strs[1]
 
-build_f_t(f_t_1, colors_strs[0], None)
-build_f_t(f_t_2, colors_strs[0], None)
-build_f_t(f_t_3, colors_strs[0], None)
-build_fimg(f_t_1, intervals[1], colors_strs[1], None)
-build_fimg(f_t_2, intervals[1], colors_strs[1], None)
-build_fimg(f_t_3, intervals[1], colors_strs[1], None)
+fs = get_fs(double_attenuation, a_b_pars)
+fimgs = get_fimgs(fs, interval)
+plpr = get_parsevals(fs, fimgs, interval)
+
+print_parsevals(plpr)
+build_f_t_rec(fs, fs_color, [None] * len(fs))
+build_fimg2_rec(fimgs, fimgs_color, [None] * len(fimgs))

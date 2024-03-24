@@ -3,7 +3,9 @@ from sympy import Symbol, Piecewise, Abs, sinc, E, oo
 t = Symbol('t')
 omega = Symbol('omega')
 
-intervals = [(-10000000, 10000000), (-oo, oo)]
+sym_dis = 10000000
+intervals = [(-sym_dis, sym_dis), (-oo, oo)]
+
 a_b_pars = [(1, 2), (2, 3), (3, 4)]
 colors_strs = ['red', 'purple', 'blue'] 
 

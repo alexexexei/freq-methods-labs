@@ -1,4 +1,4 @@
-from sympy import sqrt, integrate, E, I, pi
+from sympy import sqrt, integrate, conjugate, E, I, pi
 from static import t, omega
 
 coeff = 1 / (sqrt(2 * pi))
@@ -15,4 +15,14 @@ def find_from_fimg(fimg_omega, lim1, lim2):
     result = integrate(integrand, (omega, lim1, lim2))
     return coeff * result
 
-# TODO parseval
+def find_norm2(f, lim1, lim2):
+    integrand = f * conjugate(f)
+
+    result = integrate(integrand, (t, lim1, lim2)).evalf()
+    return sqrt(result)
+
+def find_parseval(f, fimg, lim1, lim2):
+    pleft = find_norm2(f, lim1, lim2)
+    pright = find_norm2(fimg, lim1, lim2)
+
+    return pleft, pright

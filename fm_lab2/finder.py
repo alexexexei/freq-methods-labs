@@ -15,14 +15,14 @@ def find_from_fimg(fimg_omega, lim1, lim2):
     result = integrate(integrand, (omega, lim1, lim2))
     return coeff * result
 
-def find_norm2(f, lim1, lim2):
+def find_norm2(f, lim1, lim2, var):
     integrand = f * conjugate(f)
 
-    result = integrate(integrand, (t, lim1, lim2)).evalf()
+    result = integrate(integrand, (var, lim1, lim2)).evalf()
     return sqrt(result)
 
 def find_parseval(f, fimg, lim1, lim2):
-    pleft = find_norm2(f, lim1, lim2)
-    pright = find_norm2(fimg, lim1, lim2)
+    pleft = find_norm2(f, lim1, lim2, t)
+    pright = find_norm2(fimg, lim1, lim2, omega)
 
     return pleft, pright

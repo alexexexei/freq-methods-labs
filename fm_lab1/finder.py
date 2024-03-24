@@ -1,5 +1,6 @@
 from calculations import calc_a_n, calc_b_n, calc_c_n, calc_parseval_coeffs, calc_parseval_square_func, calc_parseval_coeffs_generic, calc_parseval_square_func_generic
 
+
 def find_a_b_c(N, f, gaps, gap_len):
     a_N = calc_a_n(N, gaps[0][0], gaps[-1][1], gap_len, f)
     if (not isinstance(a_N, int)):
@@ -17,6 +18,7 @@ def find_a_b_c(N, f, gaps, gap_len):
     print(f'b_{N}={b_N}')
     print(f'c_{N}={c_N}')
 
+
 def sum_a_n(N, gaps, gap_len, funcs):
     a_n = sum(calc_a_n(N, gap[0], gap[1], gap_len, funcs[i]) 
               for i, gap in enumerate(gaps))
@@ -24,6 +26,7 @@ def sum_a_n(N, gaps, gap_len, funcs):
     if (isinstance(a_n, int)):
         return a_n
     return a_n.evalf()
+
 
 def sum_b_n(N, gaps, gap_len, funcs):
     b_n = sum(calc_b_n(N, gap[0], gap[1], gap_len, funcs[i]) 
@@ -33,6 +36,7 @@ def sum_b_n(N, gaps, gap_len, funcs):
         return b_n
     return b_n.evalf()
 
+
 def sum_c_n(N, gaps, gap_len, funcs):
     c_n = sum(calc_c_n(N, gap[0], gap[1], gap_len, funcs[i]) 
               for i, gap in enumerate(gaps))
@@ -40,6 +44,7 @@ def sum_c_n(N, gaps, gap_len, funcs):
     if (isinstance(c_n, int)):
         return c_n
     return c_n.evalf()
+
 
 def find_a_b_c_2(N, gaps, gap_len, funcs):
     a_0 = sum_a_n(0, gaps, gap_len, funcs)
@@ -61,6 +66,7 @@ def find_a_b_c_2(N, gaps, gap_len, funcs):
     print(f'b_0={b_0}\nb_1={b_1}\nb_2={b_2}\nb_{N}={b_N}\n')
     print(f'c_0={c_0}\nc_1={c_1}\nc_2={c_2}\nc_{N}={c_N}\n')
 
+
 def find_c_gen(N, gaps, gap_len, funcs):
     c_0 = sum_c_n(0, gaps, gap_len, funcs)
     c_1 = sum_c_n(1, gaps, gap_len, funcs)
@@ -69,12 +75,14 @@ def find_c_gen(N, gaps, gap_len, funcs):
 
     print(f'c_0={c_0}\nc_1={c_1}\nc_2={c_2}\nc_{N}={c_N}\n')
 
+
 def find_parseval(N, f, f_t, gaps):
     coeffs_sum = calc_parseval_coeffs(N, gaps[0][0], gaps[-1][1], f)
     sqf_res = calc_parseval_square_func(gaps[0][0], gaps[-1][1], f_t)
 
     print(f'coeffs_sum={coeffs_sum.evalf()}')
     print(f'sqf_res={sqf_res.evalf()}')
+
 
 def find_parseval_gen(N, gaps, funcs, funcs_t):
     coeffs_sum = calc_parseval_coeffs_generic(N, gaps, funcs)

@@ -1,5 +1,6 @@
 from sympy import Symbol, cos, sin, pi
 
+
 a = 1
 b = 2
 
@@ -29,22 +30,26 @@ gap_1 = [gap_start, gap_mid]
 gap_2 = [gap_mid, gap_end]
 gaps = [gap_1, gap_2]
 
-# can not check if "t" is in [gap_start, gap_mid)
-# and etc. because "t" is a symbol so bad code here
+
 def square_wave_a(t):
     return a
+
 
 def square_wave_b(t):
     return b
 
+
 def even_periodic_func(t):
     return cos(t)
+
 
 def odd_periodic_func(t):
     return sin(t)
 
+
 def not_even_or_odd_periodic_func(t):
     return cos(t) + t
+
 
 def test_func(t):
     return t

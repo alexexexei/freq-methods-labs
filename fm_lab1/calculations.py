@@ -1,13 +1,17 @@
 from sympy import integrate, conjugate, cos, sin, re, im, E, I, pi
+
 from static import t
+
 
 def calc_coeff(complex: bool, gap_len):
     if complex:
         return 1 / gap_len
     return 2 / gap_len
 
+
 def calc_omega_n(n, gap_len):
     return 2 * pi * n / gap_len
+
 
 def calc_a_n(n, start, end, gap_len, f):
     integrand = f(t)
@@ -19,6 +23,7 @@ def calc_a_n(n, start, end, gap_len, f):
 
     coeff = calc_coeff(False, gap_len)
     return coeff * result
+
 
 def calc_b_n(n, start, end, gap_len, f):
     if (n == 0):
@@ -32,6 +37,7 @@ def calc_b_n(n, start, end, gap_len, f):
     coeff = calc_coeff(False, gap_len)
     return coeff * result
 
+
 def calc_c_n(n, start, end, gap_len, f):
     omega_n = calc_omega_n(n, gap_len)
     integrand = f(t) * E ** (-I * omega_n * t)
@@ -40,6 +46,7 @@ def calc_c_n(n, start, end, gap_len, f):
 
     coeff = calc_coeff(True, gap_len)
     return coeff * result
+
 
 def calc_F_N(N, start, end, f):
     gap_len = end - start
@@ -55,6 +62,7 @@ def calc_F_N(N, start, end, f):
         F_N += a_n * cos(omega_n * t) + b_n * sin(omega_n * t)
 
     return F_N
+
 
 def calc_F_N_generic(N, gaps: list, functions: list):
     if (len(gaps) != len(functions) 
@@ -79,6 +87,7 @@ def calc_F_N_generic(N, gaps: list, functions: list):
 
     return F_N
 
+
 def calc_G_N(N, start, end, f):
     G_N = 0
     gap_len = end - start
@@ -89,6 +98,7 @@ def calc_G_N(N, start, end, f):
         G_N += c_n * E ** (I * omega_n * t)
 
     return G_N
+
 
 def calc_G_N_generic(N, gaps: list, functions: list):
     if (len(gaps) != len(functions) 
@@ -107,6 +117,7 @@ def calc_G_N_generic(N, gaps: list, functions: list):
 
     return G_N
 
+
 def calc_parseval_coeffs(N, start, end, f):
     coeffs = 0
     gap_len = end - start
@@ -116,6 +127,7 @@ def calc_parseval_coeffs(N, start, end, f):
         coeffs += re(c_n) ** 2 + im(c_n) ** 2
 
     return coeffs
+
 
 def calc_parseval_coeffs_generic(N, gaps: list, functions: list):
     if (len(gaps) != len(functions) 
@@ -133,6 +145,7 @@ def calc_parseval_coeffs_generic(N, gaps: list, functions: list):
 
     return coeffs
 
+
 def calc_parseval_square_func(start, end, f):
     integrand = f * conjugate(f)
 
@@ -140,6 +153,7 @@ def calc_parseval_square_func(start, end, f):
 
     gap_len = end - start
     return (1 / gap_len) * result
+
 
 def calc_parseval_square_func_generic(gaps: list, functions: list):
     result = 0

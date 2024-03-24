@@ -1,5 +1,6 @@
 from sympy import Symbol, pi
 
+
 R = 2
 T = 2 * pi
 
@@ -38,16 +39,18 @@ gaps = [gap_1, gap_2, gap_3, gap_4]
 gap_len = gap_4[1] - gap_1[0]
 gap_len_val = float(gap_len.evalf())
 
-# can not compare expressions with a
-# variable like "t" so bad code here
+
 def gap_1_cfunc(t):
     return R + (8 * R * t / T) * 1j
+
 
 def gap_2_cfunc(t):
     return 2 * R - (8 * R * t / T) + R * 1j
 
+
 def gap_3_cfunc(t):
     return -R + (4 * R - (8 * R * t / T)) * 1j
+
 
 def gap_4_cfunc(t):
     return -6 * R + (8 * R * t / T) - R * 1j

@@ -1,7 +1,16 @@
 import logging
+
 from finder import find_fimg, find_parseval
 
-logging.basicConfig(level=logging.INFO)
+
+def configure_logging(lvl, fmt, dfmt):
+    logging.basicConfig(level=lvl, format=fmt, datefmt=dfmt)
+
+
+configure_logging(logging.INFO,
+                  '%(asctime)s - %(levelname)s - %(message)s',
+                  '%Y-%m-%d %H:%M:%S')
+
 
 def get_fs(function, a_b_pars: list):
     fs = []
@@ -11,6 +20,7 @@ def get_fs(function, a_b_pars: list):
 
     return fs
 
+
 def get_fimgs(fs: list, interval: list):
     fimgs = []
     for i in range(len(fs)):
@@ -18,6 +28,7 @@ def get_fimgs(fs: list, interval: list):
         logging.info(f'Got Fourier image for function #{i}')
 
     return fimgs
+
 
 def get_parsevals(fs: list, fimgs: list, interval: list):
     plpr = []
@@ -27,6 +38,7 @@ def get_parsevals(fs: list, fimgs: list, interval: list):
         logging.info(f'Got parseval for function #{i}')
 
     return plpr
+
 
 def print_parsevals(plpr: list):
     for i in range(len(plpr)):

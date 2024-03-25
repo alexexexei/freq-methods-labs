@@ -29,3 +29,8 @@ def gaussian_function(a, b):
 
 def double_attenuation(a, b):
     return a * E ** (-b * Abs(t))
+
+def shifted_rectangular_function(a, b, shift):
+    if (shift == 0):
+        return rectangular_function(a, b)
+    return Piecewise((a, Abs(t + shift) <= b), (0, Abs(t + shift) > b))

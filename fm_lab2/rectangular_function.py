@@ -7,7 +7,7 @@ interval = intervals[1]
 fs_color = colors_strs[0]
 fimgs_color = colors_strs[1]
 
-fs = get_fs(rectangular_function, a_b_pars)
+fs = get_fs(rectangular_function, a_b_pars[:3])
 fimgs = get_fimgs(fs, interval)
 plpr = get_parsevals(fs, fimgs, interval)
 

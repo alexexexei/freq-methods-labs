@@ -7,7 +7,7 @@ omega = Symbol('omega')
 sym_dis = 10000000
 intervals = [(-sym_dis, sym_dis), (-oo, oo)]
 
-a_b_pars = [(1, 2), (2, 3), (3, 4)]
+a_b_pars = [(1, 2), (2, 3), (3, 4), (1, 1), (5, 0.5)]
 colors_strs = ['red', 'purple', 'blue'] 
 
 

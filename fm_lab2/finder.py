@@ -24,7 +24,7 @@ def find_norm2(f, lim1, lim2, var):
     integrand = f * conjugate(f)
 
     result = integrate(integrand, (var, lim1, lim2)).evalf()
-    return sqrt(result)
+    return sqrt(result).evalf()
 
 
 def find_parseval(f, fimg, lim1, lim2):

@@ -21,6 +21,15 @@ def get_fs(function, a_b_pars: list):
     return fs
 
 
+def get_shfs(function, a, b, shifts: list):
+    fs = []
+    for i in range(len(shifts)):
+        fs.append(function(a, b, shifts[i]))
+        logging.info(f'Got function #{i}, interval: [{a}, {b}], shift: {shifts[i]}')
+
+    return fs
+
+
 def get_fimgs(fs: list, interval: list):
     fimgs = []
     for i in range(len(fs)):

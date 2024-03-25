@@ -1,5 +1,5 @@
 from static2 import gap_1_cfunc, gap_2_cfunc, gap_3_cfunc, gap_4_cfunc, t, gaps, gap_len, pN, N, N_1, N_2, N_3, N_4
-from builder import build_par_cf_t, build_par_G_N__par_cf_t, build_Re_f_t, build_Im_f_t, build_Re_G_N, build_Im_G_N
+from builder import build_par_cf_t, build_par_G_N__par_cf_t, build_re_f_t, build_im_f_t, build_re_G_N, build_im_G_N
 from finder import find_c_gen, find_parseval_gen
 
 
@@ -16,13 +16,13 @@ build_par_G_N__par_cf_t(N_1, funcs, funcs_t, gaps)
 build_par_G_N__par_cf_t(N_2, funcs, funcs_t, gaps)
 build_par_G_N__par_cf_t(N_3, funcs, funcs_t, gaps)
 build_par_G_N__par_cf_t(N_4, funcs, funcs_t, gaps)
-build_Re_f_t(funcs_t, gaps)
-build_Im_f_t(funcs_t, gaps)
-build_Re_G_N(N_1, funcs, gaps)
-build_Re_G_N(N_2, funcs, gaps)
-build_Re_G_N(N_3, funcs, gaps)
-build_Re_G_N(N_4, funcs, gaps)
-build_Im_G_N(N_1, funcs, gaps)
-build_Im_G_N(N_2, funcs, gaps)
-build_Im_G_N(N_3, funcs, gaps)
-build_Im_G_N(N_4, funcs, gaps)
+build_re_f_t(funcs_t, gaps)
+build_im_f_t(funcs_t, gaps)
+build_re_G_N(N_1, funcs, gaps)
+build_re_G_N(N_2, funcs, gaps)
+build_re_G_N(N_3, funcs, gaps)
+build_re_G_N(N_4, funcs, gaps)
+build_im_G_N(N_1, funcs, gaps)
+build_im_G_N(N_2, funcs, gaps)
+build_im_G_N(N_3, funcs, gaps)
+build_im_G_N(N_4, funcs, gaps)

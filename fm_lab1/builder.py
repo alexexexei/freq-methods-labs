@@ -28,7 +28,7 @@ def build_f_t_2(funcs_t, gaps, xl1, xl2, yl1, yl2, ax1, ax2):
          ylabel=r'$f(t)$')
 
 
-def build_Re_f_t(funcs_t, gaps):
+def build_re_f_t(funcs_t, gaps):
     plot((re(funcs_t[0]), (t, gaps[0][0], gaps[0][1])),
          (re(funcs_t[1]), (t, gaps[1][0], gaps[1][1])),
          (re(funcs_t[2]), (t, gaps[2][0], gaps[2][1])),
@@ -36,7 +36,7 @@ def build_Re_f_t(funcs_t, gaps):
          xlabel=r'$t$', ylabel=r'Re$(f(t))$')
 
 
-def build_Im_f_t(funcs_t, gaps):
+def build_im_f_t(funcs_t, gaps):
     plot((im(funcs_t[0]), (t, gaps[0][0], gaps[0][1])),
          (im(funcs_t[1]), (t, gaps[1][0], gaps[1][1])),
          (im(funcs_t[2]), (t, gaps[2][0], gaps[2][1])),
@@ -90,13 +90,13 @@ def build_G_N__f_t_2(N, funcs, funcs_t, gaps, xl1, xl2, yl1, yl2, ax1, ax2):
          ylabel=r'$f(t)$')
 
 
-def build_Re_G_N(N, funcs, gaps):
+def build_re_G_N(N, funcs, gaps):
     G_N = calc_G_N_generic(N, gaps, funcs)
     plot((re(G_N), (t, gaps[0][0], gaps[-1][1])),
          xlabel=r'$t$', ylabel=r'Re$(G_{N}(t))$')
 
 
-def build_Im_G_N(N, funcs, gaps):
+def build_im_G_N(N, funcs, gaps):
     G_N = calc_G_N_generic(N, gaps, funcs)
     plot((im(G_N), (t, gaps[0][0], gaps[-1][1])),
          xlabel=r'$t$', ylabel=r'Im$(G_{N}(t))$')

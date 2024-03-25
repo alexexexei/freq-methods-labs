@@ -8,7 +8,8 @@ sym_dis = 10000000
 intervals = [(-sym_dis, sym_dis), (-oo, oo)]
 
 a_b_pars = [(1, 2), (2, 3), (3, 4), (1, 1), (5, 0.5)]
-colors_strs = ['red', 'purple', 'blue'] 
+consts = [-1, 0.5, 1, -5, -2.5, 3, 5, 8, 10]
+colors_strs = ['red', 'purple', 'blue', 'cyan'] 
 
 
 def rectangular_function(a, b):
@@ -29,6 +30,7 @@ def gaussian_function(a, b):
 
 def double_attenuation(a, b):
     return a * E ** (-b * Abs(t))
+
 
 def shifted_rectangular_function(a, b, shift):
     if (shift == 0):

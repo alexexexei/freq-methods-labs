@@ -1,4 +1,4 @@
-from static import rectangular_function, a_b_pars, intervals, colors_strs
+from static import rectangular_function, shifted_rectangular_function, a_b_pars, intervals, colors_strs
 from help import get_fs, get_fimgs, get_parsevals, print_parsevals
 from builder import build_f_t_rec, build_fimg2_rec
 

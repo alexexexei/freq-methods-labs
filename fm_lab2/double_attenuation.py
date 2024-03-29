@@ -11,6 +11,7 @@ fs = get_fs(double_attenuation, a_b_pars[:3])
 fimgs = get_fimgs(fs, interval)
 plpr = get_parsevals(fs, fimgs, interval)
 
+
 print_parsevals(plpr)
 build_f_t_rec(fs, fs_color, [None] * len(fs))
 build_fimg2_rec(fimgs, fimgs_color, [None] * len(fimgs))

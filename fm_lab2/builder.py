@@ -1,4 +1,7 @@
 from sympy import plot, re, im, Abs
+from numpy import arange
+
+import matplotlib.pyplot as plt
 from seaborn import set_theme, set_style
 
 from finder import find_fimg
@@ -91,3 +94,33 @@ def build_abs_shfimg(shfimg, clr, lbl):
 def build_abs_shfimg_rec(shfimgs: list, clr, lbls: list):
     for i in range(len(shfimgs)):
         build_abs_shfimg(shfimgs[i], clr, lbls[i])
+
+
+def build_audio_f_t(t, y, clr=None):
+    if (clr != None):
+        plt.plot(t, y, color=clr)
+    else:
+        plt.plot(t, y)
+
+    plt.xlabel(r'$t$')
+    plt.ylabel(r'$f(t)$')
+    plt.grid(True)
+    plt.show()
+
+
+def build_audio_f_v(freqs, ampls, start=None, stop=None, step=None, fz1=None, fz2=None, clr=None):
+    if ((fz1 != None) and (fz2 != None)):
+        plt.figure(figsize=(fz1, fz2))
+
+    if (clr != None):
+        plt.plot(freqs, ampls, color=clr)
+    else:
+        plt.plot(freqs, ampls)
+
+    plt.xlabel(r'$\nu$')
+    plt.ylabel(r'$\left|\hat{f}\left(\nu\right)\right|$')
+    plt.grid(True)
+    if ((start != None) and (stop != None and stop != 0) and (step != None and step != 0)):
+        plt.xticks(arange(start, stop, step))
+    plt.show()
+    

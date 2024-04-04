@@ -1,36 +1,38 @@
-import librosa
+from static import colors_strs
+from help import get_y_sr_t
+from builder import build_audio_f_t, build_audio_f_v
+from finder import find_freqs_ampls
 
-import numpy as np
-import matplotlib.pyplot as plt
 
 audio_file = 'fm_lab2/chord/chord26.mp3'
-y, sr = librosa.load(audio_file)
+select_channel = 0
+y, sr, t = get_y_sr_t(audio_file, select_channel)
 
-y = y[0] if len(y.shape) > 1 else y
+y = y[:3 * sr]
+t = t[:3 * sr]
 
-t = np.arange(len(y)) / sr
+freqs, ampls = find_freqs_ampls(t, y, sr)
 
-# plt.figure(figsize=(10, 4))
-plt.plot(t, y)
-# plt.title(r'$\text{График } f(t)$')
-plt.xlabel(r'$t$')
-plt.ylabel(r'$f(t)$')
-plt.grid(True)
-plt.show()
+r_start = 200
+r_end = 500
 
-plt.clf()
-plt.cla()
+start_idx = next(idx for idx, freq in enumerate(freqs) if freq >= r_start)
+end_idx = next(idx for idx, freq in enumerate(freqs) if freq > r_end)
 
-frequencies = np.linspace(0, sr / 2, len(y) // 2)
-amplitudes = []
+r_ampls = ampls[start_idx:end_idx]
+r_freqs = freqs[start_idx:end_idx]
 
-for freq in frequencies:
-    integral = np.trapz(y * np.exp(-1j * 2 * np.pi * freq * t), t)
-    amplitudes.append(np.abs(integral))
+start = 0
+stop = 10001
+step = 1000
+r_step = 20
 
-plt.figure()
-plt.plot(frequencies, amplitudes)
-plt.xlabel('Частота, Гц')
-plt.ylabel('Амплитуда')
-# plt.title('Частотная характеристика')
-plt.show()
+figsize1 = 10
+figsize2 = 6
+f_t_clr = colors_strs[0]
+f_v_clr = colors_strs[1]
+
+
+build_audio_f_t(t, y, f_t_clr)
+build_audio_f_v(freqs, ampls, start=start, stop=stop, step=step, fz1=figsize1, fz2=figsize2, clr=f_v_clr)
+build_audio_f_v(r_freqs, r_ampls, start=r_start, stop=r_end, step=r_step, fz1=figsize1, fz2=figsize2, clr=f_v_clr)

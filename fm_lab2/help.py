@@ -1,4 +1,6 @@
 import logging
+from librosa import load
+from numpy import linspace
 
 from finder import find_fimg, find_parseval
 
@@ -52,3 +54,15 @@ def get_parsevals(fs: list, fimgs: list, interval: list):
 def print_parsevals(plpr: list):
     for i in range(len(plpr)):
         print(f'p_{i + 1}: {plpr[i][0]} ?= {plpr[i][1]}')
+
+
+def get_y_sr_t(audio_file: str, select_channel: int):
+    y, sr = load(audio_file)
+
+    if select_channel >= y.ndim:
+        select_channel = 0
+
+    y = y[:, select_channel] if y.ndim > 1 else y
+    t = linspace(0, len(y) / sr, len(y))
+
+    return y, sr, t

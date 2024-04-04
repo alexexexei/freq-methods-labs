@@ -1,4 +1,5 @@
 from sympy import sqrt, integrate, conjugate, E, I, pi
+from numpy import linspace, trapz, exp, pi, abs
 
 from static import t, omega
 
@@ -32,3 +33,14 @@ def find_parseval(f, fimg, lim1, lim2):
     pright = find_norm2(fimg, lim1, lim2, omega)
 
     return pleft, pright
+
+
+def find_freqs_ampls(t, y, sr):
+    freqs = linspace(0, sr / 2, len(y) // 2)
+    ampls = []
+
+    for freq in freqs:
+        int = trapz(y * exp(-1j * 2 * pi * freq * t), t)
+        ampls.append(abs(int))
+
+    return freqs, ampls

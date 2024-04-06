@@ -99,31 +99,42 @@
 
     \newpage
     \section{Введение}
-    \noindent \textsl{В заданиях 1 и 2 используется унитарное преобразование Фурье к угловой частоте $\omega$.\
-    Подсчет Фурье- -образа производится по формуле ниже}
+    \noindent В заданиях 1 и 2 используется унитарное преобразование Фурье к угловой частоте $\omega$.\
+    Подсчет Фурье- -образа производится по формуле ниже
     $$
-    c\left(\omega\right)=\dfrac{1}{\sqrt{2\pi}}\int\limits_{-\infty}^{\infty}f(t)e^{-i\omega t}\,dt
+    \hat{f}\left(\omega\right)=\dfrac{1}{\sqrt{2\pi}}\int\limits_{-\infty}^{\infty}f(t)e^{-i\omega t}\,dt
     $$
     
 
-    \noindent \textsl{В задании 3 используется преобразование Фурье к обыкновенной частоте $\nu$. В общем\
-    виде формула имеет вид}
+    \noindent В задании 3 используется преобразование Фурье к обыкновенной частоте $\nu$. В общем\
+    виде формула имеет вид
     $$
     \hat{f}\left(\nu\right)=\int\limits_{-\infty}^{\infty}f\left(t\right)e^{-2\pi i \nu t}\,dt
     $$
 
 
-    \noindent \textsl{Все графики строятся программой, написанной на языке программирования python. В 1 и 2 заданиях\
+    \noindent Для проверки равенства Парсеваля используется формула ниже
+    $$
+    \left|\left|f\right|\right|_2=||\hat{f}||_2,
+    $$
+    \noindent где $||f||_2$ -- вторая норма заданной фукнции, $||\hat{f}||_2$ -- вторая норма
+    Фурье-образа функции $f$. Для нахождения нормы используются формулы, представленные ниже
+    $$
+    ||f(t)||_2=\sqrt{\int\limits_{a}^{b}f(t)\cdot f^{*}(t)\,dt},\,\,\,\,\,\,\,\,||\hat{f}(\omega)||_2=\sqrt{\int\limits_{a}^{b}\hat{f}(\omega)\cdot \hat{f}^{*}(\omega)\,d\omega}
+    $$
+
+
+    \noindent Все графики строятся программой, написанной на языке программирования python. В 1 и 2 заданиях\
     используется библиотека sympy, в задании 3 numpy и matplotlib. По ходу отчета приводится код для каждого задания.
-    Для всех интегралов и графиков есть место с общими переменными и значениями -- файл static.py. Основные данные
-    приведены ниже}
+    Для всех интегралов и графиков есть место с общими переменными и значениями -- файл static.py. Основные используемые
+    данные приведены ниже
     \begin{lstlisting}[label=static, caption=Основные данные из файла static.py]
     from sympy import Symbol, Piecewise, Abs, sinc, E, oo
 
     t = Symbol('t')
     omega = Symbol('omega')
 
-    interval = [(-oo, oo)]
+    interval = [-oo, oo]
 
     a_b_pars = [(1, 2), (2, 3), (3, 4)]
     consts = [-1, 0.5, 1]
@@ -131,12 +142,24 @@
     \end{lstlisting}
 
 
-    \noindent Для проверки равенства Парсеваля используется формула ниже
-    $$
-    ||f||_2=||Ff||_2,
-    $$
-    \noindent где $||f||_2$ -- вторая норма заданной фукнции, $||Ff||_2$ -- вторая норма
-    Фурье-образа функции $f(t)$
+    \noindent В этом файле программно заданы функции, графики которых приводятся по ходу отчета. Также они необходимы
+    для нахождения их Фурье-образа
+    \begin{lstlisting}[label=funcs, caption=Программно заданные функции для заданий 1 и 2]
+    def rectangular_function(a, b):
+        return Piecewise((a, Abs(t) <= b), (0, Abs(t) > b))
+
+    def triangular_function(a, b):
+        return Piecewise((a - Abs(a * t / b), Abs(t) <= b), (0, Abs(t) > b))
+
+    def cardinal_sinus(a, b):
+        return a * sinc(b * t)
+    
+    def gaussian_function(a, b):
+        return a * E ** (-b * t ** 2)
+    
+    def double_attenuation(a, b):
+        return a * E ** (-b * Abs(t))
+    \end{lstlisting}
 
 
     \section{Задание 1. Вещественное}
@@ -157,9 +180,6 @@
     \noindent Рассмотрим программу. Сначала задается функция, принимающая параметры $a\text{ и }b$, после чего методом build\_{f}\_{t} строится график $f(t)$.
     На строке 10 приведен пример использования кода
     \begin{lstlisting}[label=f_t_rect, caption=Программа для построения графика прямоугольной функции]
-    def rectangular_function(a, b):
-        return Piecewise((a, Abs(t) <= b), (0, Abs(t) > b))
-
     def build_f_t(f_t, clr, lbl):
         if (lbl == None):
             plot(f_t, line_color=clr, xlabel=r'$t$', ylabel=r'$f(t)$')
@@ -284,4 +304,52 @@
     \noindent Мнимыми частями в правой части равенства Парсеваля пренебрежем вследствие их стремления к нулю. В таком случае равенство Парсеваля выполняется, что можно объяснить тем, что интеграл позволяет
     рассмотреть норму непрерывно на заданном промежутке, а ряд только дискретно, вследствие чего теряются какие-то члены ряда,
     которых не хватает для выполнения равенства Парсеваля
+
+
+    \subsection{Рассмотрим треугольную функцию следующего вида}
+    $$
+    f(t)=
+    \begin{cases}
+        a-\left|\dfrac{at}{b}\right|, & \left|t\right|\leq b,\\
+        0, & \left|t\right|>b.
+    \end{cases}
+    $$
+
+
+    % аналитическое выражение с выводом
+
+
+    \noindent Для построения графиков треугольной функции сначала задается необходимая функция,
+    после используется код, приведенный в пункте 2.1 для прямоугольной функции
+    \begin{lstlisting}[label=triangf, caption=Программно заданная треугольная функция]
+    null
+    \end{lstlisting}
+
+
+    \noindent Построенные графики $f(t)$ для нескольких значений параметров $a,b>0$ расположены ниже
+    \begin{figure}[htbp]
+        \centering
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{trif_a=1_b=2.png}
+            \caption{$a=1,\,\,b=2$}
+            \label{fig:triangf_1}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{trif_a=2_b=3.png}
+            \caption{$a=2,\,\,b=3$}
+            \label{fig:triangf_2}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{trif_a=3_b=4.png}
+            \caption{$a=3,\,\,b=4$}
+            \label{fig:triangf_3}
+        \end{subfigure}
+        \caption{Треугольные функции при различных значениях $a$ и $b$}
+        \label{fig:triangfs}
+    \end{figure}
 \end{document}

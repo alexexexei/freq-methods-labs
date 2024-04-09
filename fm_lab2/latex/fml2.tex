@@ -210,7 +210,7 @@
     \noindent Аналитическое выражение Фурье-образа с выводом
     $\hat{f}(\omega)$ для прямоугольной функции имеет вид
     \begin{align*}
-        & \hat{f}(\omega)=\dfrac{1}{\sqrt{2\pi}}\left(\int\limits_{-b}^{b}ae^{-i\omega t}\,dt+\int\limits_{b}^{-b}0\cdot e^{-i\omega t}\,dt\right)=
+        & \hat{f}(\omega)=\dfrac{1}{\sqrt{2\pi}}\left(\,\int\limits_{-b}^{b}ae^{-i\omega t}\,dt+\int\limits_{b}^{-b}0\cdot e^{-i\omega t}\,dt\right)=
         \dfrac{a}{\sqrt{2\pi}}\int\limits_{-b}^{b}e^{-i\omega t}\,dt=
         \begin{bmatrix}
             u=-i\omega t\\
@@ -342,8 +342,29 @@
 
 
     \noindent Аналитическое выражение с выводом Фурье-образа
-    $\hat{f}(\omega)$ для треугольной функции имеет вид
-    % todo
+    $\hat{f}(\omega)$ для треугольной функции имеет вид (напоминание: $a,b>0$ по условию)
+    \begin{align*}
+        & \hat{f}(\omega)=\dfrac{1}{\sqrt{2\pi}}\left(\,\int\limits_{-b}^{b}\left(a-\left|\dfrac{at}{b}\right|\right)e^{-i\omega t}\,dt+\int\limits_{b}^{-b}0\cdot e^{-i\omega t}\,dt\right)=
+        \dfrac{1}{\sqrt{2\pi}}\int\limits_{-b}^{b}\left(a\cdot\dfrac{b}{b}-\dfrac{a}{b}|t|\right)e^{-i\omega t}\,dt=\\
+        & = \dfrac{1}{\sqrt{2\pi}}\cdot\left(-\dfrac{a}{b}\right)\int\limits_{-b}^{b}(|t|-b)e^{-i\omega t}\,dt=-\dfrac{a}{b\sqrt{2\pi}}\left(-\int\limits_{-b}^{0}(t+b)e^{-i\omega t}\,dt+\int\limits_{0}^{b}(t-b)e^{-i\omega t}\,dt\right),\\
+        & -\int\limits_{-b}^{0}(t+b)e^{-i\omega t}\,dt=
+        \begin{bmatrix}
+            u=t+b &v=\frac{1}{-i\omega}e^{-i\omega t}\\
+            du=dt &dv=e^{-i\omega t}dt
+        \end{bmatrix}=
+        -\left(\dfrac{e^{-i\omega t}(t+b)}{-i\omega}+\dfrac{e^{-i\omega t}}{\omega^2}\right)\bigg|_{-b}^{0}=\\
+        & =-\dfrac{b}{-i\omega}-\dfrac{1-e^{i\omega t}}{\omega^2},\\
+        & \int\limits_{0}^{b}(t-b)e^{-i\omega t}\,dt=
+        \begin{bmatrix}
+            \text{аналогично}
+        \end{bmatrix}=
+        \left(\dfrac{e^{-i\omega t}(t-b)}{-i\omega}+\dfrac{e^{-i\omega t}}{\omega^2}\right)\bigg|_{0}^{b}=
+        \dfrac{b}{-i\omega}+\dfrac{e^{-i\omega t}-1}{\omega^2},\\
+        & \hat{f}(\omega)=-\dfrac{a}{b\sqrt{2\pi}}\left(-\dfrac{b}{-i\omega}-\dfrac{1-e^{i\omega t}}{\omega^2}+\dfrac{b}{-i\omega}+\dfrac{e^{-i\omega t}-1}{\omega^2}\right)=
+        -\dfrac{a}{b\omega^2\sqrt{2\pi}}\left(e^{i\omega t}+e^{-i\omega t}-2\right)=\\
+        & =-\dfrac{2a}{b\omega^2\sqrt{2\pi}}\left(\dfrac{e^{i\omega t}+e^{-i\omega t}}{2}-1\right)=
+        -\dfrac{a\sqrt{2}}{b\omega^2\sqrt{\pi}}\left(\cos{(b\omega)}-1\right)
+    \end{align*}
 
 
     \noindent Построенные графики функций $f(t)$ и их Фурье-образов

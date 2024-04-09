@@ -100,12 +100,25 @@
 
     \newpage
     \section{Введение}
+    \noindent Все графики строятся программой, написанной на языке программирования python. В 1 и 2 заданиях\
+    используется библиотека sympy, в задании 3 numpy и matplotlib. По ходу отчета приводится код для каждого задания
+
+
     \noindent В заданиях 1 и 2 используется унитарное преобразование Фурье к угловой частоте $\omega$.\
     Подсчет Фурье- -образа производится по формуле ниже
     $$
     \hat{f}\left(\omega\right)=\dfrac{1}{\sqrt{2\pi}}\int\limits_{-\infty}^{\infty}f(t)e^{-i\omega t}\,dt
     $$
-    
+
+
+    \noindent Далее будет использоваться программная реализация, приведенная ниже
+    \begin{lstlisting}[label=fw, caption=Программная реализация вычисления Фурье-образа с угловой частотой $\omega$]
+    def find_fimg(f_t, lim1, lim2):
+        integrand = f_t * E ** (-I * omega * t)
+
+        result = integrate(integrand, (t, lim1, lim2))
+        return coeff * result
+    \end{lstlisting}    
 
     \noindent В задании 3 используется преобразование Фурье к обыкновенной частоте $\nu$. В общем\
     виде формула имеет вид
@@ -125,18 +138,32 @@
     $$
 
 
-    \noindent Все графики строятся программой, написанной на языке программирования python. В 1 и 2 заданиях\
-    используется библиотека sympy, в задании 3 numpy и matplotlib. По ходу отчета приводится код для каждого задания.
-    Для всех интегралов и графиков есть место с общими переменными и значениями -- файл static.py. Основные используемые
+    \noindent Далее для поиска нормы и проверки равенства Парсеваля будет по умолчанию использоваться
+    программа, представленная ниже. Пример использования расположен на 12-14 строчках листинга
+    \begin{lstlisting}[label=pars_show, caption=Программа для вычисления нормы и левой и правой стороны равенства Парсевался]
+    def find_norm2(f, lim1, lim2, var):
+        integrand = f * conjugate(f)
+
+        result = integrate(integrand, (var, lim1, lim2)).evalf()
+        return sqrt(result).evalf()
+
+    def find_parseval(f, fimg, lim1, lim2):
+        pleft = find_norm2(f, lim1, lim2, t)
+        pright = find_norm2(fimg, lim1, lim2, omega)
+        return pleft, pright
+
+    func = rectangular_function(1, 2)
+    pl, pr = find_parseval(func, find_fimg(func, -oo, oo), -oo, oo)
+    print(f'p_{1}: {pl} ?= {pr}')
+    \end{lstlisting}
+
+
+    \noindent Для всех интегралов и графиков есть место с общими переменными и значениями -- файл static.py. Основные используемые
     данные приведены ниже
     \begin{lstlisting}[label=static, caption=Основные данные из файла static.py]
-    from sympy import Symbol, Piecewise, Abs, sinc, E, oo
-
     t = Symbol('t')
     omega = Symbol('omega')
-
     interval = [-oo, oo]
-
     a_b_pars = [(1, 2), (2, 3), (3, 4)]
     consts = [-1, 0.5, 1]
     colors_strs = ['red', 'purple', 'blue', 'cyan'] 
@@ -160,6 +187,11 @@
     
     def double_attenuation(a, b):
         return a * E ** (-b * Abs(t))
+
+    def shifted_rectangular_function(a, b, shift):
+        if (shift == 0):
+            return rectangular_function(a, b)
+        return Piecewise((a, Abs(t + shift) <= b), (0, Abs(t + shift) > b))
     \end{lstlisting}
 
 
@@ -175,22 +207,40 @@
     $$
 
 
-    % аналитическое выражение с выводом
+    \noindent Аналитическое выражение Фурье-образа с выводом
+    $\hat{f}(\omega)$ для прямоугольной функции имеет вид
+    \begin{align*}
+        & \hat{f}(\omega)=\dfrac{1}{\sqrt{2\pi}}\left(\int\limits_{-b}^{b}ae^{-i\omega t}\,dt+\int\limits_{b}^{-b}0\cdot e^{-i\omega t}\,dt\right)=
+        \dfrac{a}{\sqrt{2\pi}}\int\limits_{-b}^{b}e^{-i\omega t}\,dt=
+        \begin{bmatrix}
+            u=-i\omega t\\
+            du=-i\omega dt\\
+            dt=-\frac{du}{i\omega}
+        \end{bmatrix}=
+        -\dfrac{a}{i\omega \sqrt{2\pi}}\int\limits_{i\omega t}^{-i\omega t}e^{u}\,du=\\
+        & =-\dfrac{a}{i\omega \sqrt{2\pi}}e^{u}\bigg|_{i\omega b}^{-i\omega b}=
+        -\dfrac{a}{i\omega \sqrt{2\pi}}\left(e^{-i\omega b}-e^{i\omega b}\right)=\dfrac{a}{\omega \sqrt{2\pi}}\left(2\cdot\dfrac{e^{i\omega b}-e^{-i\omega b}}{2i}\right)=
+        \dfrac{2a\sin{(b\omega)}}{\omega \sqrt{2\pi}}=\dfrac{a\sqrt{2}\sin{(b\omega)}}{\omega\sqrt{\pi}}
+    \end{align*}
 
 
-    \noindent Рассмотрим программу. Сначала задается функция, принимающая параметры $a\text{ и }b$, после чего методом build\_{f}\_{t} строится график $f(t)$.
-    На строке 10 приведен пример использования кода
-    \begin{lstlisting}[label=f_t_rect, caption=Программа для построения графика прямоугольной функции]
+    \noindent Для построения графиков $f(t)$ используется метод, представленный ниже.
+    На строках 7-8 приведен пример использования -- сначала задается функция,
+    принимающая параметры $a\text{ и }b$, после чего вызывается метод build\_{f}\_{t}.
+    Далее в отчете эта программа используется по умолчанию
+    \begin{lstlisting}[label=f_t_rect, caption=Программа для построения графика $f(t)$]
     def build_f_t(f_t, clr, lbl):
         if (lbl == None):
             plot(f_t, line_color=clr, xlabel=r'$t$', ylabel=r'$f(t)$')
         else:
             plot(f_t, line_color=clr, xlabel=r'$t$', ylabel=r'$f(t)$', label=lbl, legend=True)
 
-    build_f_t(rectangular_function(1, 2), 'red', None)
+    func = rectangular_function(1, 2)
+    build_f_t(func, 'red', None)
     \end{lstlisting}
 
 
+    \newpage
     \noindent Построенные графики $f(t)$ для нескольких значений параметров $a,b>0$ расположены ниже
     \begin{figure}[htbp]
         \centering
@@ -219,16 +269,10 @@
     \end{figure}
 
 
-    \noindent Рассмотрим программу. Методом find\_{fimg} находится Фурье-образ заданной функции. Далее методом build\_{fimg2}
-    строится график Фурье-образа. На 16-17 строчках находится пример использования кода
+    \noindent Рассмотрим программу. Методом find\_{fimg}, приведенным в введении, находится Фурье-образ заданной функции.
+    Далее методом build\_{fimg} строится график Фурье-образа. На 10-11 строчках располагается пример использования кода
     \begin{lstlisting}[label=fimg_rect, caption=Программа для построения графика Фурье-образа некоторой функции $f(t)$]
-    def find_fimg(f_t, lim1, lim2):
-        integrand = f_t * E ** (-I * omega * t)
-
-        result = integrate(integrand, (t, lim1, lim2))
-        return coeff * result
-
-    def build_fimg2(fimg, clr, lbl):
+    def build_fimg(fimg, clr, lbl):
         if (lbl == None):
             plot(fimg, line_color=clr,
                  xlabel=r'$\omega$', ylabel=r'$c(\omega)$')
@@ -237,8 +281,8 @@
                  xlabel=r'$\omega$', ylabel=r'$c(\omega)$',
                  label=lbl, legend=True)
     
-    rectfimg = find_fimg(rectangular_function, -oo, oo)
-    build_fimg2(rectfimg, 'purple', None)
+    rectfimg = find_fimg(rectangular_function(1, 2), -oo, oo)
+    build_fimg(rectfimg, 'purple', None)
     \end{lstlisting}
 
 
@@ -273,28 +317,7 @@
     % анализ графиков и ответы на вопросы
 
 
-    \noindent Рассмотрим программу. Методом find\_{norm2} находится вторая норма переданной функции.
-    Метод \\find\_{parseval} считает левую и правую части равенства Парсеваля. Пример использования кода
-    расположен на 13-14 строчках листинга ниже
-    \begin{lstlisting}[label=pars_rectf, caption=Программа для нахождения левой и правой сторон равенства Парсеваля]
-    def find_norm2(f, lim1, lim2, var):
-        integrand = f * conjugate(f)
-
-        result = integrate(integrand, (var, lim1, lim2)).evalf()
-        return sqrt(result).evalf()
-
-    def find_parseval(f, fimg, lim1, lim2):
-        pleft = find_norm2(f, lim1, lim2, t)
-        pright = find_norm2(fimg, lim1, lim2, omega)
-
-        return pleft, pright
-
-    pl, pr = find_parseval(rectangular_function, rectfimg, -oo, oo)
-    print(f'p_{1}: {pl} ?= {pr}')
-    \end{lstlisting}
-
-
-    \noindent Программа вывела в консоль результаты, представленные ниже
+    \noindent Программа для вычисления левой и правой сторон равенства Парсеваля вывела в консоль результаты, представленные ниже
     \begin{lstlisting}[label=pres_rectf, caption=Результат выполнения программы для вычисления равенства Парсеваля]
     p_1: 2.00000000000000 ?= 2.0 + 0.e-114*I  
     p_2: 4.89897948556636 ?= 4.89897948556636 + 0.e-114*I 
@@ -318,17 +341,13 @@
     $$
 
 
-    % аналитическое выражение с выводом
+    \noindent Аналитическое выражение с выводом Фурье-образа
+    $\hat{f}(\omega)$ для треугольной функции имеет вид
+    % todo
 
 
-    \noindent Для построения графиков треугольной функции сначала задается необходимая функция,
-    после используется код, приведенный в пункте 2.1 для прямоугольной функции
-    \begin{lstlisting}[label=triangf, caption=Программно заданная треугольная функция]
-    null
-    \end{lstlisting}
-
-
-    \noindent Построенные графики $f(t)$ для нескольких значений параметров $a,b>0$ расположены ниже
+    \noindent Построенные графики функций $f(t)$ и их Фурье-образов
+    $\hat{f}\left(\omega\right)$ для нескольких значений параметров $a,b>0$ расположены ниже
     \begin{figure}[htbp]
         \centering
         \begin{subfigure}{0.3\textwidth}
@@ -354,9 +373,6 @@
         \caption{Треугольные функции при различных значениях $a$ и $b$}
         \label{fig:triangfs}
     \end{figure}
-
-
-    \noindent Построенные графики $\hat{f}\left(\omega\right)$ для тех же значений $a$ и $b$ расположены ниже
     \begin{figure}[htbp]
         \centering
         \begin{subfigure}{0.3\textwidth}
@@ -405,10 +421,12 @@
     $$
 
 
-    % аналитическое выражение
+    \noindent Аналитическое выражение Фурье-образа $\hat{f}(\omega)$ для кардинального синуса
+    имеет вид
+    % todo
 
 
-    \noindent Построенные графики $f(t)$ для нескольких значений параметров $a,b>0$ расположены ниже
+    \noindent Построенные графики $f(t)$ и $\hat{f}\left(\omega\right)$ для нескольких значений параметров $a,b>0$ расположены ниже
     \begin{figure}[htbp]
         \centering
         \begin{subfigure}{0.3\textwidth}
@@ -434,9 +452,6 @@
         \caption{Кардинальные синусы при различных значениях $a$ и $b$}
         \label{fig:sincs}
     \end{figure}
-
-
-    \noindent Построенные графики $\hat{f}\left(\omega\right)$ для тех же значений $a$ и $b$ расположены ниже
     \begin{figure}[htbp]
         \centering
         \begin{subfigure}{0.3\textwidth}
@@ -485,10 +500,14 @@
     $$
 
 
-    % аналитическое выражение
+    \noindent Аналитическое выражение Фурье-образа $\hat{f}(\omega)$ для функции Гаусса
+    имеет вид
+    $$
+    \hat{f}(\omega)=\dfrac{a}{\sqrt{2\pi}}\int\limits_{-\infty}^{\infty}e^{-bt^2}e^{-i\omega t}\,dt=\dfrac{a}{e^{\frac{\omega^2}{4b}}\sqrt{2b}}
+    $$
 
 
-    \noindent Построенные графики $f(t)$ для нескольких значений параметров $a,b>0$ расположены ниже
+    \noindent Построенные графики $f(t)$ и $\hat{f}\left(\omega\right)$ для нескольких значений параметров $a,b>0$ расположены ниже
     \begin{figure}[htbp]
         \centering
         \begin{subfigure}{0.3\textwidth}
@@ -514,9 +533,6 @@
         \caption{Функции Гаусса при различных значениях $a$ и $b$}
         \label{fig:gauss}
     \end{figure}
-
-
-    \noindent Построенные графики $\hat{f}\left(\omega\right)$ для тех же значений $a$ и $b$ расположены ниже
     \begin{figure}[htbp]
         \centering
         \begin{subfigure}{0.3\textwidth}
@@ -544,7 +560,7 @@
     \end{figure}
 
 
-    % анализ графиков и ответы на вопросы
+    % todo анализ графиков и ответы на вопросы
 
 
     \noindent Проверим программой выполнение равенства Парсеваля
@@ -565,10 +581,12 @@
     $$
 
 
-    % аналитическое выражение и вывод
+    \noindent Аналитическое выражение с выводом Фурье-образа
+    $\hat{f}(\omega)$ для двустороннего затухания имеет вид
+    % todo
 
 
-    \noindent Построенные графики $f(t)$ для нескольких значений параметров $a,b>0$ расположены ниже
+    \noindent Построенные графики $f(t)$ и $\hat{f}\left(\omega\right)$ для нескольких значений параметров $a,b>0$ расположены ниже
     \begin{figure}[htbp]
         \centering
         \begin{subfigure}{0.3\textwidth}
@@ -594,9 +612,6 @@
         \caption{Двусторонние затухания при различных значениях $a$ и $b$}
         \label{fig:doats}
     \end{figure}
-
-
-    \noindent Построенные графики $\hat{f}\left(\omega\right)$ для тех же значений $a$ и $b$ расположены ниже
     \begin{figure}[htbp]
         \centering
         \begin{subfigure}{0.3\textwidth}
@@ -624,7 +639,7 @@
     \end{figure}
 
 
-    % анализ графиков и ответы на вопросы
+    % todo анализ графиков и ответы на вопросы
 
 
     \noindent Проверим программой выполнение равенства Парсеваля
@@ -650,16 +665,16 @@
     $$
 
 
-    \noindent Дополним файл static.py новой функцией
-    \begin{lstlisting}[label=add_static, caption=Добавление прямоугольной функции со смещением в файл static.py]
-    def shifted_rectangular_function(a, b, shift):
-        if (shift == 0):
-            return rectangular_function(a, b)
-        return Piecewise((a, Abs(t + shift) <= b), (0, Abs(t + shift) > b))
-    \end{lstlisting}
+    \noindent Аналитическое выражение Фурье-образа
+    $\hat{f}(\omega)$ для прямоугольной функции со сдвигом имеет вид
+    $$
+    \hat{f}(\omega)=\dfrac{1}{\sqrt{2\pi}}\int\limits_{-2-c}^{2-c}1\cdot e^{-i\omega t}\,dt=    % todo
+    $$
 
 
-    \noindent Построенные графики $g(t)$ для нескольких значений параметра $c$ расположены ниже
+    \noindent Построенные графики $g(t)$, $\text{Re}\,{\hat{g}(\omega)}$,
+    $\text{Im}\,{\hat{g}(\omega)}$ и $|\hat{g}(\omega)|$
+    для нескольких значений параметра $c$ расположены ниже
     \begin{figure}[htbp]
         \centering
         \begin{subfigure}{0.3\textwidth}
@@ -685,9 +700,6 @@
         \caption{Прямоугольные фукнции со смещением при различных значениях $c$}
         \label{fig:shrectfs}
     \end{figure}
-
-
-    \noindent Построенные графики $\text{Re}\,{\hat{g}(\omega)}$ для нескольких значений параметра $c$ расположены ниже
     \begin{figure}[htbp]
         \centering
         \begin{subfigure}{0.3\textwidth}
@@ -713,9 +725,6 @@
         \caption{Действительные части Фурье-образов прямоугольных фукнций со смещением при различных значениях параметра $c$}
         \label{fig:reshrectfs}
     \end{figure}
-
-
-    \noindent Построенные графики $\text{Im}\,{\hat{g}(\omega)}$ для нескольких значений параметра $c$ расположены ниже
     \begin{figure}[htbp]
         \centering
         \begin{subfigure}{0.3\textwidth}
@@ -741,9 +750,6 @@
         \caption{Мнимые части Фурье-образов прямоугольных фукнций со смещением при различных значениях параметра $c$}
         \label{fig:imshrectfs}
     \end{figure}
-
-
-    \noindent Построенные графики $|\hat{g}(\omega)|$ для нескольких значений параметра $c$ расположены ниже
     \begin{figure}[htbp]
         \centering
         \begin{subfigure}{0.3\textwidth}
@@ -771,7 +777,7 @@
     \end{figure}
 
 
-    % анализ влияния параметра c на функцию и Фурье-образ
+    % todo анализ влияния параметра c на функцию и Фурье-образ
 
 
     \section{Задание 3. Музыкальное}
@@ -781,13 +787,10 @@
 
     \noindent Для считывания аудиозаписи в список используется библиотека librosa. В переменную y запишутся значения амплитуд аудиосигнала,
     в переменной sr будет частота дискретизации аудиосигнала, а t -- список временных отсчетов в секундах, соответствующий каждой амплитуде в списке y.
-    На строках 15-17 показан пример использования метода. Указывается путь к mp3 файлу в переменной audio\_{file} и в переменной select\_{channel} хранится номер
+    На строках 15-17 показан пример использования метода. Указывается путь к mp3 файлу в переменной audio\_{file}. В переменной select\_{channel} хранится номер
     нужного звукового канала -- выбран первый канал. Аудиозапись длится 4 секунды, последняя из которых вырезана на 19-20 строках, так как не несет в себе
     важной информации, аккорд заканчивается раньше
     \begin{lstlisting}[label=mp3load, caption=Программа для считывания аудиозаписи в список]
-    from librosa import load
-    from numpy import linspace
-
     def get_y_sr_t(audio_file: str, select_channel: int):
         y, sr = load(audio_file)
     
@@ -808,10 +811,9 @@
     \end{lstlisting}
 
 
-    \noindent Программа ниже построит график аудиозаписи $f(t)$
+    \noindent Программа ниже построит график аудиозаписи $f(t)$. На 12-13 строках расположен пример
+    использования
     \begin{lstlisting}[label=, caption=Программа для построения функции $f(t)$ аудиозаписи]
-    import matplotlib.pyplot as plt
-
     def build_audio_f_t(t, y, clr=None):
         if (clr != None):
             plt.plot(t, y, color=clr)
@@ -831,7 +833,7 @@
     \noindent Результат выполнения программы для считанной в список аудиозаписи
     \begin{figure}[!htb]
         \centering
-        \includegraphics[scale=0.5]{f_t.png}
+        \includegraphics[scale=0.6]{f_t.png}
         \captionsetup{skip=0pt}
         \caption{График $f(t)$ аудиозаписи}
         \label{Рис:15}
@@ -839,7 +841,7 @@
 
 
     \noindent С помощью численного интегрирования trapz из библиотеки numpy найден Фурье-образ $\hat{f}(\nu)$
-    по частотам freqs и записан в список ampls. Пример использования расположен на 11 строке
+    по частотам freqs и записан в список амплитуд ampls. Пример использования расположен на 11 строке
     \begin{lstlisting}[label=fimgmp3, caption=Программа для нахождения Фурье-образа аудиозаписи]
     def find_freqs_ampls(t, y, sr):
         freqs = linspace(0, sr / 2, len(y) // 2)
@@ -855,9 +857,10 @@
     \end{lstlisting}
 
 
-    \noindent Программа ниже построит график $|\hat{f}(\nu)|$. Пример использования расположен на 17-24 строках
+    \noindent Программа ниже построит график $|\hat{f}(\nu)|$. Пример использования расположен на 20-27 строках
     \begin{lstlisting}[label=f_v_mp3, caption=Программа для построения графика $|\hat{f}(\nu)|$ аудиозаписи]
-    def build_audio_f_v(freqs, ampls, start=None, stop=None, step=None, fz1=None, fz2=None, clr=None):
+    def build_audio_f_v(freqs, ampls, start=None, stop=None, step=None,
+                        fz1=None, fz2=None, clr=None):
         if ((fz1 != None) and (fz2 != None)):
             plt.figure(figsize=(fz1, fz2))
 
@@ -869,7 +872,9 @@
         plt.xlabel(r'$\nu$')
         plt.ylabel(r'$\left|\hat{f}\left(\nu\right)\right|$')
         plt.grid(True)
-        if ((start != None) and (stop != None and stop != 0) and (step != None and step != 0)):
+        if ((start != None) and
+            (stop != None and stop != 0) and
+            (step != None and step != 0)):
             plt.xticks(arange(start, stop, step))
         plt.show()
 
@@ -912,7 +917,10 @@
     \end{lstlisting}
     
 
-    \noindent Построенный график $|\hat{f}(\nu)|$ на интервале частот от $0$ до $1000$
+    \noindent С помощью программы построен график $|\hat{f}(\nu)|$ на интервале частот от $0$ до $1000$
+    с шагом $200$, а после на интервале от $200$ до $500$ с шагом $20$ для точности определения нот
+
+
     \begin{figure}[!htb]
         \centering
         \includegraphics[scale=0.5]{f_v_reduced_1k.png}
@@ -921,8 +929,6 @@
         \label{Рис:17}
     \end{figure}
 
-
-    \noindent Для точности определения нот построен график $|\hat{f}(\nu)|$ на интервале частот от $200$ до $500$
     \begin{figure}[!htb]
         \centering
         \includegraphics[scale=0.5]{f_v_reduced_200_to_500.png}
@@ -932,8 +938,9 @@
     \end{figure}
 
 
-    % анализ графика, проверить ноты
+    % todo анализ графика, проверить ноты
 
 
-    \noindent Исходя из графика на уменьшенном интервале частот определены ноты: первая До, первая Соль, первая Ля диез
+    \noindent Исходя из графика, построенного на уменьшенном интервале частот, определены следующие ноты:
+    первая До, первая Соль, первая Ля диез
 \end{document}

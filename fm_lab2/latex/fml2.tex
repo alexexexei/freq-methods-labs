@@ -56,6 +56,7 @@
     pdfpagemode=FullScreen,
 }
 \allowdisplaybreaks
+\DeclareMathOperator{\sinc}{sinc}
 \newcommand{\frc}[2]{\raisebox{2pt}{$#1$}\big/\raisebox{-3pt}{$#2$}}
 
 \begin{document}
@@ -306,7 +307,8 @@
     которых не хватает для выполнения равенства Парсеваля
 
 
-    \subsection{Рассмотрим треугольную функцию следующего вида}
+    \subsection{Треугольная функция}
+    \noindent Рассмотрим треугольную функцию следующего вида
     $$
     f(t)=
     \begin{cases}
@@ -352,4 +354,586 @@
         \caption{Треугольные функции при различных значениях $a$ и $b$}
         \label{fig:triangfs}
     \end{figure}
+
+
+    \noindent Построенные графики $\hat{f}\left(\omega\right)$ для тех же значений $a$ и $b$ расположены ниже
+    \begin{figure}[htbp]
+        \centering
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{trifimg_a=1_b=2.png}
+            \caption{$a=1,\,\,b=2$}
+            \label{fig:trifimg_1}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{trifimg_a=2_b=3.png}
+            \caption{$a=2,\,\,b=3$}
+            \label{fig:trifimg_2}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{trifimg_a=3_b=4.png}
+            \caption{$a=3,\,\,b=4$}
+            \label{fig:trifimg_3}
+        \end{subfigure}
+        \caption{Фурье-образы треугольных функций при различных значениях $a$ и $b$}
+        \label{fig:trifimgs}
+    \end{figure}
+
+
+    % анализ графиков и ответы на вопросы
+
+
+    \noindent Проверим программой выполнение равенства Парсеваля
+    \begin{lstlisting}[label=parstrif, caption=Равенство Парсеваля для треугольных функций]
+    p_1: 1.15470053837925 ?= 1.15470053837925
+    p_2: 2.82842712474619 ?= 2.82842712474619
+    p_3: 4.89897948556636 ?= 4.89897948556636
+    \end{lstlisting}
+
+
+    \noindent Равенство Парсеваля выполняется для треугольной функции
+
+
+    \subsection{Кардинальный синус}
+    \noindent Рассмотрим кардинальный синус следующего вида
+    $$
+    f(t)=a\cdot \sinc{(bt)}
+    $$
+
+
+    % аналитическое выражение
+
+
+    \noindent Построенные графики $f(t)$ для нескольких значений параметров $a,b>0$ расположены ниже
+    \begin{figure}[htbp]
+        \centering
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{sinc_a=1_b=2.png}
+            \caption{$a=1,\,\,b=2$}
+            \label{fig:sinc_1}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{sinc_a=2_b=3.png}
+            \caption{$a=2,\,\,b=3$}
+            \label{fig:sinc_2}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{sinc_a=3_b=4.png}
+            \caption{$a=3,\,\,b=4$}
+            \label{fig:sinc_3}
+        \end{subfigure}
+        \caption{Кардинальные синусы при различных значениях $a$ и $b$}
+        \label{fig:sincs}
+    \end{figure}
+
+
+    \noindent Построенные графики $\hat{f}\left(\omega\right)$ для тех же значений $a$ и $b$ расположены ниже
+    \begin{figure}[htbp]
+        \centering
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{sincfimg_a=1_b=2.png}
+            \caption{$a=1,\,\,b=2$}
+            \label{fig:sincfimg_1}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{sincfimg_a=2_b=3.png}
+            \caption{$a=2,\,\,b=3$}
+            \label{fig:sincfimg_2}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{sincfimg_a=3_b=4.png}
+            \caption{$a=3,\,\,b=4$}
+            \label{fig:sincfimg_3}
+        \end{subfigure}
+        \caption{Фурье-образы кардинальных синусов при различных значениях $a$ и $b$}
+        \label{fig:sincfimgs}
+    \end{figure}
+
+
+    % анализ графиков и ответы на вопросы
+
+
+    \noindent Проверим программой выполнение равенства Парсеваля
+    \begin{lstlisting}[label=pars_sinc, caption=Равенство Парсеваля для кардинальных синусов]
+    p_1: 1.25331412734194 ?= 1.25331412734194
+    p_2: 2.04665340503514 ?= 2.04665340503514
+    p_3: 2.65868076577972 ?= 2.65868076577972
+    \end{lstlisting}
+
+
+    \noindent Результат программы показывает, что равенство Парсеваля выполняется для кардинального синуса
+
+
+    \subsection{Функция Гаусса}
+    \noindent Рассмотрим фукнцию Гаусса следующего вида
+    $$
+    f(t)=ae^{-bt^2}
+    $$
+
+
+    % аналитическое выражение
+
+
+    \noindent Построенные графики $f(t)$ для нескольких значений параметров $a,b>0$ расположены ниже
+    \begin{figure}[htbp]
+        \centering
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{gaus_a=1_b=2.png}
+            \caption{$a=1,\,\,b=2$}
+            \label{fig:gaus_1}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{gaus_a=2_b=3.png}
+            \caption{$a=2,\,\,b=3$}
+            \label{fig:gaus_2}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{gaus_a=3_b=4.png}
+            \caption{$a=3,\,\,b=4$}
+            \label{fig:gaus_3}
+        \end{subfigure}
+        \caption{Функции Гаусса при различных значениях $a$ и $b$}
+        \label{fig:gauss}
+    \end{figure}
+
+
+    \noindent Построенные графики $\hat{f}\left(\omega\right)$ для тех же значений $a$ и $b$ расположены ниже
+    \begin{figure}[htbp]
+        \centering
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{gausfimg_a=1_b=2.png}
+            \caption{$a=1,\,\,b=2$}
+            \label{fig:gausfimg_1}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{gausfimg_a=2_b=3.png}
+            \caption{$a=2,\,\,b=3$}
+            \label{fig:gausfimg_2}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{gausfimg_a=3_b=4.png}
+            \caption{$a=3,\,\,b=4$}
+            \label{fig:gausfimg_3}
+        \end{subfigure}
+        \caption{Фурье-образы функций Гаусса при различных значениях $a$ и $b$}
+        \label{fig:gausfimgs}
+    \end{figure}
+
+
+    % анализ графиков и ответы на вопросы
+
+
+    \noindent Проверим программой выполнение равенства Парсеваля
+    \begin{lstlisting}[label=pars_gaus, caption=Равенство Парсеваля для функции Гаусса]
+    p_1: 0.941396263776715 ?= 0.941396263776715
+    p_2: 1.70129510027892 ?= 1.70129510027892
+    p_3: 2.37485023062924 ?= 2.37485023062924
+    \end{lstlisting}
+
+
+    \noindent Результат говорит о выполнении равенства Парсеваля для фукнции Гаусса
+
+
+    \subsection{Двустороннее затухание}
+    \noindent Рассмотрим двустороннее затухание следующего вида
+    $$
+    f(t)=ae^{-b|t|}
+    $$
+
+
+    % аналитическое выражение и вывод
+
+
+    \noindent Построенные графики $f(t)$ для нескольких значений параметров $a,b>0$ расположены ниже
+    \begin{figure}[htbp]
+        \centering
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{doat_a=1_b=2.png}
+            \caption{$a=1,\,\,b=2$}
+            \label{fig:doat_1}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{doat_a=2_b=3.png}
+            \caption{$a=2,\,\,b=3$}
+            \label{fig:doat_2}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{doat_a=3_b=4.png}
+            \caption{$a=3,\,\,b=4$}
+            \label{fig:doat_3}
+        \end{subfigure}
+        \caption{Двусторонние затухания при различных значениях $a$ и $b$}
+        \label{fig:doats}
+    \end{figure}
+
+
+    \noindent Построенные графики $\hat{f}\left(\omega\right)$ для тех же значений $a$ и $b$ расположены ниже
+    \begin{figure}[htbp]
+        \centering
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{doatfimg_a=1_b=2.png}
+            \caption{$a=1,\,\,b=2$}
+            \label{fig:doatfimg_1}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{doatfimg_a=2_b=3.png}
+            \caption{$a=2,\,\,b=3$}
+            \label{fig:doatfimg_2}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{doatfimg_a=3_b=4.png}
+            \caption{$a=3,\,\,b=4$}
+            \label{fig:doatfimg_3}
+        \end{subfigure}
+        \caption{Фурье-образы двусторонних затуханий при различных значениях $a$ и $b$}
+        \label{fig:doatfimgs}
+    \end{figure}
+
+
+    % анализ графиков и ответы на вопросы
+
+
+    \noindent Проверим программой выполнение равенства Парсеваля
+    \begin{lstlisting}[label=pars_doat, caption=Равенство Парсеваля для функции Гаусса]
+    p_1: 0.700601299282005 ?= 0.700601299282005
+    p_2: 1.15326854220130 ?= 1.15326854220130
+    p_3: 1.49974838192519 ?= 1.49974838192519
+    \end{lstlisting}
+
+
+    \noindent Результат говорит о выполнении равенства Парсеваля для двустороннего затухания
+
+
+    \section{Задание 2. Комплексное}
+    \noindent Для выполнения задания выбрана прямоугольная функция из задания 1 при зафиксированных
+    параметрах $a=1,b=2$
+    $$
+    g(t)=f(t+c)=
+    \begin{cases}
+        1, & \left|t+c\right|\leq 2,\\
+        0, & \left|t+c\right|>2.
+    \end{cases}
+    $$
+
+
+    \noindent Дополним файл static.py новой функцией
+    \begin{lstlisting}[label=add_static, caption=Добавление прямоугольной функции со смещением в файл static.py]
+    def shifted_rectangular_function(a, b, shift):
+        if (shift == 0):
+            return rectangular_function(a, b)
+        return Piecewise((a, Abs(t + shift) <= b), (0, Abs(t + shift) > b))
+    \end{lstlisting}
+
+
+    \noindent Построенные графики $g(t)$ для нескольких значений параметра $c$ расположены ниже
+    \begin{figure}[htbp]
+        \centering
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{sh_m1_rectf_int12.png}
+            \caption{$c=-1$}
+            \label{fig:shrectf_1}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{sh_zp5_rectf_int12.png}
+            \caption{$c=0.5$}
+            \label{fig:shrectf_2}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{sh_1_rectf_int12.png}
+            \caption{$c=1$}
+            \label{fig:shrectf_3}
+        \end{subfigure}
+        \caption{Прямоугольные фукнции со смещением при различных значениях $c$}
+        \label{fig:shrectfs}
+    \end{figure}
+
+
+    \noindent Построенные графики $\text{Re}\,{\hat{g}(\omega)}$ для нескольких значений параметра $c$ расположены ниже
+    \begin{figure}[htbp]
+        \centering
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{sh_m1_re_rectf_int12.png}
+            \caption{$c=-1$}
+            \label{fig:reshrectf_1}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{sh_zp5_re_rectf_int12.png}
+            \caption{$c=0.5$}
+            \label{fig:reshrectf_2}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{sh_1_re_rectf_int12.png}
+            \caption{$c=1$}
+            \label{fig:reshrectf_3}
+        \end{subfigure}
+        \caption{Действительные части Фурье-образов прямоугольных фукнций со смещением при различных значениях параметра $c$}
+        \label{fig:reshrectfs}
+    \end{figure}
+
+
+    \noindent Построенные графики $\text{Im}\,{\hat{g}(\omega)}$ для нескольких значений параметра $c$ расположены ниже
+    \begin{figure}[htbp]
+        \centering
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{sh_m1_im_rectf_int12.png}
+            \caption{$c=-1$}
+            \label{fig:imshrectf_1}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{sh_zp5_im_rectf_int12.png}
+            \caption{$c=0.5$}
+            \label{fig:imshrectf_2}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{sh_1_im_rectf_int12.png}
+            \caption{$c=1$}
+            \label{fig:imshrectf_3}
+        \end{subfigure}
+        \caption{Мнимые части Фурье-образов прямоугольных фукнций со смещением при различных значениях параметра $c$}
+        \label{fig:imshrectfs}
+    \end{figure}
+
+
+    \noindent Построенные графики $|\hat{g}(\omega)|$ для нескольких значений параметра $c$ расположены ниже
+    \begin{figure}[htbp]
+        \centering
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{sh_m1_abs_rectf_int12.png}
+            \caption{$c=-1$}
+            \label{fig:absshrectf_1}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{sh_zp5_abs_rectf_int12.png}
+            \caption{$c=0.5$}
+            \label{fig:absshrectf_2}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{sh_1_abs_rectf_int12.png}
+            \caption{$c=1$}
+            \label{fig:absshrectf_3}
+        \end{subfigure}
+        \caption{Модули Фурье-образов прямоугольных фукнций со смещением при различных значениях параметра $c$}
+        \label{fig:absshrectfs}
+    \end{figure}
+
+
+    % анализ влияния параметра c на функцию и Фурье-образ
+
+
+    \section{Задание 3. Музыкальное}
+    \noindent Для выполнения задания с представленного \href{https://drive.google.com/drive/folders/14lwzvV84uXtyuXXspoYUSf-VdR52t0sE}{гугл-диска}
+    выбран аккорд номер 26
+
+
+    \noindent Для считывания аудиозаписи в список используется библиотека librosa. В переменную y запишутся значения амплитуд аудиосигнала,
+    в переменной sr будет частота дискретизации аудиосигнала, а t -- список временных отсчетов в секундах, соответствующий каждой амплитуде в списке y.
+    На строках 15-17 показан пример использования метода. Указывается путь к mp3 файлу в переменной audio\_{file} и в переменной select\_{channel} хранится номер
+    нужного звукового канала -- выбран первый канал. Аудиозапись длится 4 секунды, последняя из которых вырезана на 19-20 строках, так как не несет в себе
+    важной информации, аккорд заканчивается раньше
+    \begin{lstlisting}[label=mp3load, caption=Программа для считывания аудиозаписи в список]
+    from librosa import load
+    from numpy import linspace
+
+    def get_y_sr_t(audio_file: str, select_channel: int):
+        y, sr = load(audio_file)
+    
+        if select_channel >= y.ndim:
+            select_channel = 0
+    
+        y = y[:, select_channel] if y.ndim > 1 else y
+        t = linspace(0, len(y) / sr, len(y))
+    
+        return y, sr, t
+
+    audio_file = 'fm_lab2/chord/chord26.mp3'
+    select_channel = 0
+    y, sr, t = get_y_sr_t(audio_file, select_channel)
+
+    y = y[:3 * sr]
+    t = t[:3 * sr]
+    \end{lstlisting}
+
+
+    \noindent Программа ниже построит график аудиозаписи $f(t)$
+    \begin{lstlisting}[label=, caption=Программа для построения функции $f(t)$ аудиозаписи]
+    import matplotlib.pyplot as plt
+
+    def build_audio_f_t(t, y, clr=None):
+        if (clr != None):
+            plt.plot(t, y, color=clr)
+        else:
+            plt.plot(t, y)
+    
+        plt.xlabel(r'$t$')
+        plt.ylabel(r'$f(t)$')
+        plt.grid(True)
+        plt.show()
+
+    f_t_clr = colors_strs[0]
+    build_audio_f_t(t, y, f_t_clr)
+    \end{lstlisting}
+
+
+    \noindent Результат выполнения программы для считанной в список аудиозаписи
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.5]{f_t.png}
+        \captionsetup{skip=0pt}
+        \caption{График $f(t)$ аудиозаписи}
+        \label{Рис:15}
+    \end{figure}
+
+
+    \noindent С помощью численного интегрирования trapz из библиотеки numpy найден Фурье-образ $\hat{f}(\nu)$
+    по частотам freqs и записан в список ampls. Пример использования расположен на 11 строке
+    \begin{lstlisting}[label=fimgmp3, caption=Программа для нахождения Фурье-образа аудиозаписи]
+    def find_freqs_ampls(t, y, sr):
+        freqs = linspace(0, sr / 2, len(y) // 2)
+        ampls = []
+    
+        for freq in freqs:
+            int = trapz(y * exp(-1j * 2 * pi * freq * t), t)
+            ampls.append(abs(int))
+    
+        return freqs, ampls
+
+    freqs, ampls = find_freqs_ampls(t, y, sr)
+    \end{lstlisting}
+
+
+    \noindent Программа ниже построит график $|\hat{f}(\nu)|$. Пример использования расположен на 17-24 строках
+    \begin{lstlisting}[label=f_v_mp3, caption=Программа для построения графика $|\hat{f}(\nu)|$ аудиозаписи]
+    def build_audio_f_v(freqs, ampls, start=None, stop=None, step=None, fz1=None, fz2=None, clr=None):
+        if ((fz1 != None) and (fz2 != None)):
+            plt.figure(figsize=(fz1, fz2))
+
+        if (clr != None):
+            plt.plot(freqs, ampls, color=clr)
+        else:
+            plt.plot(freqs, ampls)
+
+        plt.xlabel(r'$\nu$')
+        plt.ylabel(r'$\left|\hat{f}\left(\nu\right)\right|$')
+        plt.grid(True)
+        if ((start != None) and (stop != None and stop != 0) and (step != None and step != 0)):
+            plt.xticks(arange(start, stop, step))
+        plt.show()
+
+    start = 0
+    stop = 10001
+    step = 1000
+    figsize1 = 10
+    figsize2 = 6
+    f_v_clr = colors_strs[1]
+
+    build_audio_f_v(freqs, ampls, start=start, stop=stop, step=step,
+                    fz1=figsize1, fz2=figsize2, clr=f_v_clr)
+    \end{lstlisting}
+
+
+    \noindent Построенный график $|\hat{f}(\nu)|$ расположен ниже
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.5]{f_v.png}
+        \captionsetup{skip=0pt}
+        \caption{График $|\hat{f}(\nu)|$ аудиозаписи}
+        \label{Рис:16}
+    \end{figure}
+
+
+    \noindent Так как на большом интервале частот трудно разобрать из каких нот состоит аккорд,
+    нужен код для уменьшения интервала и шага без потери данных или искажения графиков
+    \begin{lstlisting}[label=f_v_1k, caption={Программа для изменения интервала частот и амплитуд}]
+    r_start = 0
+    r_end = 1000
+        
+    start_idx = next(idx for idx, freq in enumerate(freqs) if freq >= r_start)
+    end_idx = next(idx for idx, freq in enumerate(freqs) if freq > r_end)
+        
+    r_ampls = ampls[start_idx:end_idx]
+    r_freqs = freqs[start_idx:end_idx]
+    r_step = 20
+
+    build_audio_f_v(r_freqs, r_ampls, start=r_start, stop=r_end, step=r_step, fz1=figsize1, fz2=figsize2, clr=f_v_clr)
+    \end{lstlisting}
+    
+
+    \noindent Построенный график $|\hat{f}(\nu)|$ на интервале частот от $0$ до $1000$
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.5]{f_v_reduced_1k.png}
+        \captionsetup{skip=0pt}
+        \caption{График $|\hat{f}(\nu)|$ аудиозаписи на интервале частот от 0 до 1000}
+        \label{Рис:17}
+    \end{figure}
+
+
+    \noindent Для точности определения нот построен график $|\hat{f}(\nu)|$ на интервале частот от $200$ до $500$
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.5]{f_v_reduced_200_to_500.png}
+        \captionsetup{skip=0pt}
+        \caption{График $|\hat{f}(\nu)|$ аудиозаписи на интервале частот от 200 до 500}
+        \label{Рис:18}
+    \end{figure}
+
+
+    % анализ графика, проверить ноты
+
+
+    \noindent Исходя из графика на уменьшенном интервале частот определены ноты: первая До, первая Соль, первая Ля диез
 \end{document}

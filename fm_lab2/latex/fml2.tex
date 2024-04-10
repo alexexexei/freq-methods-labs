@@ -207,8 +207,8 @@
     $$
 
 
-    \noindent Аналитическое выражение Фурье-образа с выводом
-    $\hat{f}(\omega)$ для прямоугольной функции имеет вид
+    \noindent Аналитическое выражение Фурье-образа $\hat{f}(\omega)$
+    с выводом для прямоугольной функции имеет вид
     \begin{align*}
         & \hat{f}(\omega)=\dfrac{1}{\sqrt{2\pi}}\left(\,\int\limits_{-b}^{b}ae^{-i\omega t}\,dt+\int\limits_{b}^{-b}0\cdot e^{-i\omega t}\,dt\right)=
         \dfrac{a}{\sqrt{2\pi}}\int\limits_{-b}^{b}e^{-i\omega t}\,dt=
@@ -220,7 +220,7 @@
         -\dfrac{a}{i\omega \sqrt{2\pi}}\int\limits_{i\omega t}^{-i\omega t}e^{u}\,du=\\
         & =-\dfrac{a}{i\omega \sqrt{2\pi}}e^{u}\bigg|_{i\omega b}^{-i\omega b}=
         -\dfrac{a}{i\omega \sqrt{2\pi}}\left(e^{-i\omega b}-e^{i\omega b}\right)=\dfrac{a}{\omega \sqrt{2\pi}}\left(2\cdot\dfrac{e^{i\omega b}-e^{-i\omega b}}{2i}\right)=
-        \dfrac{2a\sin{(b\omega)}}{\omega \sqrt{2\pi}}=\dfrac{a\sqrt{2}\sin{(b\omega)}}{\omega\sqrt{\pi}}
+        \dfrac{2a}{\omega \sqrt{2\pi}}\sin{(b\omega)}=\dfrac{a\sqrt{2}}{\omega\sqrt{\pi}}\sin{(b\omega)}
     \end{align*}
 
 
@@ -438,13 +438,21 @@
     \subsection{Кардинальный синус}
     \noindent Рассмотрим кардинальный синус следующего вида
     $$
-    f(t)=a\cdot \sinc{(bt)}
+    f(t)=a\sinc{(bt)}
     $$
 
 
     \noindent Аналитическое выражение Фурье-образа $\hat{f}(\omega)$ для кардинального синуса
     имеет вид
-    % todo
+    $$
+    \hat{f}(\omega)=\dfrac{1}{\sqrt{2\pi}}\int\limits_{-\infty}^{\infty}a\sinc{(bt)}e^{-i\omega t}\,dt=\dfrac{a\sqrt{\pi}}{b\sqrt{2}}
+    \left(
+        \begin{cases}
+            0, & \left(\frc{b}{\omega}\right)^{2}\leq 1\\
+            1, & \left(\frc{b}{\omega}\right)^{2}>1
+        \end{cases}
+    \right)
+    $$
 
 
     \noindent Построенные графики $f(t)$ и $\hat{f}\left(\omega\right)$ для нескольких значений параметров $a,b>0$ расположены ниже
@@ -524,7 +532,7 @@
     \noindent Аналитическое выражение Фурье-образа $\hat{f}(\omega)$ для функции Гаусса
     имеет вид
     $$
-    \hat{f}(\omega)=\dfrac{a}{\sqrt{2\pi}}\int\limits_{-\infty}^{\infty}e^{-bt^2}e^{-i\omega t}\,dt=\dfrac{a}{e^{\frac{\omega^2}{4b}}\sqrt{2b}}
+    \hat{f}(\omega)=\dfrac{a}{\sqrt{2\pi}}\int\limits_{-\infty}^{\infty}e^{-bt^2}e^{-i\omega t}\,dt=\dfrac{a}{\sqrt{2b}}e^{-\frac{\omega^2}{4b}}
     $$
 
 
@@ -604,7 +612,21 @@
 
     \noindent Аналитическое выражение с выводом Фурье-образа
     $\hat{f}(\omega)$ для двустороннего затухания имеет вид
-    % todo
+    \begin{align*}
+        & \hat{f}(\omega)=\dfrac{1}{\sqrt{2\pi}}\int\limits_{-\infty}^{\infty}ae^{-b|t|}e^{-i\omega t}\,dt=\dfrac{a}{\sqrt{2\pi}}\int\limits_{-\infty}^{\infty}e^{-b|t|}e^{-i\omega t}\,dt,\,\,\int\limits_{-\infty}^{\infty}e^{-b|t|}e^{-i\omega t}\,dt=\int\limits_{-\infty}^{0}e^{bt}e^{-i\omega t}\,dt+\int\limits_{0}^{\infty}e^{-bt}e^{-i\omega t}\,dt,\\
+        & \int\limits_{-\infty}^{0}e^{bt}e^{-i\omega t}\,dt=\int\limits_{-\infty}^{0}e^{t(b-i\omega)}\,dt=
+        \begin{bmatrix}
+            u=t(b-i\omega)\\
+            du=(b-i\omega)dt\\
+            dt=\frac{du}{b-i\omega}
+        \end{bmatrix}=
+        \dfrac{1}{b-i\omega}\int\limits_{u_1}^{u_2}e^{u}du=\dfrac{1}{b-i\omega}e^{t(b-i\omega)}\bigg|_{-\infty}^{0}=\dfrac{1}{b-i\omega},\\
+        & \int\limits_{0}^{\infty}e^{-bt}e^{-i\omega t}\,dt=\int\limits_{0}^{\infty}e^{-t(b+i\omega)}\,dt=
+        \begin{bmatrix}
+            \text{аналогично}
+        \end{bmatrix}=
+        -\dfrac{1}{b+i\omega}e^{-t(b+i\omega)}\bigg|_{0}^{\infty}=\dfrac{1}{b+i\omega},
+    \end{align*}
 
 
     \noindent Построенные графики $f(t)$ и $\hat{f}\left(\omega\right)$ для нескольких значений параметров $a,b>0$ расположены ниже

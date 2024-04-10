@@ -314,9 +314,6 @@
     \end{figure}
 
 
-    % анализ графиков и ответы на вопросы
-
-
     \noindent Программа для вычисления левой и правой сторон равенства Парсеваля вывела в консоль результаты, представленные ниже
     \begin{lstlisting}[label=pres_rectf, caption=Результат выполнения программы для вычисления равенства Парсеваля]
     p_1: 2.00000000000000 ?= 2.0 + 0.e-114*I  
@@ -352,8 +349,7 @@
             u=t+b &v=\frac{1}{-i\omega}e^{-i\omega t}\\
             du=dt &dv=e^{-i\omega t}dt
         \end{bmatrix}=
-        -\left(\dfrac{e^{-i\omega t}(t+b)}{-i\omega}+\dfrac{e^{-i\omega t}}{\omega^2}\right)\bigg|_{-b}^{0}=\\
-        & =-\dfrac{b}{-i\omega}-\dfrac{1-e^{i\omega t}}{\omega^2},\\
+        -\left(\dfrac{e^{-i\omega t}(t+b)}{-i\omega}+\dfrac{e^{-i\omega t}}{\omega^2}\right)\bigg|_{-b}^{0}=-\dfrac{b}{-i\omega}-\dfrac{1-e^{i\omega t}}{\omega^2},\\
         & \int\limits_{0}^{b}(t-b)e^{-i\omega t}\,dt=
         \begin{bmatrix}
             \text{аналогично}
@@ -368,7 +364,7 @@
 
 
     \noindent Построенные графики функций $f(t)$ и их Фурье-образов
-    $\hat{f}\left(\omega\right)$ для нескольких значений параметров $a,b>0$ расположены ниже
+    $\hat{f}\left(\omega\right)$ для нескольких значений параметров\\ $a,b>0$ расположены ниже
     \begin{figure}[htbp]
         \centering
         \begin{subfigure}{0.3\textwidth}
@@ -421,9 +417,7 @@
     \end{figure}
 
 
-    % анализ графиков и ответы на вопросы
-
-
+    \newpage
     \noindent Проверим программой выполнение равенства Парсеваля
     \begin{lstlisting}[label=parstrif, caption=Равенство Парсеваля для треугольных функций]
     p_1: 1.15470053837925 ?= 1.15470053837925
@@ -508,9 +502,6 @@
     \end{figure}
 
 
-    % анализ графиков и ответы на вопросы
-
-
     \noindent Проверим программой выполнение равенства Парсеваля
     \begin{lstlisting}[label=pars_sinc, caption=Равенство Парсеваля для кардинальных синусов]
     p_1: 1.25331412734194 ?= 1.25331412734194
@@ -589,9 +580,6 @@
     \end{figure}
 
 
-    % todo анализ графиков и ответы на вопросы
-
-
     \noindent Проверим программой выполнение равенства Парсеваля
     \begin{lstlisting}[label=pars_gaus, caption=Равенство Парсеваля для функции Гаусса]
     p_1: 0.941396263776715 ?= 0.941396263776715
@@ -625,7 +613,8 @@
         \begin{bmatrix}
             \text{аналогично}
         \end{bmatrix}=
-        -\dfrac{1}{b+i\omega}e^{-t(b+i\omega)}\bigg|_{0}^{\infty}=\dfrac{1}{b+i\omega},
+        -\dfrac{1}{b+i\omega}e^{-t(b+i\omega)}\bigg|_{0}^{\infty}=\dfrac{1}{b+i\omega},\\
+        & \int\limits_{-\infty}^{\infty}e^{-b|t|}e^{-i\omega t}\,dt=\dfrac{1}{b-i\omega}+\dfrac{1}{b+i\omega}=\dfrac{b+i\omega + b -i\omega}{(b-i\omega)(b+i\omega)}=\dfrac{2b}{b^2+\omega^2}\Rightarrow\hat{f}(\omega)=\dfrac{a}{\sqrt{2\pi}}\cdot\dfrac{2b}{b^2+\omega^2}=\dfrac{ab\sqrt{2}}{(b^2+\omega^2)\sqrt{\pi}}
     \end{align*}
 
 
@@ -682,9 +671,6 @@
     \end{figure}
 
 
-    % todo анализ графиков и ответы на вопросы
-
-
     \noindent Проверим программой выполнение равенства Парсеваля
     \begin{lstlisting}[label=pars_doat, caption=Равенство Парсеваля для функции Гаусса]
     p_1: 0.700601299282005 ?= 0.700601299282005
@@ -694,6 +680,9 @@
 
 
     \noindent Результат говорит о выполнении равенства Парсеваля для двустороннего затухания
+
+
+    % todo анализ графиков и ответы на вопросы
 
 
     \section{Задание 2. Комплексное}
@@ -709,10 +698,14 @@
 
 
     \noindent Аналитическое выражение Фурье-образа
-    $\hat{f}(\omega)$ для прямоугольной функции со сдвигом имеет вид
+    $\hat{g}(\omega)$ для прямоугольной функции со сдвигом имеет вид
     $$
-    \hat{f}(\omega)=\dfrac{1}{\sqrt{2\pi}}\int\limits_{-2-c}^{2-c}1\cdot e^{-i\omega t}\,dt=    % todo
+    \hat{g}(\omega)=\dfrac{1}{\sqrt{2\pi}}\int\limits_{-2}^{2}1\cdot e^{-i\omega (t+c)}\,dt=
+    e^{-ic\omega}\dfrac{\sqrt{2}}{\omega\sqrt{\pi}}\sin{(2\omega)}
     $$
+
+
+    \noindent Подметим, что $\hat{g}(\omega)$ повторяет $\hat{f}(\omega)$ прямоугольной фукнции с разницей в появлении множителя $e^{-ic\omega}$
 
 
     \noindent Построенные графики $g(t)$, $\text{Re}\,{\hat{g}(\omega)}$,

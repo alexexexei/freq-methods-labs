@@ -9,9 +9,11 @@ fimgs_color = colors_strs[1]
 
 fs = get_fs(cardinal_sinus, a_b_pars[:3])
 fimgs = get_fimgs(fs, interval)
+
+build_f_t_rec(fs, clr=fs_color)
+build_fimg2_rec(fimgs, clr=fimgs_color)
+
+
 plpr = get_parsevals(fs, fimgs, interval)
 
-
 print_parsevals(plpr)
-build_f_t_rec(fs, fs_color, [None] * len(fs))
-build_fimg2_rec(fimgs, fimgs_color, [None] * len(fimgs))

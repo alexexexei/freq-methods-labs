@@ -32,7 +32,6 @@ figsize2 = 6
 f_t_clr = colors_strs[0]
 f_v_clr = colors_strs[1]
 
-
 build_audio_f_t(t, y, f_t_clr)
 build_audio_f_v(freqs, ampls, start=start, stop=stop, step=step, fz1=figsize1, fz2=figsize2, clr=f_v_clr)
 build_audio_f_v(r_freqs, r_ampls, start=r_start, stop=r_end, step=r_step, fz1=figsize1, fz2=figsize2, clr=f_v_clr)

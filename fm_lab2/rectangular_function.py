@@ -13,19 +13,21 @@ imcol = colors_strs[3]
 
 fs = get_fs(rectangular_function, a_b_pars[:3])
 fimgs = get_fimgs(fs, interval)
-plpr = get_parsevals(fs, fimgs, interval)
+
+build_f_t_rec(fs, clr=fs_color)
+build_fimg2_rec(fimgs, clr=fimgs_color)
+
 
 shfs = get_shfs(shifted_rectangular_function, a, b, consts[:3])
 shfimgs = get_fimgs(shfs, interval)
 
+build_f_t_rec(shfs, clr=fs_color)
+build_re_shfimg_rec(shfimgs, clr=fimgs_color)
+build_im_shfimg_rec(shfimgs, clr=fimgs_color)
+build_re_im_shfimg_rec(shfimgs, clr1=recol, clr2=imcol)
+build_abs_shfimg_rec(shfimgs, clr=fimgs_color)
+
+
+plpr = get_parsevals(fs, fimgs, interval)
 
 print_parsevals(plpr)
-build_f_t_rec(fs, fs_color, [None] * len(fs))
-build_fimg2_rec(fimgs, fimgs_color, [None] * len(fimgs))
-
-
-build_f_t_rec(shfs, fs_color, [None] * len(shfs))
-build_re_shfimg_rec(shfimgs, fimgs_color, [None] * len(shfimgs))
-build_im_shfimg_rec(shfimgs, fimgs_color, [None] * len(shfimgs))
-build_re_im_shfimg_rec(shfimgs, recol, imcol, [None] * len(shfimgs))
-build_abs_shfimg_rec(shfimgs, fimgs_color, [None] * len(shfimgs))

@@ -588,7 +588,7 @@
     \end{lstlisting}
 
 
-    \noindent Результат говорит о выполнении равенства Парсеваля для фукнции Гаусса
+    \noindent Результат показывает выполнение равенства Парсеваля для функции Гаусса
 
 
     \subsection{Двустороннее затухание}
@@ -672,7 +672,7 @@
 
 
     \noindent Проверим программой выполнение равенства Парсеваля
-    \begin{lstlisting}[label=pars_doat, caption=Равенство Парсеваля для функции Гаусса]
+    \begin{lstlisting}[label=pars_doat, caption=Равенство Парсеваля для двустороннего затухания]
     p_1: 0.700601299282005 ?= 0.700601299282005
     p_2: 1.15326854220130 ?= 1.15326854220130
     p_3: 1.49974838192519 ?= 1.49974838192519
@@ -682,7 +682,85 @@
     \noindent Результат говорит о выполнении равенства Парсеваля для двустороннего затухания
 
 
-    % todo анализ графиков и ответы на вопросы
+    \subsection{Анализ графиков и ответы на вопросы}
+    \noindent Для функции $f(t)$ параметр $a$ отвечает за высоту функции, а параметр $b$ за
+    ширину функции. Зависимость высоты от $a$ прямая -- чем больше $a$, тем выше тянется фукнция.
+    Зависимость ширины от $b$ прямая для кусочно-заданных фукнций -- чем больше $b$, тем шире
+    функция. Для остальных функций, рассмотренных в работе, зависимость обратная -- чем 
+    больше $b$, тем уже функция
+
+
+    \noindent Для Фурье-образа $\hat{f}(\omega)$ параметр $a$ отвечает за амплитуду, а параметр $b$
+    за частоту. Зависимость амплитуды от $a$ прямая -- чем больше параметр $a$, тем больше амплитуда
+    каждой волны. Зависимость частоты от $b$ прямая для кусочно-заданных функций -- чем больше $b$,
+    тем выше частота волн. Сравнивая поведение с влиянием параметра на обычную функцию можно сказать,
+    что оно противоположно -- в данном случае график становится уже, а не шире. Для других функций
+    зависимость от $b$ обратная -- чем больше параметр $b$, тем ниже частота, соответственно график становится
+    шире
+
+
+    \noindent Принцип неопределенности заключается в том, что при достижении высокой точности в пространственной области
+    снижается точность в частотной области и наоборот. Пространственная область -- сигнал, который, например, получен из
+    какого-то звука и его можно описать функцией. Частотная область -- преобразование Фурье. Например, преобразование
+    звука из пространства в частоты для ее дальнейшего исследования (например, убрать шумы). Чем точнее функция описывает
+    звук, тем менее точно определяются частотные характеристики. Например, в данной работе этот принцип проявлялся тогда,
+    когда из широкого "малоинформативного"\,графика функции получался узкий "информативный"\,график Фурье-образа и наоборот
+
+
+    \noindent Исходя из графиков функций и их Фурье-образов для каждого из пяти пунктов сделан вывод -- функция Гаусса
+    может быть равна своему Фурье-образу при определенных значениях параметров $a,b$, так как сам Фурье-образ является
+    функцией Гаусса. Подбором с программным построением графиков были получены такие параметры: $a\in \mathbb{R}, b=0.5$.
+    Ниже приведены показательные графики
+    \begin{figure}[htbp]
+        \centering
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{gauseq_a=1_b=zp5.png}
+            \caption{$a=1$}
+            \label{fig:gauseq_1}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{gauseq_a=2_b=zp5.png}
+            \caption{$a=2$}
+            \label{fig:gauseq_2}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{gauseq_a=3_b=zp5.png}
+            \caption{$a=3$}
+            \label{fig:gauseq_3}
+        \end{subfigure}
+        \caption{Функции Гаусса при различных значениях $a$ и при фиксированном $b=0.5$}
+        \label{fig:gauseqs}
+    \end{figure}
+    \begin{figure}[htbp]
+        \centering
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{gausfimgeq_a=1_b=zp5.png}
+            \caption{$a=1$}
+            \label{fig:gausfimgeq_1}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{gausfimgeq_a=2_b=zp5.png}
+            \caption{$a=2$}
+            \label{fig:gausfimgeq_2}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{gausfimgeq_a=3_b=zp5.png}
+            \caption{$a=3$}
+            \label{fig:gausfimgeq_3}
+        \end{subfigure}
+        \caption{Фурье-образы функций Гаусса при различных значениях $a$ и при фиксированном $b=0.5$}
+        \label{fig:gausfimgeqs}
+    \end{figure}
 
 
     \section{Задание 2. Комплексное}
@@ -705,9 +783,11 @@
     $$
 
 
-    \noindent Подметим, что $\hat{g}(\omega)$ повторяет $\hat{f}(\omega)$ прямоугольной фукнции с разницей в появлении множителя $e^{-ic\omega}$
+    \noindent Из аналитического выражения сделан вывод, что $\hat{g}(\omega)$ повторяет $\hat{f}(\omega)$
+    прямоугольной фукнции с разницей в появлении множителя $e^{-ic\omega}$
 
 
+    \newpage
     \noindent Построенные графики $g(t)$, $\text{Re}\,{\hat{g}(\omega)}$,
     $\text{Im}\,{\hat{g}(\omega)}$ и $|\hat{g}(\omega)|$
     для нескольких значений параметра $c$ расположены ниже
@@ -786,6 +866,34 @@
         \caption{Мнимые части Фурье-образов прямоугольных фукнций со смещением при различных значениях параметра $c$}
         \label{fig:imshrectfs}
     \end{figure}
+
+
+    \newpage
+    \begin{figure}[htbp]
+        \centering
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{sh_m1_re_im_rectf_int12.png}
+            \caption{$c=-1$}
+            \label{fig:reimshrectf_1}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{sh_zp5_re_im_rectf_int12.png}
+            \caption{$c=0.5$}
+            \label{fig:reimshrectf_2}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.3\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{sh_1_re_im_rectf_int12.png}
+            \caption{$c=1$}
+            \label{fig:reimshrectf_3}
+        \end{subfigure}
+        \caption{Действительные и мнимые части Фурье-образов прямоугольных фукнций со смещением при различных значениях параметра $c$}
+        \label{fig:reimshrectfs}
+    \end{figure}
     \begin{figure}[htbp]
         \centering
         \begin{subfigure}{0.3\textwidth}
@@ -813,7 +921,8 @@
     \end{figure}
 
 
-    % todo анализ влияния параметра c на функцию и Фурье-образ
+    \subsection{Анализ влияния параметра $\boldsymbol{c}$ на функцию и ее Фурье-образ}
+    \noindent текст
 
 
     \section{Задание 3. Музыкальное}

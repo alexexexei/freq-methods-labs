@@ -58,6 +58,7 @@ def print_parsevals(plpr: list):
 
 def get_y_sr_t(audio_file: str, select_channel: int):
     y, sr = load(audio_file)
+    logging.info(f'Loaded audio file {audio_file}')
 
     if select_channel >= y.ndim:
         select_channel = 0

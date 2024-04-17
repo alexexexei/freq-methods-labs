@@ -1,10 +1,18 @@
-import matplotlib.pyplot as plt
-
 import help as hp
-from static import times, freqs, g_fs
+import static as st
+
+import filters as ft
+import builder as bd
 
 
 b = 0.5
 c = 0
 d = 0.1
-u = hp.u_f(g_fs, times, b, c, d)
+v_0 = st.V / 10
+
+u = hp.u_f(st.g_fs, st.times, b, c, d)
+flt_u, U = ft.flt_high(st.times, st.freqs, u, v_0)
+
+bd.build_u__flt_u(st.times, u, flt_u, clr1='b', clr2='r', title='High frequencies filter')
+bd.build_abs_u__flt_u(st.times, u, U, clr1='b', clr2='r', title='Abs high frequencies filter')
+

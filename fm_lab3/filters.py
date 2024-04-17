@@ -1,16 +1,39 @@
 import numpy as np
 
 
-def flt_high(times: list, freqs: list, u: list, v_0):
-    U = np.fft.fftshift(np.fft.fft(u))
-    bool_list = [False] * len(U)
+def get_U(u):
+    return np.fft.fftshift(np.fft.fft(u))
+
+
+def filter_U(u: list, freqs: list, v_0, filter):
+    U = get_U(u)
     for i in range(len(freqs)):
-        if -v_0 <= freqs[i] <= v_0:
-            bool_list[i] = True
+        freq = freqs[i]
+        if not filter(freq, v_0):
+            U[i] = 0
 
-    for j in range(len(U)):
-        if not bool_list[j]:
-            U[j] = 0
+    return U
 
+
+def high_filter(freq, v_0):
+    if -v_0 <= freq <= v_0:
+        return True
+    return False
+
+
+def low_filter(freq, v_0):
+    if -v_0 <= freq <= v_0:
+        return False
+    return True
+
+
+def filter_high(freqs: list, u: list, v_0):
+    U = filter_U(u, freqs, v_0, high_filter)
+    flt_u = np.fft.ifft(np.fft.ifftshift(U))
+    return flt_u, U
+
+
+def filter_low(freqs: list, u: list, v_0):
+    U = filter_U(u, freqs, v_0, low_filter)
     flt_u = np.fft.ifft(np.fft.ifftshift(U))
     return flt_u, U

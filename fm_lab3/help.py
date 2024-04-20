@@ -9,6 +9,10 @@ def get_v(V, dv):
     return np.arange(-V/2, V/2 + dv, dv)
 
 
+def get_U(u):
+    return np.fft.fftshift(np.fft.fft(u))
+
+
 def g_f(t, t_1, t_2, a):
     if (t_1 <= t <= t_2):
         return a

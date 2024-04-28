@@ -20,9 +20,7 @@ def high_filter(freq, v_0):
 
 
 def low_filter(freq, v_0):
-    if -v_0 <= freq <= v_0:
-        return True
-    return False
+    return not high_filter(freq, v_0)
 
 
 def special_filter(freq, v_0: list):

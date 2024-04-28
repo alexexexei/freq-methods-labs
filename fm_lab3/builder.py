@@ -6,7 +6,7 @@ from help import get_U
 
 def build_u_to_U(freq: list, u: list, clr='b',
                  xl1=None, xl2=None, yl1=None,
-                 yl2=None, xlab='Frequencies', ylab='Amplitude',
+                 yl2=None, xlab='Frequency', ylab='Amplitude',
                  label=None, title=None, fz1=6.4, 
                  fz2=4.8, legend: bool = True, grid: bool = True):
     U = get_U(u)

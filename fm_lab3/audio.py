@@ -5,18 +5,23 @@ from scipy.io.wavfile import write
 import filters as ft
 import builder as bd
 
-audio, rate = librosa.load('sound/MUHA.wav', sr=None)
+
+audio, rate = librosa.load('fm_lab3/sound/MUHA.wav', sr=None)
 
 dt = 1 / rate
 T = len(audio) * dt
-times = np.linspace(0, T, len(audio), endpoint=False)
-freqs = np.linspace(-rate / 2, rate / 2, len(audio), endpoint=False)
 
-flt_u, flt_U = ft.filter_low(freqs, audio, 300)
+time = np.linspace(0, T, len(audio), endpoint=False)
+freq = np.linspace(-rate / 2, rate / 2, len(audio), endpoint=False)
 
-bd.build_u__flt_u(times, audio, flt_u, title='Low frequencies filter')
-bd.build_abs_u_to_U__flt_U(times, audio, flt_U, title='Abs low frequencies filter')
-
+flt_u, flt_U = ft.filter_special(freq, audio, [[-306, 301]])
 flt_u_float = flt_u.real.astype(np.float32)
 
-write('sound/filtered_MUHA.wav', rate, flt_u_float)
+
+bd.build_u_or_U(time, audio, xlab='Time', label='Noisy signal', fz1=10, fz2=6)
+bd.build_u_to_U(freq, audio, label='fft noisy signal', fz1=10, fz2=6, xl1=-1000, xl2=1000)
+
+bd.build_u__flt_u(time, audio, flt_u, title='Low frequencies filter')
+bd.build_abs_u_to_U__flt_U(freq, audio, flt_U, title='Abs low frequencies filter', xl1=-1600, xl2=1600)
+
+write('fm_lab3/sound/filtered_MUHA.wav', rate, flt_u_float)

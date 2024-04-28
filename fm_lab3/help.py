@@ -19,13 +19,13 @@ def g_f(t, t_1, t_2, a):
     return 0
 
 
-def u_f(g_fs: list, times: list, b, c, d):
-    return np.array(g_fs) + b*(np.random.rand(len(times))-0.5) + c*np.sin(d*times)
+def u_f(g_fs: list, time: list, b, c, d):
+    return np.array(g_fs) + b*(np.random.rand(len(time))-0.5) + c*np.sin(d*time)
 
 
-def get_g_fs(times: list, t_1, t_2, a):
+def get_g_fs(time: list, t_1, t_2, a):
     gs = []
-    for t in range(len(times)):
-        gs.append(g_f(times[t], t_1, t_2, a))
+    for t in range(len(time)):
+        gs.append(g_f(time[t], t_1, t_2, a))
 
     return gs

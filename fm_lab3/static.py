@@ -11,6 +11,6 @@ dt = 0.01
 V = 1/dt
 dv = 1/T
 
-times = hp.get_t(T, dt)
-freqs = hp.get_v(V, dv)
-g_fs = hp.get_g_fs(times, t_1, t_2, a)
+time = hp.get_t(T, dt)
+freq = hp.get_v(V, dv)
+g_fs = hp.get_g_fs(time, t_1, t_2, a)

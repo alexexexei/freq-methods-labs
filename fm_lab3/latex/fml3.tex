@@ -145,6 +145,8 @@
     Далее будут приведены рисунки полученных графиков. На каждом графике подписаны выбранные значения $b,\,c,\,d,\,\nu_0$
     (хотя, при условии, что $c=0$, менять или рассматривать параметр $d$ не требуется). Также отмечена легенда -- синим цветом
     обозначается оригинальный сигнал, красным фильтрованный.
+
+
     \begin{figure}[!htb]
         \centering
         \includegraphics[scale=0.485]{1_u_flt_u_nohigh.png}
@@ -356,6 +358,9 @@
 
     Далее будут приведены рисунки полученных графиков. На каждом графике подписаны выбранные значения $b,\,c,\,d,\,\nu_0$. 
     Также отмечена легенда -- синим цветом обозначается оригинальный сигнал, красным фильтрованный.
+
+
+    % todo анализ
     \begin{figure}[!htb]
         \centering
         \includegraphics[scale=0.485]{1_u_flt_u_nolow.png}
@@ -650,4 +655,357 @@
         \caption{График модуля Фурье-образа исходного и фильтрованного сигналов}
         \label{fig:fig68}
     \end{figure}
+
+
+    \subsection{Убираем специфические частоты.}
+    Возьмем ненулевые параметры $b,\,c,\,d$ и проделаем то же самое, что и раньше. Сначала попробуем
+    обнулять некоторые диапазоны частот, потом обнулим верхние или нижние частоты, а также
+    совместим различные варианты фильтрации, чтобы по возможности убрать влияние обеих компонент помехи.
+    Исследуем влияние частот среза и значений параметров $b,\,c,\,d$ на вид помехи и эффективность
+    фильтрации. Кроме того, отдельно рассмотрим случай для $b=0$.
+
+
+    Далее будут приведены рисунки полученных графиков. На каждом графике подписаны выбранные значения $b,\,c,\,d,\,\nu_0$. 
+    Также отмечена легенда -- синим цветом обозначается оригинальный сигнал, красным фильтрованный. Для первого случая будут
+    добавлены два дополнительных рисунка -- графики сигнала и его Фурье-образа. Второй из двух нужен для того, чтобы выбрать
+    диапазон частот, который мы будем обнулять. В ходе эксперимента с различными диапазонами был сделан вывод, что нужно попробовать
+    обнулять те частоты, которые имеют пиковые амплитуды рядом с наивысшей амплитудой в точке 0. Если наивысшая амплитуда не одна, а, например,
+    их две, и они находятся где-то в окресности точки 0, то обнулять будем пики частот слева от левой и справа от правой наивысших амплитуд.
+    Частоты в этих диапазонах будем называть специфическими.
+
+    
+    % todo анализ
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{1_u_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходного сигнала}
+        \label{fig:fig69}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{1_fft_u_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График Фурье-образа исходного сигнала}
+        \label{fig:fig70}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{1_u_flt_u_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходного и фильтрованного сигналов}
+        \label{fig:fig71}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{1_abs_u_U_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов}
+        \label{fig:fig72}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{1_1_u_flt_u_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходного и фильтрованного сигналов}
+        \label{fig:fig73}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{1_1_abs_u_U_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов}
+        \label{fig:fig74}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{1_2_u_flt_u_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходного и фильтрованного сигналов}
+        \label{fig:fig75}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{1_2_abs_u_U_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов}
+        \label{fig:fig76}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{2_u_flt_u_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходного и фильтрованного сигналов}
+        \label{fig:fig77}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{2_abs_u_U_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов}
+        \label{fig:fig78}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{2_1_u_flt_u_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходного и фильтрованного сигналов}
+        \label{fig:fig79}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{2_1_abs_u_U_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов}
+        \label{fig:fig80}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{2_2_u_flt_u_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходного и фильтрованного сигналов}
+        \label{fig:fig81}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{2_2_abs_u_U_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов}
+        \label{fig:fig82}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{3_u_flt_u_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходного и фильтрованного сигналов}
+        \label{fig:fig83}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{3_abs_u_U_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов}
+        \label{fig:fig84}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{4_u_flt_u_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходного и фильтрованного сигналов}
+        \label{fig:fig85}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{4_abs_u_U_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов}
+        \label{fig:fig86}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{4_u_flt_u_nospec_v2.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходного и фильтрованного сигналов}
+        \label{fig:fig87}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{4_abs_u_U_nospec_v2.png}
+        \captionsetup{skip=0pt}
+        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов}
+        \label{fig:fig88}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{4_u_flt_u_nospec_v3.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходного и фильтрованного сигналов}
+        \label{fig:fig89}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{4_abs_u_U_nospec_v3.png}
+        \captionsetup{skip=0pt}
+        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов}
+        \label{fig:fig90}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{4_u_flt_u_nospec_v4.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходного и фильтрованного сигналов}
+        \label{fig:fig91}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{4_abs_u_U_nospec_v4.png}
+        \captionsetup{skip=0pt}
+        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов}
+        \label{fig:fig92}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{5_u_flt_u_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходного и фильтрованного сигналов}
+        \label{fig:fig93}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{5_abs_u_U_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов}
+        \label{fig:fig94}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{5_1_u_flt_u_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходного и фильтрованного сигналов}
+        \label{fig:fig95}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{5_1_abs_u_U_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов}
+        \label{fig:fig96}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{5_2_u_flt_u_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходного и фильтрованного сигналов}
+        \label{fig:fig97}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{5_2_abs_u_U_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов}
+        \label{fig:fig98}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{6_u_flt_u_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходного и фильтрованного сигналов}
+        \label{fig:fig99}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{6_abs_u_U_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов}
+        \label{fig:fig100}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{6_1_u_flt_u_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходного и фильтрованного сигналов}
+        \label{fig:fig101}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{6_1_abs_u_U_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов}
+        \label{fig:fig102}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{6_2_u_flt_u_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходного и фильтрованного сигналов}
+        \label{fig:fig103}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{6_2_abs_u_U_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов}
+        \label{fig:fig104}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{7_u_flt_u_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходного и фильтрованного сигналов}
+        \label{fig:fig105}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{7_abs_u_U_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов}
+        \label{fig:fig106}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{7_1_u_flt_u_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходного и фильтрованного сигналов}
+        \label{fig:fig107}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{7_1_abs_u_U_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов}
+        \label{fig:fig108}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{7_2_u_flt_u_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходного и фильтрованного сигналов}
+        \label{fig:fig109}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{7_2_abs_u_U_nospec.png}
+        \captionsetup{skip=0pt}
+        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов}
+        \label{fig:fig110}
+    \end{figure}
+
+
+    \section{Задание 2. Фильтрация звука.}
+    \href{https://drive.google.com/drive/folders/1AuXIiKRWvXFOtJqV3uqPzC494zZ7vCrd?usp=sharing}{гугл-диск}
+
+
+    % todo оформить
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{noisy_audio.png}
+        \captionsetup{skip=0pt}
+        \caption{some1}
+        \label{fig:fig111}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{U_audio.png}
+        \captionsetup{skip=0pt}
+        \caption{some2}
+        \label{fig:fig112}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{u_flt_u_audio.png}
+        \captionsetup{skip=0pt}
+        \caption{some1}
+        \label{fig:fig113}
+    \end{figure}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.485]{abs_u_U_audio.png}
+        \captionsetup{skip=0pt}
+        \caption{some2}
+        \label{fig:fig114}
+    \end{figure}
+
+
+    \section{Листинги программных реализаций}
+    % todo code
 \end{document}

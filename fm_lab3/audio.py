@@ -8,13 +8,13 @@ import builder as bd
 
 
 filter_all = True
-build_U = False
+build_U = True
 
-title = 'Low frequency filter audio'
-title2 = 'Abs low frequency filter audio'
+title = 'High frequency filter audio'
+title2 = 'Abs high frequency filter audio'
 if filter_all:
-    title = 'Low and special frequency filter audio'
-    title2 = 'Abs low and special frequency filter audio'
+    title = 'High and special frequency filter audio'
+    title2 = 'Abs high and special frequency filter audio'
 
 src = 'sound/MUHA.wav'
 filename = 'sound/filtered_MUHA_2.wav'
@@ -32,9 +32,9 @@ T = len(audio) * dt
 time = np.linspace(0, T, len(audio), endpoint=False)
 freq = np.linspace(-rate / 2, rate / 2, len(audio), endpoint=False)
 
-flt_u, flt_U = ft.filter_low(freq, audio, 300)
+flt_u, flt_U = ft.filter_high(freq, audio, 300)
 if filter_all:
-    flt_u, flt_U = ft.filter_special(freq, flt_u, [[freq[0], -1000], [1000, freq[-1]]])
+    flt_u, flt_U = ft.filter_special_out(freq, flt_u, [[freq[0], -1000], [1000, freq[-1]]])
 flt_u_float = flt_u.real.astype(np.float32)
 
 

@@ -10,11 +10,11 @@ freq = st.freq
 g_fs = st.g_fs
 
 b = 1.5
-c = 2
-d = 0
+c = -2
+d = -3
 v_0 = 10
 v_0_1 = 0.5
-v_0_2 = [[-1, -0.5], [0.5, 1]]
+v_0_2 = [[-0.6, -0.37], [0.37, 0.6]]
 u = hp.u_f(g_fs, time, b, c, d)
 
 build_u_U = False

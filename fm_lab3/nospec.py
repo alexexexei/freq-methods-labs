@@ -13,14 +13,15 @@ b = 1.5
 c = 2
 d = 0
 v_0 = 10
-v_0_1 = 0.5
-v_0_2 = [[-1, -0.5], [0.5, 1]]
+v_0_1 = 0.3
+v_0_2 = [[-0.52, -0.3], [0.3, 0.52]]
 u = hp.u_f(g_fs, time, b, c, d)
 
 build_u_U = False
 filter_low = True
 filter_high = True
 filter_special_out = True
+filter_special_in = False
 
 flt_u, flt_U = None, None
 flt_u_0, flt_U_0 = None, None
@@ -37,6 +38,15 @@ if build_u_U:
 
 if filter_special_out:
     flt_u_0, flt_U_0 = ft.filter_special_out(freq, u, v_0_2)
+    bd.build_u__flt_u(time, u, flt_u_0,
+                      title=rf'Special frequency filter. b={b}, c={c}, d={d}, $\nu_0$={v_0_2}', fz1=12, fz2=6)
+    bd.build_abs_u_to_U__flt_U(freq, u, flt_U_0,
+                               title=rf'Abs special frequency filter. b={b}, c={c}, d={d}, $\nu_0$={v_0_2}', fz1=12, fz2=6,
+                               xl1=-10, xl2=10)
+    
+
+if filter_special_in and not filter_special_out:
+    flt_u_0, flt_U_0 = ft.filter_special_in(freq, u, v_0_2)
     bd.build_u__flt_u(time, u, flt_u_0,
                       title=rf'Special frequency filter. b={b}, c={c}, d={d}, $\nu_0$={v_0_2}', fz1=12, fz2=6)
     bd.build_abs_u_to_U__flt_U(freq, u, flt_U_0,

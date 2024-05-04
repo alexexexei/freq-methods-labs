@@ -54,14 +54,16 @@ def perform(t, v, w,
     flist2 = [sh_abs_U, sh_abs_flt_U]
     llist1 = ['Original signal', 'Filtered signal']
     llist2 = ['Abs original signal fft', 'Abs filtered signal fft']
-    lcolors = [None, None]
+    lslist = ['-', '-']
+    clist = [None, None]
     abs_W = abs(W)
     if g_f is not None:
         flist1.append(g_f)
         llist1.append(r'Original function $g(t)$')
-        lcolors.append('r')
+        lslist.append('--')
+        clist.append('r')
 
-    bf.build_fs(t, y=flist1, labels=llist1, colors=lcolors,
+    bf.build_fs(t, y=flist1, labels=llist1, colors=clist, ls=lslist,
                 ttl=f'{name}. a={a}, b={b}, c={c}, d={d}, T={T}', 
                 xlab='Time', ylab='Amplitude', legend=True)
     bf.build_fs(v, y=flist2, labels=llist2, 
@@ -106,9 +108,9 @@ perform(t, v, w,
         name='First order filter')
 
 
-a = 2
+a = 3
 b = 0
-c = 10
+c = 5
 d = 15
 
 g_fun = get_g_f(t, t_1, t_2, a)

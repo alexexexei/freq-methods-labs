@@ -1,21 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-
-def build_f(xfunc, yfunc, fz1=16,
-            fz2=5, clr=None, ttl=None,
-            grid=True, xlab=None, ylab=None,
-            xl1=None, xl2=None, yl1=None,
-            yl2=None):
-    plt.plot(xfunc, yfunc, color=clr)
-    plt.xlabel(xlab)
-    plt.ylabel(ylab)
-    plt.xlim(xl1, xl2)
-    plt.ylim(yl1, yl2)
-    plt.title(ttl)
-    plt.gcf().set_size_inches(fz1, fz2)
-    plt.grid(grid)
-    plt.show()
+import build_func as bf
+import helper as hp
 
 
 def apply_noise(y, a, t):
@@ -55,7 +42,7 @@ def spectral_diff(y, t, v):
 
 T = 200
 dt = 0.25
-t = np.arange(-T / 2, T / 2 + dt, dt)
+t = hp.get_t(T, dt)
 y = np.sin(t)
 
 a = 0.2
@@ -65,7 +52,7 @@ ndsin = numerical_diff(y, dt)
 
 V = 1 / dt
 dv = 1 / T
-v = np.arange(-V / 2, V / 2 + dv, dv)
+v = hp.get_v(V, dv)
 spdsin, Y = spectral_diff(y, t, v)
 
 tdcos = -np.sin(t)
@@ -73,26 +60,24 @@ tdcos = -np.sin(t)
 ndsin.append(y[-1] / 2)
 spdsin = np.array(spdsin)
 Y = np.array(Y)
+flist = [ndsin, spdsin.real, tdcos]
+clist = [None, None, 'r']
+llist = ['Num. der. of sine', 'Re. spec. der. of sine', 'True der. of cosine']
 
 
-build_f(t, y, ttl=f'Noisy sine, a={a}, dt={dt}', xlab='Time', ylab='Amplitude')
-build_f(t, ndsin, ttl=f'Numerical derivative of sine, a={a}, dt={dt}',
-        xlab='Time', ylab='Amplitude')
+bf.build_f(t, y, ttl=f'Noisy sine, a={a}, dt={dt}',
+           xlab='Time', ylab='Amplitude')
+bf.build_f(t, ndsin, ttl=f'Numerical derivative of sine, a={a}, dt={dt}',
+           xlab='Time', ylab='Amplitude')
 
-build_f(t, spdsin.real, ttl=f'Real part of spectral derivative of sine, a={a}, dt={dt}',
-        xlab='Time', ylab='Amplitude')
-build_f(t, spdsin.imag, ttl=f'Imaginary part of spectral derivative of sine, a={a}, dt={dt}',
-        xlab='Time', ylab='Amplitude')
-build_f(v, Y.real, ttl=f'Real part of Fourier image of sine, a={a}, dt={dt}',
-        xlab='Frequency', ylab='Amplitude')
-build_f(v, Y.imag, ttl=f'Imaginary part of Fourier image of sine, a={a}, dt={dt}',
-        xlab='Frequency', ylab='Amplitude', xl1=-0.763, xl2=0.763)
+bf.build_f(t, spdsin.real, ttl=f'Real part of spectral derivative of sine, a={a}, dt={dt}',
+           xlab='Time', ylab='Amplitude')
+bf.build_f(t, spdsin.imag, ttl=f'Imaginary part of spectral derivative of sine, a={a}, dt={dt}',
+           xlab='Time', ylab='Amplitude')
+bf.build_f(v, Y.real, ttl=f'Real part of Fourier image of sine, a={a}, dt={dt}',
+           xlab='Frequency', ylab='Amplitude')
+bf.build_f(v, Y.imag, ttl=f'Imaginary part of Fourier image of sine, a={a}, dt={dt}',
+           xlab='Frequency', ylab='Amplitude', xl1=-0.763, xl2=0.763)
 
-plt.plot(t, ndsin, label='Num. der. of sine')
-plt.plot(t, spdsin.real, label='Re. spec. der. of sine')
-plt.plot(t, tdcos, color='r', label='True der. of cosine')
-plt.title(f'True der. of cosine, num. der. of sine and spec. der. of sine comparison; a={a}, dt={dt}')
-plt.gcf().set_size_inches(16, 5)
-plt.grid(True)
-plt.legend()
-plt.show()
+bf.build_fs(t, y=flist, colors=clist, legend=True, 
+            labels=llist, ttl=f'True der. of cosine, num. der. of sine and spec. der. of sine comparison; a={a}, dt={dt}')

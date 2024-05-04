@@ -1,7 +1,6 @@
 import numpy as np
 
 import build_func as bf
-import helper as hp
 
 
 def g_func(t, t_1, t_2, a):
@@ -57,6 +56,7 @@ def perform(t, v, w,
     lslist = ['-', '-']
     clist = [None, None]
     abs_W = abs(W)
+    log_w = np.log10(w[w > 0])
     if g_f is not None:
         flist1.append(g_f)
         llist1.append(r'Original function $g(t)$')
@@ -71,8 +71,8 @@ def perform(t, v, w,
                 xlab='Frequency', ylab='Amplitude', legend=True)
     bf.build_f(w, y=abs_W, ttl=f'{name} amplitude-frequency response. a={a}, b={b}, c={c}, d={d}, T={T}',
                xlab='Angular frequency', ylab='Amplitude-frequency response')
-    bf.build_f(w, y=LAFR, ttl=f'{name} logarithmic amplitude frequency response. a={a}, b={b}, c={c}, d={d}, T={T}',
-               xlab='Angular frequency', ylab='Amplitude')
+    bf.build_f(log_w, y=LAFR, ttl=f'{name} logarithmic amplitude frequency response. a={a}, b={b}, c={c}, d={d}, T={T}',
+               xl1=-0.5, ylab='Amplitude')
 
 
 T = 10
@@ -84,9 +84,14 @@ dv = 1 / T
 t_1 = -1.5
 t_2 = 2.5
 
-t = hp.get_t(T, dt)
-v = hp.get_v(V, dv)
-w = 2 * np.pi * v
+v_to_w_coeff = 2 * np.pi
+
+t = np.arange(-T / 2, T / 2 + dt, dt)
+v = np.arange(-V / 2, V / 2 + dv, dv)
+w = v_to_w_coeff * v
+
+v_log = np.arange(0, V / 2 + dv, dv)
+w_log = v_to_w_coeff * v_log
 
 
 a = 1
@@ -99,7 +104,8 @@ u = get_u(g_fun, t, b, c, d)
 
 T_0 = 1
 W_1 = W_1f(w, T_0)
-LAFR = get_LAFR(W_1)
+W_1_LOG = W_1f(w_log, T_0)
+LAFR = get_LAFR(W_1_LOG)
 
 perform(t, v, w, 
         u, a, b, 
@@ -120,7 +126,8 @@ T_1 = 0.2
 T_2 = 0.5
 T_3 = 0.1
 W_2 = W_2f(w, T_1, T_2, T_3)
-LAFR = get_LAFR(W_2)
+W_2_LOG = W_2f(w_log, T_1, T_2, T_3)
+LAFR = get_LAFR(W_2_LOG)
 
 perform(t, v, w, 
         u, a, b, 

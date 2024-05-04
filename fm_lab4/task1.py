@@ -2,7 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 import build_func as bf
-import helper as hp
 
 
 def apply_noise(y, a, t):
@@ -42,7 +41,7 @@ def spectral_diff(y, t, v):
 
 T = 200
 dt = 0.25
-t = hp.get_t(T, dt)
+t = np.arange(-T / 2, T / 2 + dt, dt)
 y = np.sin(t)
 
 a = 0.2
@@ -52,7 +51,7 @@ ndsin = numerical_diff(y, dt)
 
 V = 1 / dt
 dv = 1 / T
-v = hp.get_v(V, dv)
+v = np.arange(-V / 2, V / 2 + dv, dv)
 spdsin, Y = spectral_diff(y, t, v)
 
 tdcos = -np.sin(t)

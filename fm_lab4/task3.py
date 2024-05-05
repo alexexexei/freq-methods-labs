@@ -6,7 +6,7 @@ import build_func as bf
 from task2 import W_1f, fft_flt
 
 
-file = 'fm_lab4\data\SBER_180321_190321.csv'
+file = 'fm_lab4/data/SBER_180321_190321.csv'
 find_date = 'DATE'
 find_price = 'CLOSE'
 dates = []

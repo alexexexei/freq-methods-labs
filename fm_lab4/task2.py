@@ -34,11 +34,7 @@ def get_LAFR(W):
     return 20 * np.log10(np.abs(W))
 
 
-def perform(t, v, w, 
-            u, a, b, 
-            c, d, T, 
-            W, LAFR, g_f=None, 
-            shift=True, name='Filter'):
+def fft_flt(u, W, shift):
     U = np.fft.fft(u)
     flt_U = None
     if shift:
@@ -46,6 +42,15 @@ def perform(t, v, w,
     else:
         flt_U = W * U
     flt_u = np.fft.ifft(flt_U)
+    return flt_u, flt_U, U
+
+
+def perform(t, v, w, 
+            u, a, b, 
+            c, d, T, 
+            W, LAFR, g_f=None, 
+            shift=True, name='Filter'):
+    flt_u, flt_U, U = fft_flt(u, W, shift)
 
     sh_abs_U = abs(np.fft.fftshift(U))
     sh_abs_flt_U = abs(np.fft.fftshift(flt_U))
@@ -75,62 +80,68 @@ def perform(t, v, w,
                xl1=-0.5, ylab='Amplitude')
 
 
-T = 10
-dt = 0.01
+if __name__=='__main__':
+    T = 10
+    dt = 0.01
 
-V = 1 / dt
-dv = 1 / T
+    V = 1 / dt
+    dv = 1 / T
 
-t_1 = -1.5
-t_2 = 2.5
+    t_1 = -1.5
+    t_2 = 2.5
 
-v_to_w_coeff = 2 * np.pi
+    v_to_w_coeff = 2 * np.pi
 
-t = np.arange(-T / 2, T / 2 + dt, dt)
-v = np.arange(-V / 2, V / 2 + dv, dv)
-w = v_to_w_coeff * v
+    t = np.arange(-T / 2, T / 2 + dt, dt)
+    v = np.arange(-V / 2, V / 2 + dv, dv)
+    w = v_to_w_coeff * v
 
-v_log = np.arange(0, V / 2 + dv, dv)
-w_log = v_to_w_coeff * v_log
+    v_log = np.arange(0, V / 2 + dv, dv)
+    w_log = v_to_w_coeff * v_log
 
-
-a = 1
-b = 0.6
-c = 0
-d = 0.7
-
-g_fun = get_g_f(t, t_1, t_2, a)
-u = get_u(g_fun, t, b, c, d)
-
-T_0 = 1
-W_1 = W_1f(w, T_0)
-W_1_LOG = W_1f(w_log, T_0)
-LAFR = get_LAFR(W_1_LOG)
-
-perform(t, v, w, 
-        u, a, b, 
-        c, d, T_0, 
-        W_1, LAFR, g_f=g_fun,
-        name='First order filter')
+    perform_W_1 = True
+    perform_W_2 = True
 
 
-a = 3
-b = 0
-c = 5
-d = 15
+    if perform_W_1:
+        a = 1
+        b = 0.6
+        c = 0
+        d = 0.7
 
-g_fun = get_g_f(t, t_1, t_2, a)
-u = get_u(g_fun, t, b, c, d)
+        g_fun = get_g_f(t, t_1, t_2, a)
+        u = get_u(g_fun, t, b, c, d)
 
-T_1 = 0.2
-T_2 = 0.5
-T_3 = 0.1
-W_2 = W_2f(w, T_1, T_2, T_3)
-W_2_LOG = W_2f(w_log, T_1, T_2, T_3)
-LAFR = get_LAFR(W_2_LOG)
+        T_0 = 1
+        W_1 = W_1f(w, T_0)
+        W_1_LOG = W_1f(w_log, T_0)
+        LAFR = get_LAFR(W_1_LOG)
 
-perform(t, v, w, 
-        u, a, b, 
-        c, d, [T_1, T_2, T_3], 
-        W_2, LAFR, g_f=g_fun, 
-        shift=False, name='Special filter')
+        perform(t, v, w, 
+                u, a, b, 
+                c, d, T_0, 
+                W_1, LAFR, g_f=g_fun,
+                name='First order linear filter')
+
+
+    if perform_W_2:
+        a = 3
+        b = 0
+        c = 5
+        d = 15
+
+        g_fun = get_g_f(t, t_1, t_2, a)
+        u = get_u(g_fun, t, b, c, d)
+
+        T_1 = 1
+        T_2 = 2+np.sqrt(2)
+        T_3 = 2-np.sqrt(2)
+        W_2 = W_2f(w, T_1, T_2, T_3)
+        W_2_LOG = W_2f(w_log, T_1, T_2, T_3)
+        LAFR = get_LAFR(W_2_LOG)
+
+        perform(t, v, w, 
+                u, a, b, 
+                c, d, [T_1, T_2, T_3], 
+                W_2, LAFR, g_f=g_fun, 
+                shift=False, name='Special filter')

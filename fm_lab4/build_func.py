@@ -6,12 +6,13 @@ def build_f(x, y, fz1=16,
             grid=True, legend=False, xlab=None,
             ylab=None, xl1=None, xl2=None,
             yl1=None, yl2=None, lbl=None,
-            ls='-'):
+            ls='-', ticks=None, rot=None):
     plt.plot(x, y, color=clr, label=lbl, linestyle=ls)
     plt.xlabel(xlab)
     plt.ylabel(ylab)
     plt.xlim(xl1, xl2)
     plt.ylim(yl1, yl2)
+    plt.xticks(ticks, rotation=rot)
     plt.title(ttl)
     plt.gcf().set_size_inches(fz1, fz2)
     plt.grid(grid)
@@ -25,7 +26,7 @@ def build_fs(x, y: list, colors: list=None,
              ttl=None, grid=True, legend=False, 
              xlab=None, ylab=None, xl1=None,
              xl2=None, yl1=None, yl2=None,
-             ls:list=None):
+             ls:list=None, ticks=None, rot=None):
     if (y is None or len(y) <= 0):
         return
     if (colors is None):
@@ -41,6 +42,7 @@ def build_fs(x, y: list, colors: list=None,
     plt.ylabel(ylab)
     plt.xlim(xl1, xl2)
     plt.ylim(yl1, yl2)
+    plt.xticks(ticks, rotation=rot)
     plt.title(ttl)
     plt.gcf().set_size_inches(fz1, fz2)
     plt.grid(grid)

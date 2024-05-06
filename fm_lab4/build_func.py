@@ -28,6 +28,7 @@ def build_fs(x, y: list, colors: list=None,
              xl2=None, yl1=None, yl2=None,
              ls:list=None, ticks=None, rot=None):
     if (y is None or len(y) <= 0):
+        print('y is None or its len <= 0')
         return
     if (colors is None):
         colors = [None] * len(y)

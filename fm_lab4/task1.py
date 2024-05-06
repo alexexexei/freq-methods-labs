@@ -84,6 +84,10 @@ bf.build_f(v, Y.real, ttl=f'Real part of Fourier image of sine, a={a}, dt={dt}',
            xlab='Frequency', ylab='Amplitude')
 bf.build_f(v, Y.imag, ttl=f'Imaginary part of Fourier image of sine, a={a}, dt={dt}',
            xlab='Frequency', ylab='Amplitude', xl1=-0.763, xl2=0.763)
+bf.build_f(v, dY.real, ttl=f'Real part of spectral derivative of Fourier image of sine, a={a}, dt={dt}',
+           xlab='Frequency', ylab='Amplitude')
+bf.build_f(v, dY.imag, ttl=f'Imaginary part of spectral derivative of Fourier image of sine, a={a}, dt={dt}',
+           xlab='Frequency', ylab='Amplitude')
 
 bf.build_fs(t, y=flist, colors=clist, legend=True, 
             labels=llist, ttl=f'True der. of cosine, num. der. of sine and spec. der. of sine comparison; a={a}, dt={dt}')

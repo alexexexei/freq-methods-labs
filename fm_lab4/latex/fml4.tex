@@ -126,25 +126,55 @@
     Найдем спектральную производную от зашумленного сигнала. Для прямого и обратного преобразования Фурье будем использовать численное интегрирование (trapz). Чтобы
     превратить Фурье-образ сигнала в Фурье-образ производной, необходимо домножить результат преобразования Фурье на $2\pi i \nu$, где $\nu$ -- частота (Гц),
     таким образом получим формулу $$\mathcal{F}\left\{\frac{d}{dt}f\right\}=2\pi i \nu \mathcal{F}\left\{f\right\}.$$ Теперь остается только выполнить обратное преобразование Фурье, чтобы получить
-    спектральную производную сигнала. Далее приведен соответствующий график. Так как у спектральной производной есть вещественная и мнимая части, рассмотрим их отдельно.
+    спектральную производную сигнала. Далее приведены графики вещественной и мнимой компонент спектральной производной и Фурье-образа сигнала.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{1_re_fimg_sine.png}
+        \captionsetup{skip=0pt}
+        \caption{Вещественная часть Фурье-образа зашумленного сигнала.}
+        \label{fig:1refis}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{1_im_fimg_sine.png}
+        \captionsetup{skip=0pt}
+        \caption{Мнимая часть Фурье-образа зашумленного сигнала.}
+        \label{fig:1imfis}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{1_re_spd_fimg_sine.png}
+        \captionsetup{skip=0pt}
+        \caption{Вещественная часть спектральной производной Фурье-образа зашумленного сигнала.}
+        \label{fig:1respdf}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{1_im_spd_fimg_sine.png}
+        \captionsetup{skip=0pt}
+        \caption{Мнимая часть спектральной производной Фурье-образа зашумленного сигнала.}
+        \label{fig:1imspdf}
+    \end{figure}
+    Наличие мнимой части указывает на фазовый сдвиг сигнала. Попробуем определить этот сдвиг по формуле $$\phi=\arctan{\left(\frac{b}{a}\right)},$$
+    где $a,\,b$ -- вещественная и мнимая компоненты некоторого $\mathcal{F}_n\left\{\frac{d}{dt}f\right\}=a+bi$. Мы можем взять любую $n$, так как
+    угол комплексного числа не меняется. Рассмотрим при $n=0$. $$\mathcal{F}_0\left\{\dfrac{d}{dt}f\right\}=7.17\cdot 10^{-12}-1.42i\Rightarrow
+    \phi=-\dfrac{1.42}{7.17\cdot 10^{-12}}\approx -1.57 \approx -\dfrac{\pi}{2}.$$ Выходит, что спектральная производная сдвинула сигнал примерно
+    на $90^{\circ}$. Позже мы проверим нашу теорию.
     \begin{figure}[H]
         \centering
         \includegraphics[scale=0.4]{1_re_specdiff_sine.png}
         \captionsetup{skip=0pt}
         \caption{Вещественная часть спектральной производной зашумленного сигнала.}
-        \label{fig:1respd}
+        \label{fig:1respds}
     \end{figure}
     \begin{figure}[H]
         \centering
         \includegraphics[scale=0.4]{1_im_specdiff_sine.png}
         \captionsetup{skip=0pt}
         \caption{Мнимая часть спектральной производной зашумленного сигнала.}
-        \label{fig:1imspd}
+        \label{fig:1imspds}
     \end{figure}
-    Наличие мнимой части указывает на фазовый сдвиг сигнала. Попробуем определить этот сдвиг по формуле $$\phi=\arctan{\left(\frac{b}{a}\right)},$$
-    где $a,\,b$ -- вещественная и мнимая компоненты некоторого $\mathcal{F}_n\left\{\frac{d}{dt}f\right\}=a+ib$. Мы можем взять любую $n$, так как
-    угол комплексного числа не меняется. Рассмотрим при $n=0$. $$\mathcal{F}_0\left\{\dfrac{d}{dt}f\right\}=7.17\cdot 10^{-12}-1.42i\Rightarrow
-    \phi=-\dfrac{1.42}{7.17\cdot 10^{-12}}\approx -1.57 \approx -\dfrac{\pi}{2}.$$ Выходит, что спектральная производная сдвинула сигнал примерно
-    на $90^{\circ}$. Позже мы проверим нашу теорию.
-    На графике мнимой компоненты спектральной производной мы также наблюдаем пики при $t=-100,\,t=100$, что % todo
+
+    % todo анализ
+    
 \end{document}

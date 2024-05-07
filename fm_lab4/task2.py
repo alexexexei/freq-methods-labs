@@ -49,7 +49,9 @@ def perform(t, v, w,
             u, a, b, 
             c, d, T, 
             W, LAFR, g_f=None, 
-            shift=True, name='Filter'):
+            shift=True, name='Filter',
+            xl1=None, xl2=None, xl3=None,
+            xl4=None, xl5=None, xl6=None):
     flt_u, flt_U, U = fft_flt(u, W, shift)
 
     sh_abs_U = abs(np.fft.fftshift(U))
@@ -73,11 +75,11 @@ def perform(t, v, w,
                 xlab='Time', ylab='Amplitude', legend=True)
     bf.build_fs(v, y=flist2, labels=llist2, 
                 ttl=f'{name} abs fft. a={a}, b={b}, c={c}, d={d}, T={T}', 
-                xlab='Frequency', ylab='Amplitude', legend=True)
+                xlab='Frequency', ylab='Amplitude', legend=True, xl1=xl1, xl2=xl2)
     bf.build_f(w, y=abs_W, ttl=f'{name} amplitude-frequency response. a={a}, b={b}, c={c}, d={d}, T={T}',
-               xlab='Angular frequency', ylab='Amplitude-frequency response', xl1=0, xl2=50)
+               xlab='Angular frequency', ylab='Amplitude', xl1=xl3, xl2=xl4)
     bf.build_f(log_w, y=LAFR, ttl=f'{name} logarithmic amplitude frequency response. a={a}, b={b}, c={c}, d={d}, T={T}',
-               ylab='Amplitude', xl1=0)
+               ylab='Amplitude', xl1=xl5, xl2=xl6)
 
 
 if __name__=='__main__':
@@ -99,12 +101,12 @@ if __name__=='__main__':
     v_log = np.arange(0, V / 2 + dv, dv)
     w_log = v_to_w_coeff * v_log
 
-    perform_W_1 = True
+    perform_W_1 = False
     perform_W_2 = True
 
 
     if perform_W_1:
-        a = 1
+        a = 20
         b = 0.6
         c = 0
         d = 0.7
@@ -112,16 +114,24 @@ if __name__=='__main__':
         g_fun = get_g_f(t, t_1, t_2, a)
         u = get_u(g_fun, t, b, c, d)
 
-        T_0 = 1
+        T_0 = 0.1
         W_1 = W_1f(w, T_0)
         W_1_LOG = W_1f(w_log, T_0)
         LAFR = get_LAFR(W_1_LOG)
 
+        xl1 = 0
+        xl2 = 10
+        xl3 = 0
+        xl4 = None
+        xl5 = 0
+        xl6 = 2.5
         perform(t, v, w, 
                 u, a, b, 
                 c, d, T_0, 
                 W_1, LAFR, g_f=g_fun,
-                name='First order linear filter')
+                name='First order linear filter',
+                xl1=xl1, xl2=xl2, xl3=xl3,
+                xl4=xl4, xl5=xl5, xl6=xl6)
 
 
     if perform_W_2:
@@ -133,15 +143,23 @@ if __name__=='__main__':
         g_fun = get_g_f(t, t_1, t_2, a)
         u = get_u(g_fun, t, b, c, d)
 
-        T_1 = 1
-        T_2 = 2+np.sqrt(2)
-        T_3 = 2-np.sqrt(2)
+        T_1 = 1.3
+        T_2 = 5
+        T_3 = 0.9
         W_2 = W_2f(w, T_1, T_2, T_3)
         W_2_LOG = W_2f(w_log, T_1, T_2, T_3)
         LAFR = get_LAFR(W_2_LOG)
 
+        xl1 = 0
+        xl2 = 10
+        xl3 = 0
+        xl4 = 10
+        xl5 = 0
+        xl6 = 2.5
         perform(t, v, w, 
                 u, a, b, 
                 c, d, [T_1, T_2, T_3], 
                 W_2, LAFR, g_f=g_fun, 
-                shift=False, name='Special filter')
+                shift=False, name='Special filter',
+                xl1=xl1, xl2=xl2, xl3=xl3,
+                xl4=xl4, xl5=xl5, xl6=xl6)

@@ -75,9 +75,9 @@ def perform(t, v, w,
                 ttl=f'{name} abs fft. a={a}, b={b}, c={c}, d={d}, T={T}', 
                 xlab='Frequency', ylab='Amplitude', legend=True)
     bf.build_f(w, y=abs_W, ttl=f'{name} amplitude-frequency response. a={a}, b={b}, c={c}, d={d}, T={T}',
-               xlab='Angular frequency', ylab='Amplitude-frequency response')
+               xlab='Angular frequency', ylab='Amplitude-frequency response', xl1=0, xl2=50)
     bf.build_f(log_w, y=LAFR, ttl=f'{name} logarithmic amplitude frequency response. a={a}, b={b}, c={c}, d={d}, T={T}',
-               xl1=-0.5, ylab='Amplitude')
+               ylab='Amplitude', xl1=0)
 
 
 if __name__=='__main__':

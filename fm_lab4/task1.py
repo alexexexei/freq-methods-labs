@@ -1,42 +1,8 @@
 import numpy as np
-import matplotlib.pyplot as plt
 
 import build_func as bf
-
-
-def apply_noise(y, a, t):
-    return y + a * (np.random.rand(len(t)) - 0.5)
-
-
-def trapz(y, t, v):
-    Y = []
-    for k in v:
-        Y_k = np.trapz(y * np.exp(-1j * 2 * np.pi * k * t), t)
-        Y.append(Y_k)
-    return Y
-
-
-def undo_trapz(Y, t, v):
-    y = []
-    for k in t:
-        y_k = np.trapz(Y * np.exp(1j * 2 * np.pi * k * v), v)
-        y.append(y_k)
-    return y
-
-
-def numerical_diff(y, dt):
-    ndiff = []
-    for k in range(len(y) - 1):
-        ndiff_k = (y[k + 1] - y[k]) / dt
-        ndiff.append(ndiff_k)
-    return ndiff
-
-
-def spectral_diff(y, t, v):
-    Y = trapz(y, t, v)
-    dY = 2 * np.pi * 1j * v * Y
-    spdiff = undo_trapz(dY, t, v)
-    return spdiff, Y, dY
+import fourier_math as fm
+import helper as hr
 
 
 T = 200
@@ -45,14 +11,14 @@ t = np.arange(-T / 2, T / 2 + dt, dt)
 y = np.sin(t)
 
 a = 0.2
-y = apply_noise(y, a, t)
+y = hr.apply_noise(y, a, t)
 
-ndsin = numerical_diff(y, dt)
+ndsin = fm.numerical_diff(y, dt)
 
 V = 1 / dt
 dv = 1 / T
 v = np.arange(-V / 2, V / 2 + dv, dv)
-spdsin, Y, dY = spectral_diff(y, t, v)
+spdsin, Y, dY = fm.spectral_diff(y, t, v)
 print(f'phase_shift={np.arctan2(np.imag(dY[0]), np.real(dY[0]))}')
 
 phase = -np.pi / 2

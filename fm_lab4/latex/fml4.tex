@@ -22,11 +22,12 @@
 \graphicspath{{images/}}
 \usetikzlibrary{patterns}
 \definecolor{LightGray}{gray}{0.95}
+\definecolor{LightGray2}{gray}{0.7}
 \lstdefinestyle{pycode}{
     language=Python,
     basicstyle=\footnotesize\ttfamily,
     numbers=left,
-    numberstyle=\tiny\color{gray},
+    numberstyle=\scriptsize\color{gray},
     stepnumber=1,
     numbersep=5pt,
     backgroundcolor=\color{LightGray},
@@ -37,13 +38,14 @@
     captionpos=b,
     breaklines=true,
     breakatwhitespace=false,
-    frame=none,
-    rulecolor=\color{black},
+    frame=single,
+    rulecolor=\color{LightGray2},
     linewidth=\linewidth,
-    keywordstyle=\color{red}\bfseries,
+    keywordstyle=\color{blue}\bfseries,
     commentstyle=\color{green!40!black},
-    stringstyle=\color{blue},
+    stringstyle=\color{purple},
     escapeinside={\%*}{*)},
+    inputencoding=utf8x,
     xleftmargin=0pt,
     framexleftmargin=0pt,
     framexrightmargin=0pt
@@ -334,4 +336,370 @@
                 labels=['Num. der. of sine', 'Re. spec. der. of sine', 'True der. of cosine'],
                 ttl=f'True der. of cosine, num. der. of sine and spec. der. of sine comparison; a={a}, dt={dt}')
     \end{lstlisting}
+
+
+    \section{Задание 2. Линейные фильтры.}
+    Рассмотрим сигнал вида $$u=g+b\cdot(\text{random}(\text{len}(t))-0.5) + c\cdot \sin(d\cdot t),$$ который будем пропускать
+    через линейные фильтры.
+
+
+    \subsection{Фильтр первого порядка.}
+    Положим $c=0,\,a=1,\,b=0.6,\,d=0.7$. Будем задавать различные значения постоянной времени $T>0$ и пропускать сигнал через линейный
+    фильтр первого порядка $$W_1(p)=\dfrac{1}{Tp+1},$$ после чего построим сравнительные графики и исследуем влияние параметров $T$ и $a$
+    на эффективность фильтрации.
+
+
+    Далее расположены сравнительные графики исходного и фильтрованного сигналов, графики модулей их Фурье-образов, а также АЧХ и ЛАЧХ фильтра.
+    В названии графиков указаны значения используемых параметров. Синим цветом обозначаются функции, относящиеся к исходному сигналу, оранжевым
+    -- к фильтрованному. Дополнительно на графике во временной области отрисована исходная функция $g(t)$ для более наглядного рассмотрения работы
+    фильтрации.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{1_filtered_linear.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходного и фильтрованного сигналов (1).}
+        \label{fig:filin1}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{1_abs_filtered_linear.png}
+        \captionsetup{skip=0pt}
+        \caption{График модулей Фурье-образа исходного и фильтрованного сигналов (1).}
+        \label{fig:filinabs1}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{1_afr_filtered_linear.png}
+        \captionsetup{skip=0pt}
+        \caption{График амплитудно-частотной характеристики фильтра (1).}
+        \label{fig:filinafr1}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{1_lafr_filtered_linear.png}
+        \captionsetup{skip=0pt}
+        \caption{График логарифмической амплитудно-частотной характеристики фильтра (1).}
+        \label{fig:filinlafr1}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{2_filtered_linear.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходного и фильтрованного сигналов (2).}
+        \label{fig:filin11}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{2_abs_filtered_linear.png}
+        \captionsetup{skip=0pt}
+        \caption{График модулей Фурье-образа исходного и фильтрованного сигналов (2).}
+        \label{fig:filinabs11}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{2_afr_filtered_linear.png}
+        \captionsetup{skip=0pt}
+        \caption{График амплитудно-частотной характеристики фильтра (2).}
+        \label{fig:filinafr11}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{2_lafr_filtered_linear.png}
+        \captionsetup{skip=0pt}
+        \caption{График логарифмической амплитудно-частотной характеристики фильтра (2).}
+        \label{fig:filinlafr11}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{3_filtered_linear.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходного и фильтрованного сигналов (3).}
+        \label{fig:filin13}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{3_abs_filtered_linear.png}
+        \captionsetup{skip=0pt}
+        \caption{График модулей Фурье-образа исходного и фильтрованного сигналов (3).}
+        \label{fig:filinabs13}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{3_afr_filtered_linear.png}
+        \captionsetup{skip=0pt}
+        \caption{График амплитудно-частотной характеристики фильтра (3).}
+        \label{fig:filinafr13}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{3_lafr_filtered_linear.png}
+        \captionsetup{skip=0pt}
+        \caption{График логарифмической амплитудно-частотной характеристики фильтра (3).}
+        \label{fig:filinlafr13}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{4_filtered_linear.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходного и фильтрованного сигналов (4).}
+        \label{fig:filin14}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{4_abs_filtered_linear.png}
+        \captionsetup{skip=0pt}
+        \caption{График модулей Фурье-образа исходного и фильтрованного сигналов (4).}
+        \label{fig:filinabs14}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{4_afr_filtered_linear.png}
+        \captionsetup{skip=0pt}
+        \caption{График амплитудно-частотной характеристики фильтра (4).}
+        \label{fig:filinafr14}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{4_lafr_filtered_linear.png}
+        \captionsetup{skip=0pt}
+        \caption{График логарифмической амплитудно-частотной характеристики фильтра (4).}
+        \label{fig:filinlafr14}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{alin1.png}
+        \captionsetup{skip=0pt}
+        \caption{Более детальное исследование параметра $a$ (Исходный и фильтрованный сигнал).}
+        \label{fig:alin1}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{alin2.png}
+        \captionsetup{skip=0pt}
+        \caption{Более детальное исследование параметра $a$ (Поднятая часть сигналов в приближении).}
+        \label{fig:alin2}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{alin3.png}
+        \captionsetup{skip=0pt}
+        \caption{Более детальное исследование параметра $a$ (Левый разрыв сигналов).}
+        \label{fig:alin3}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{alin4.png}
+        \captionsetup{skip=0pt}
+        \caption{Более детальное исследование параметра $a$.}
+        \label{fig:alin4}
+    \end{figure}
+
+
+    Исходя из графиков можно сделать вывод, что при маленьких и больших значениях постоянной времени $T$ фильтрация хуже,
+    чем при средних значениях. Большие значения приводят к излишей фильтрации сигнала -- результирующий сигнал хоть и хорошо
+    сглажен, но приобрел лишний наклон (см. рис. \ref{fig:filin13}). На рис. \ref{fig:filinabs13} видно, что в некотором
+    небольшом диапазоне нуля большинство важных частот (имеющих б\'{о}льшие амплитуды по сравнению с другими) урезалось
+    фильтром. Еще лучше это видно на графике АЧХ -- частота среза по оси абсцисс находится близко к оси ординат, что означает,
+    что фильтр оставил немного амплитуд, соответствующих нижним частотам, нетронутыми, а ниже частоты среза график быстро убывает
+    -- происходит резкое ослабление амплитуд соответствующих частот (см. рис. \ref{fig:filinafr13}). Маленькие значения приводят к
+    недостаточной фильтрации сигнала -- хотя фильтрованный сигнал и выглядит лучше исходного, осталось много белого шума
+    (см. рис. \ref{fig:filin1}). На графике модулей Фурье-образов большинство менее значимых частот было оставлено
+    (см. рис. \ref{fig:filinabs1}). На графике АЧХ рисунка \ref{fig:filinafr1} хорошо видно, что частота среза
+    находится примерно в точке $\left(\omega_0=100,\,A=1\div\sqrt{2}\right)$, и, ослабление амплитуд ниже такой частоты среза несильное
+    (график медленно убывает). На графике ЛАЧХ частота среза находится примерно в точке $\left(2,\,-3\right)$ (см. рис. \ref{fig:filinlafr1}).
+    На графиках ЛАЧХ (см. рис. \ref{fig:filinlafr1}, \ref{fig:filinlafr11}, \ref{fig:filinlafr13})
+    при последовательном увеличении значения $T$ с каждым разом частота среза приближается к нижним частотам, уменьшаясь в 10 раз при
+    переводе из логарифмической шкалы частот (изменение на 1 на логарифмической шкале частот соответствует изменению частоты в 10 раз).
+    Примерно это мы и видим на графиках АЧХ -- рис. \ref{fig:filinafr1} $\omega_0\approx 100$, рис. \ref{fig:filinafr11} $\omega_0\approx 10$,
+    рис. \ref{fig:filinafr13} $\omega_0\approx 1$. Хорошо фильтрация получилась на рис. \ref{fig:filin11} -- большая часть белого шума пропала,
+    график не сильно отклонился и неплохо повторяет функцию $g(t)$.
+    
+    
+    Рассматривая рисунки \ref{fig:filin11}, \ref{fig:filin14} и \ref{fig:alin1} кажется, что
+    влияние параметра $a$ на эффективность фильтрации заключается в ее сглаживании -- чем больше значение $a$, тем более гладким становится фильтрованный сигнал.
+    Однако по рис. \ref{fig:alin2} и \ref{fig:alin3} можно увидеть, что при большом значении $a$ усиливается эффект Гиббса в местах разрыва сигнала, при этом
+    чем ближе сигнал к месту разрыва, тем постепенно больше становятся амплитуды фильтрованного сигнала -- фильтрация явно ухудшается. Также при слишком маленьком
+    значении параметра $a$ фильтрованный сигнал выглядит хуже при том же значении параметра $T$ (см. рис. \ref{fig:alin4}, \ref{fig:filin11}). Следовательно, параметр
+    $a$ так же как и параметр $T$ следует выбирать не маленьким и не большим.
+
+
+    \subsection{Специальный фильтр.}
+    Положим $b=0$. Рассмотрим линейный фильтр вида
+    $$W_2(p)=\dfrac{\left(T_1p+1\right)^{2}}{\left(T_2p+1\right)\left(T_3p+1\right)}=\dfrac{T_1^2p^2+2T_1p+1}{T_2T_3p^2+\left(T_2+T_3\right)p+1},$$
+    при этом постараемся подобрать такие $T_1,T_2,T_3>0$, чтобы они по возможности хорошо убирали синусоидальную составляющую помехи и не сильно искажали
+    полезный сигнал. Также рассмотрим несколько значений параметра $d$ и найдем подходящие $T_1,T_2,T_3$ для каждого случая. После построим сравнительные
+    графики и проанализируем влияние параметра $c$ на эффективность фильтрации.
+
+
+    Далее расположены сравнительные графики исходного и фильтрованного сигналов, графики модулей их Фурье-образов и АЧХ и ЛАЧХ фильтра.
+    Синим цветом отрисованы функции, связанные с исходным сигналом, оранжевым -- с фильтрованным. Также на графике во временной области
+    отображена исходная функция $g(t)$.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{1_fl2.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходного и фильтрованного сигналов (1).}
+        \label{fig:filin21}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{1_fl2_abs.png}
+        \captionsetup{skip=0pt}
+        \caption{График модулей Фурье-образа исходного и фильтрованного сигналов (1).}
+        \label{fig:filinabs21}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{1_fl2_afr.png}
+        \captionsetup{skip=0pt}
+        \caption{График амплитудно-частотной характеристики фильтра (1).}
+        \label{fig:filinafr21}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{1_fl2_lafr.png}
+        \captionsetup{skip=0pt}
+        \caption{График логарифмической амплитудно-частотной характеристики фильтра (1).}
+        \label{fig:filinlafr21}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{2_fl2.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходного и фильтрованного сигналов (2).}
+        \label{fig:filin22}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{2_fl2_abs.png}
+        \captionsetup{skip=0pt}
+        \caption{График модулей Фурье-образа исходного и фильтрованного сигналов (2).}
+        \label{fig:filinabs22}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{2_fl2_afr.png}
+        \captionsetup{skip=0pt}
+        \caption{График амплитудно-частотной характеристики фильтра (2).}
+        \label{fig:filinafr22}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{2_fl2_lafr.png}
+        \captionsetup{skip=0pt}
+        \caption{График логарифмической амплитудно-частотной характеристики фильтра (2).}
+        \label{fig:filinlafr22}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{3_fl2.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходного и фильтрованного сигналов (3).}
+        \label{fig:filin23}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{3_fl2_abs.png}
+        \captionsetup{skip=0pt}
+        \caption{График модулей Фурье-образа исходного и фильтрованного сигналов (3).}
+        \label{fig:filinabs23}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{3_fl2_afr.png}
+        \captionsetup{skip=0pt}
+        \caption{График амплитудно-частотной характеристики фильтра (3).}
+        \label{fig:filinafr23}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{3_fl2_lafr.png}
+        \captionsetup{skip=0pt}
+        \caption{График логарифмической амплитудно-частотной характеристики фильтра (3).}
+        \label{fig:filinlafr23}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{4_fl2.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходного и фильтрованного сигналов (4).}
+        \label{fig:filin24}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{4_fl2_abs.png}
+        \captionsetup{skip=0pt}
+        \caption{График модулей Фурье-образа исходного и фильтрованного сигналов (4).}
+        \label{fig:filinabs24}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{4_fl2_afr.png}
+        \captionsetup{skip=0pt}
+        \caption{График амплитудно-частотной характеристики фильтра (4).}
+        \label{fig:filinafr24}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{4_fl2_lafr.png}
+        \captionsetup{skip=0pt}
+        \caption{График логарифмической амплитудно-частотной характеристики фильтра (4).}
+        \label{fig:filinlafr24}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{5_fl2.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходного и фильтрованного сигналов (5).}
+        \label{fig:filin25}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{5_fl2_abs.png}
+        \captionsetup{skip=0pt}
+        \caption{График модулей Фурье-образа исходного и фильтрованного сигналов (5).}
+        \label{fig:filinabs25}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{5_fl2_afr.png}
+        \captionsetup{skip=0pt}
+        \caption{График амплитудно-частотной характеристики фильтра (5).}
+        \label{fig:filinafr25}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{5_fl2_lafr.png}
+        \captionsetup{skip=0pt}
+        \caption{График логарифмической амплитудно-частотной характеристики фильтра (5).}
+        \label{fig:filinlafr25}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{6_fl2.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходного и фильтрованного сигналов (6).}
+        \label{fig:filin26}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{6_fl2_abs.png}
+        \captionsetup{skip=0pt}
+        \caption{График модулей Фурье-образа исходного и фильтрованного сигналов (6).}
+        \label{fig:filinabs26}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{6_fl2_afr.png}
+        \captionsetup{skip=0pt}
+        \caption{График амплитудно-частотной характеристики фильтра (6).}
+        \label{fig:filinafr26}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{6_fl2_lafr.png}
+        \captionsetup{skip=0pt}
+        \caption{График логарифмической амплитудно-частотной характеристики фильтра (6).}
+        \label{fig:filinlafr26}
+    \end{figure}
 \end{document}

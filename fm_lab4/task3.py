@@ -36,6 +36,6 @@ W = lf.W_1f(w, T)
 flt_u, flt_U, U = fm.fft_flt(prices, W, shift=False)
 
 bf.build_fs(dates, [prices, flt_u.real], ticks=range(0, len(dates), 7),
-            rot=45, xlab='Dates', ylab=f'Prices ({find_price})',
+            rot=45, xlab='Dates', ylab=f'Prices ({find_price.lower()})',
             ttl=f'First order linear filter, date_step={date_step}, T={T}', fz2=8,
             legend=True, labels=['Original prices', 'Smoothed prices'])

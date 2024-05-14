@@ -87,7 +87,7 @@ if perform_W_1:
 if perform_W_2:
     a = 5
     b = 0
-    c = 50
+    c = 5
     d = 15
 
     g_fun = hr.get_g_f(t, t_1, t_2, a)

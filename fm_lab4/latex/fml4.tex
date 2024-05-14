@@ -702,4 +702,344 @@
         \caption{График логарифмической амплитудно-частотной характеристики фильтра (6).}
         \label{fig:filinlafr26}
     \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{7_fl2.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходного и фильтрованного сигналов (7).}
+        \label{fig:filin27}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{7_fl2_abs.png}
+        \captionsetup{skip=0pt}
+        \caption{График модулей Фурье-образа исходного и фильтрованного сигналов (7).}
+        \label{fig:filinabs27}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{7_fl2_afr.png}
+        \captionsetup{skip=0pt}
+        \caption{График амплитудно-частотной характеристики фильтра (7).}
+        \label{fig:filinafr27}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.4]{7_fl2_lafr.png}
+        \captionsetup{skip=0pt}
+        \caption{График логарифмической амплитудно-частотной характеристики фильтра (7).}
+        \label{fig:filinlafr27}
+    \end{figure}
+
+
+    Исходя из результатов графиков можно сделать вывод, что при увеличении значения параметра $d$ фильтрация
+    улучшается. Основная информация об исходном сигнале хранится на нижних частотах, что мы видим на любом
+    графике модуля Фурье-образа. Чем меньше значение параметра $d$, тем ближе к нижним частотам расположен
+    гармонический шум, проявляющийся в виде двух высоких возрастаниях амплитуд (см. рис. \ref{fig:filinabs21}). Из-за этого при маленьком
+    значении параметра $d$ сложно подобрать такие $T_1,\,T_2,\,T_3$, чтобы минимизировать влияние синусоидального
+    шума и при этом оставить значимую часть сигнала нетронутой, так как сложнее найти ту частоту среза, выше которой
+    фильтр оставит все важные амплитуды и ниже которой полностью уберет амплитуды гармонического шума. В то время как
+    при большом значении параметра $d$, при условии отсутствия влияния параметра $b$, выбор коэффициентов, при котором фильтрация
+    будет успешна, более разнообразен (см. рис. \ref{fig:filinabs24}). В этом случае выбрать частоту среза проще вследствие
+    расширения диапазона ее выбора. В ходе выполнения задания мне удалось получить наилучшую фильтрацию при соотношении
+    $T_1<<T_2\approx T_3$.
+
+
+    Параметр $c$ влияет на амплитуду каждой волны гармонического шума. При увеличении значения параметра $c$ амплитуды увеличиваются
+    как во временном пространстве (см. рис. \ref{fig:filin21}, \ref{fig:filin25}, \ref{fig:filin26}), так и в частотном
+    (см. рис. \ref{fig:filinabs21}, \ref{fig:filinabs25}, \ref{fig:filinabs26}), а при уменьшении значения -- уменьшаются.
+    Данное увеличение амплитуд ухудшает эффективность фильтрации. Придется подобрать такие параметры $T_1,\,T_2,\,T_3$,
+    чтобы амплитуды гармонического шума, сильно б\'{о}льшие значимых амплитуд исходного сигнала, ушли под действием фильтра.
+    Однако при выборе такой частоты среза высока вероятность, что фильтр не только не сможет достаточно ослабить амплитуды
+    синусоидального шума, но и затронет нужные для хорошей фильтрации. Данную проблему хорошо видно на рисунке \ref{fig:filinabs26}.
+    При маленьких значениях параметра $c$ фильтрация получается наилучшей (см. рис. \ref{fig:filin27}).
+
+
+    \subsection{Используемые программы}
+    В ходе выполнения этого задания были использованы некоторые программы, приведенные ранее. В числе новых есть программа,
+    реализующая линейные фильтры, рассмотренные в задании.
+    \begin{lstlisting}[label=c2, caption={Программа, содержащая реализацию линейных фильтров.}]
+    def W_1f(w, T):
+        p = 1j * w
+        return 1 / (T * p + 1)
+    
+    def W_2f(w, T_1, T_2, T_3):
+        p = 1j * w
+        return (T_1 * p + 1) ** 2 / ((T_2 * p + 1) * (T_3 * p + 1))
+    \end{lstlisting}
+
+
+    Добавились функции, необходимые для нахождения АЧХ, ЛАЧХ и пропускания сигнала через фильтр.
+    В функции пропуска сигнала через фильтр можно задать параметр shift, он будет необходим позже.
+    \begin{lstlisting}[label=c22, caption={Программа для нахождения АЧХ, ЛАЧХ и пропуска сигнала через фильтр.}]
+    def fft_flt(u, W, shift=True):
+        U = np.fft.fft(u)
+        maybe_shifted_U = U
+        if shift:
+            maybe_shifted_U = np.fft.fftshift(U)
+    
+        flt_U = W * maybe_shifted_U
+        maybe_shifted_flt_U = flt_U
+        if shift:
+            maybe_shifted_flt_U = np.fft.ifftshift(flt_U)
+    
+        flt_u = np.fft.ifft(maybe_shifted_flt_U)
+        return flt_u, maybe_shifted_flt_U, U
+    
+    def get_AFR(W):
+        return np.abs(W)
+    
+    def get_LAFR(W):
+        return 20 * np.log10(get_AFR(W))
+    \end{lstlisting}
+
+
+    Есть вспомогательная программа для создания исходной функции и исходного сигнала с шумом.
+    \begin{lstlisting}
+    def g_func(t, t_1, t_2, a):
+        if (t_1 <= t <= t_2): return a
+        return 0
+    
+    def get_g_f(t: list, t_1, t_2, a):
+        g_f = []
+        for k in range(len(t)):
+            g_f.append(g_func(t[k], t_1, t_2, a))
+        return g_f
+    
+    def get_u(g_fs: list, t: list, b, c, d):
+        return np.array(g_fs) + b * (np.random.rand(len(t)) - 0.5) + c * np.sin(d * t)
+    \end{lstlisting}
+
+
+    Алгоритм, использующий приведенные ранее программы, расположен ниже.
+    \begin{lstlisting}
+    import numpy as np
+
+    import build_func as bf
+    import lin_filters as lf
+    import fourier_math as fm
+    import helper as hr
+
+    def perform(t, v, w, u, a, b, c, d, T, W, W_LOG, g_f=None,
+                name='Filter', xl0=None, xl01=None,
+                xl1=None, xl2=None, xl3=None,
+                xl4=None, xl5=None, xl6=None):
+        flt_u, flt_U, U = fm.fft_flt(u, W)
+        AFR, LAFR = fm.get_AFR(W), fm.get_LAFR(W_LOG)
+
+        flist1 = [u, flt_u.real]
+        flist2 = [abs(np.fft.fftshift(U)), abs(np.fft.fftshift(flt_U))]
+        llist1 = ['Original signal', 'Filtered signal']
+        llist2 = ['Abs original signal fft', 'Abs filtered signal fft']
+        lslist = ['-', '-']
+        clist = [None, None]
+        if g_f is not None:
+            flist1.append(g_f)
+            llist1.append(r'Original function $g(t)$')
+            lslist.append('--')
+            clist.append('r')
+
+        bf.build_fs(t, y=flist1, labels=llist1, colors=clist, ls=lslist,
+              ttl=f'{name}. a={a}, b={b}, c={c}, d={d}, T={T}', 
+              xlab='Time', ylab='Amplitude', legend=True, xl1=xl0, xl2=xl01)
+        bf.build_fs(v, y=flist2, labels=llist2, 
+                  ttl=f'{name} abs fft. a={a}, b={b}, c={c}, d={d}, T={T}', 
+                  xlab='Frequency', ylab='Amplitude', legend=True, xl1=xl1, xl2=xl2)
+        bf.build_f(w, y=AFR,
+              ttl=f'{name} amplitude-frequency response. a={a}, b={b}, c={c}, d={d}, T={T}',xlab='Angular frequency', 
+              ylab='Amplitude', xl1=xl3, xl2=xl4)
+        bf.build_f(np.log10(w[w > 0]), y=LAFR,
+                ttl=f'{name} logarithmic amplitude frequency response. a={a}, b={b}, c={c}, d={d}, T={T}',
+                ylab='Amplitude', xl1=xl5, xl2=xl6)
+
+    T, dt = 10, 0.01
+    V, dv = 1 / dt, 1 / T
+    t_1, t_2 = -1.5, 2.5
+
+    v_to_w_coeff = 2 * np.pi
+    t = np.arange(-T / 2, T / 2 + dt, dt)
+    v = np.arange(-V / 2, V / 2 + dv, dv)
+    w = v_to_w_coeff * v
+
+    v_log = np.arange(0, V / 2 + dv, dv)
+    w_log = v_to_w_coeff * v_log
+
+    perform_W_1, perform_W_2 = True, True
+
+    if perform_W_1:
+        a, b, c, d = 1, 0.6, 0, 0.7
+
+        g_fun = hr.get_g_f(t, t_1, t_2, a)
+        u = hr.get_u(g_fun, t, b, c, d)
+
+        T_0 = 0.1
+        W_1 = lf.W_1f(w, T_0)
+        W_1_LOG = lf.W_1f(w_log, T_0)
+
+        perform(t, v, w, u, a, b, c, d, T_0, W_1, W_1_LOG, g_f=g_fun, 
+                name='First order linear filter', xl5=0, xl6=2.5)
+
+    if perform_W_2:
+        a, b, c, d = 5, 0, 5, 15
+
+        g_fun = hr.get_g_f(t, t_1, t_2, a)
+        u = hr.get_u(g_fun, t, b, c, d)
+
+        T_1, T_2, T_3 = 0.001, 0.2, 0.3
+        W_2 = lf.W_2f(w, T_1, T_2, T_3)
+        W_2_LOG = lf.W_2f(w_log, T_1, T_2, T_3)
+
+        perform(t, v, w, u, a, b, c, d, [T_1, T_2, T_3], W_2, W_2_LOG,
+                g_f=g_fun, name='Special filter', xl5=0, xl6=2.5)
+    \end{lstlisting}
+
+    
+    \section{Задание 3. Сглаживание биржевых данных.}
+    В данном задании представим, что мы разрабатываем инвестиционное приложение, в котором должна
+    присутствовать функция представления сглаженных графиков котировок акций. При этом степень
+    сглаживания должна зависеть рассматриваемого пользователем временного периода.
+
+
+    Скачаем с \href{https://www.finam.ru/quote/moex/sber/export/}{данного сайта} файл с данными о
+    стоимости акций Сбербанка в период с 21 марта 2018 по 21 марта 2019. Периодичность выберем один день.
+    Загрузим данные в Python и применим к данным линейный фильтр первого порядка. Последовательно возьмем
+    значения постоянной времени $T$ равной 1 день, 1 неделю, 1 месяц, 3 месяца и 1 год. Представим, что
+    во всех месяцах ровно 30 дней, значит за три месяца пройдет 90 дней. Построим красивые сравнительные графики.
+
+
+    Далее расположены результирующие графики. Синим цветом обозначены исходные данные, оранжевым -- сглаженные.
+    По оси абсцисс отложены понедельно даты в период за год, по оси ординат цена закрытия акции. В названии графика
+    указаны выбранные параметры шага для частот и временной постоянной.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.35]{1_1.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходных и фильтрованных данных (1).}
+        \label{fig:11}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.35]{1_7.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходных и фильтрованных данных (1).}
+        \label{fig:17}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.35]{1_30.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходных и фильтрованных данных (1).}
+        \label{fig:30}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.35]{1_90.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходных и фильтрованных данных (1).}
+        \label{fig:90}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.35]{1_365.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходных и фильтрованных данных (1).}
+        \label{fig:365}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.35]{2_1.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходных и фильтрованных данных (2).}
+        \label{fig:112}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.35]{2_7.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходных и фильтрованных данных (2).}
+        \label{fig:172}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.35]{2_30.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходных и фильтрованных данных (2).}
+        \label{fig:302}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.35]{2_90.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходных и фильтрованных данных (2).}
+        \label{fig:902}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.35]{2_365.png}
+        \captionsetup{skip=0pt}
+        \caption{График исходных и фильтрованных данных (2).}
+        \label{fig:3652}
+    \end{figure}
+
+
+    Как видим, при увеличении параметра $T$ график сглаживается, то есть для более длительного временного периода
+    сглаживание становится более склонным к усреднению данных (см. рис. \ref{fig:30}, \ref{fig:90}, \ref{fig:365},
+    \ref{fig:3652}). Таким образом сохраняются долгосрочные тренды, а краткосрочные нет. При уменьшении параметра $T$ логика наоборот
+    (см. рис. \ref{fig:11}, \ref{fig:17}, \ref{fig:112}, \ref{fig:172}, \ref{fig:302}).
+
+
+    Шаг времени для частот влияет на степень сглаживания графика при выборе временного периода. Маленький шаг соответствует
+    более частым измерениям, сглаживание становится более точным, это может быть полезно для краткосрочных трендов.
+    Большой шаг приводит к более грубому сглаживанию, но это может быть полезно для долгосрочных трендов.
+
+
+    \subsection{Используемые программы.}
+    Для выполнения данного задания была написана программа на языке Python. В ней использовались
+    некоторые ранее написанные программы. Для нахождения частот была применена функция, реализованная
+    в библиотеке numpy. В эту фунцию передается шаг по времени, в ходе работы были приведены случаи для
+    шагов равных одному дню и одной неделе. Также при использовании моей функции передается параметр shift
+    как ложь, так как из-за особенностей работы функции для поиска частот сдвиг для пропускания данных
+    через фильтр не нужен.
+    \begin{lstlisting}
+    import csv
+    import numpy as np
+
+    import build_func as bf
+    import lin_filters as lf
+    import fourier_math as fm
+
+    file = 'fm_lab4/data/SBER_180321_190321.csv'
+    find_date = 'DATE'
+    find_price = 'CLOSE'
+    dates = []
+    prices = []
+    with open(file) as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=';')
+        header = next(csv_reader)
+        date_i = 0
+        price_i = 0
+        for i in range(len(header)):
+            if find_date in header[i]:
+                date_i = i
+            if find_price in header[i]:
+                price_i = i
+
+        for row in csv_reader:
+            dates.append(row[date_i])
+            prices.append(float(row[price_i]))
+
+    date_step = 1
+    n = len(dates)
+    v = np.fft.fftfreq(n, d=date_step)
+    w = 2 * np.pi * v
+
+    T = 1
+    W = lf.W_1f(w, T)
+    flt_u, flt_U, U = fm.fft_flt(prices, W, shift=False)
+
+    bf.build_fs(dates, [prices, flt_u.real], ticks=range(0, len(dates), 7),
+                rot=45, xlab='Dates', ylab=f'Prices ({find_price.lower()})',
+                ttl=f'First order linear filter, date_step={date_step}, T={T}', fz2=8,
+                legend=True, labels=['Original prices', 'Smoothed prices'])
+    \end{lstlisting}
 \end{document}

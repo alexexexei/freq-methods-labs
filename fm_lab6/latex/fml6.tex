@@ -22,11 +22,12 @@
 \graphicspath{{images/}}
 \usetikzlibrary{patterns}
 \definecolor{LightGray}{gray}{0.95}
+\definecolor{LightGray2}{gray}{0.7}
 \lstdefinestyle{pycode}{
     language=Python,
     basicstyle=\footnotesize\ttfamily,
     numbers=left,
-    numberstyle=\tiny\color{gray},
+    numberstyle=\scriptsize\color{gray},
     stepnumber=1,
     numbersep=5pt,
     backgroundcolor=\color{LightGray},
@@ -37,13 +38,14 @@
     captionpos=b,
     breaklines=true,
     breakatwhitespace=false,
-    frame=none,
-    rulecolor=\color{black},
+    frame=single,
+    rulecolor=\color{LightGray2},
     linewidth=\linewidth,
-    keywordstyle=\color{red}\bfseries,
+    keywordstyle=\color{blue}\bfseries,
     commentstyle=\color{green!40!black},
-    stringstyle=\color{blue},
+    stringstyle=\color{purple},
     escapeinside={\%*}{*)},
+    inputencoding=utf8x,
     xleftmargin=0pt,
     framexleftmargin=0pt,
     framexrightmargin=0pt

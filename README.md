@@ -2,4 +2,4 @@
 fm_lab1 - Fourier series and plots  
 fm_lab2 - Fourier image and musical  
 fm_lab3 - hard filtration with fft and ifft  
-fm_lab4 - linear filtration  
+fm_lab4 - derivatives and linear filtration  

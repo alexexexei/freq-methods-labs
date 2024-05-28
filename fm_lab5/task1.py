@@ -2,10 +2,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def showf(x, y, xlim=(None, None), ylim=(None, None)):
+def showf(x, y, xlim=(None, None), ylim=(None, None), title=None):
     plt.plot(x, y)
     plt.xlim(xlim)
     plt.ylim(ylim)
+    plt.title(title)
     plt.show()
 
 
@@ -43,25 +44,25 @@ dv = 1 / T
 v = np.arange(-V / 2, V / 2 + dv, dv)
 sinc_ = sinc(v)
 
-trapz_ = trapz(rectf_, t, v)
-rest_trapz = undo_trapz(trapz_, t, v)
+# trapz_ = trapz(rectf_, t, v)
+# rest_trapz = undo_trapz(trapz_, t, v)
 
 N = len(t)
 unit = 1 / np.sqrt(N)
 fft_ = unit * np.fft.fftshift(np.fft.fft(rectf_))
-rest_fft = unit * np.fft.ifft(np.fft.ifftshift(fft_))
+rest_fft = np.fft.ifft(np.fft.ifftshift(fft_)) / unit
 
-smart_fft = unit * np.fft.fftshift(np.fft.fft(rectf_) * dt)
-rest_smfft = unit / dt * np.fft.ifft(np.fft.ifftshift(smart_fft))
+smart_fft = unit * np.fft.fftshift(np.fft.fft(rectf_ * dt))
+rest_smfft = np.fft.ifft(np.fft.ifftshift(smart_fft)) / unit / dt
 
-showf(t, rectf_)
-showf(v, sinc_)
+showf(t, rectf_, title='Rectangular function')
+showf(v, sinc_, title='Cardinal sine')
 
-showf(t, rest_trapz)
-showf(v, trapz_)
+# showf(t, rest_trapz, title='Trapz rectangular function')
+# showf(v, trapz_, title='Trapz cardinal sine')
 
-showf(t, rest_fft)
-showf(v, fft_)
+showf(t, rest_fft, title='Unitary FFT rectangular function')
+showf(v, fft_, title='Unitary FFT cardinal sine')
 
-showf(t, rest_smfft)
-showf(v, smart_fft)
+showf(t, rest_smfft, title='Smart FFT rectangular function')
+showf(v, smart_fft, title='Smart FFT cardinal sine')

@@ -34,35 +34,40 @@ def undo_trapz(F, t, v):
     return f
 
 
+def dft(f, norm=None, coeff=1):
+    fft_ = coeff * np.fft.fftshift(np.fft.fft(f, norm=norm))
+    ifft_ = np.fft.ifft(np.fft.ifftshift(fft_ / coeff), norm=norm)
+    return fft_, ifft_
+
+
 T = 200
 dt = 0.01
 t = np.arange(-T / 2, T / 2 + dt, dt)
 rectf_ = rectf(t)
+name1 = 'rectangular function'
 
 V = 1 / dt
 dv = 1 / T
 v = np.arange(-V / 2, V / 2 + dv, dv)
 sinc_ = sinc(v)
+name2 = 'cardinal sine'
 
-# trapz_ = trapz(rectf_, t, v)
-# rest_trapz = undo_trapz(trapz_, t, v)
+trapz_ft = trapz(rectf_, t, v)
+trapz_ift = undo_trapz(trapz_ft, t, v)
 
-N = len(t)
-unit = 1 / np.sqrt(N)
-fft_ = unit * np.fft.fftshift(np.fft.fft(rectf_))
-rest_fft = np.fft.ifft(np.fft.ifftshift(fft_)) / unit
+ortho_fft, ortho_ifft = dft(rectf_, norm='ortho')
 
-smart_fft = unit * np.fft.fftshift(np.fft.fft(rectf_ * dt))
-rest_smfft = np.fft.ifft(np.fft.ifftshift(smart_fft)) / unit / dt
+const = dt * np.exp(-2 * np.pi * 1j * v * t[0])
+smart_fft, smart_ifft = dft(rectf_, coeff=const)
 
-showf(t, rectf_, title='Rectangular function')
-showf(v, sinc_, title='Cardinal sine')
+showf(t, rectf_, xlim=(-3, 3), title=(name1[0].upper()) + name1[1:])
+showf(v, sinc_, xlim=(-3, 3), title=(name2[0].upper()) + name2[1:])
 
-# showf(t, rest_trapz, title='Trapz rectangular function')
-# showf(v, trapz_, title='Trapz cardinal sine')
+showf(t, trapz_ift, xlim=(-3, 3), title=f'Trapz ift {name1}')
+showf(v, trapz_ft, xlim=(-3, 3), title=f'Trapz ft {name2}')
 
-showf(t, rest_fft, title='Unitary FFT rectangular function')
-showf(v, fft_, title='Unitary FFT cardinal sine')
+showf(t, ortho_ifft.real, xlim=(-3, 3), title=f'Unitary ifft {name1}')
+showf(v, ortho_fft.real, xlim=(-3, 3), title=f'Unitary fft {name2}')
 
-showf(t, rest_smfft, title='Smart FFT rectangular function')
-showf(v, smart_fft, title='Smart FFT cardinal sine')
+showf(t, smart_ifft.real, xlim=(-3, 3), title=f'Smart ifft {name1}')
+showf(v, smart_fft.real, xlim=(-3, 3), title=f'Smart fft {name2}')

@@ -4,7 +4,7 @@ import numpy as np
 def tft(f, t, v):
     F = []
     for k in v:
-        F_k = np.trapz(f * np.exp(-1j * 2 * np.pi * k * t), t)
+        F_k = np.trapz(f * np.exp(-2j * np.pi * k * t), t)
         F.append(F_k)
     return F
 
@@ -12,7 +12,7 @@ def tft(f, t, v):
 def tift(F, t, v):
     f = []
     for k in t:
-        f_k = np.trapz(F * np.exp(1j * 2 * np.pi * k * v), v)
+        f_k = np.trapz(F * np.exp(2j * np.pi * k * v), v)
         f.append(f_k)
     return f
 

@@ -47,6 +47,11 @@ y_2ip = fm.interp(g, t, t_s, B)
 y_2_dft = fm.dft(y_2, coeff=const)
 y_2ip_dft = fm.dft(y_2ip, coeff=const)
 
+sh.showf(t, y,
+         title='Original continuous signal', 
+         xlabel=r'$t$', 
+         ylabel=r'$y(t)$')
+
 sh.showfs([t, t_s], [y, y_s],
           title='Original and sampled signal',
           labels=['orig signal', 'sampl signal'],

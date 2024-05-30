@@ -155,7 +155,7 @@
         \end{tikzpicture}
         $\Pi(t)$
     \end{center}
-    Построим график найденной функции $\hat{\Pi}(\nu)$ и восстановленной функции $\Pi(t)$.
+    Построим график найденной функции $\hat{\Pi}(\nu)$ и \textit{восстановленной} функции $\Pi(t)$.
     Сравним результат с истинной функцией и Фурье-образом. Исследуем влияние
     величины шага интегрирования и размера промежутка, по которому вычисляется
     интеграл, на результат. Сделаем выводы о точности и быстродействии метода.
@@ -282,7 +282,7 @@
     $$
     \mathcal{F}_m = \dfrac{1}{\sqrt{N}}\sum\limits_{n=0}^{N-1}f_ne^{-2\pi i \frac{mn}{N}},\ \ f_n=\dfrac{1}{\sqrt{N}}\sum\limits_{m=0}^{N-1}\mathcal{F}_me^{2\pi i\frac{mn}{N}}
     $$
-    Далее приведены сравнительные графики найденной $\hat{\Pi}(\nu)$ и восстановленной $\Pi(t)$ функций с исходными. Цвета и обозначения аналогичны предыдущему пункту.
+    Далее приведены сравнительные графики найденной $\hat{\Pi}(\nu)$ и \textit{восстановленной} $\Pi(t)$ функций с исходными. Цвета и обозначения аналогичны предыдущему пункту.
     \begin{figure}[H]
         \centering
         \begin{subfigure}{0.45\textwidth}
@@ -308,4 +308,206 @@
 
 
     \subsection{Приближение непрерывного с помощью DFT}
+    Чтобы исправить ситуацию, попробуем совместить достоинства обоих подходов: точность и быстродействие.
+    Найдем способ получить правильный Фурье-образ, соответствующий непрерывному преобразованию Фурье, используя функцию \texttt{fft} и не прибегая к численному
+    интегрированию. Найдем способ восстановить исходный сигнал по полученному
+    Фурье-образу -- тоже с помощью \texttt{fft}. Схема нашего успеха:
+    \begin{center}
+        $\Pi(t)$
+        \begin{tikzpicture}
+            \draw[->] (0,0) -- (3,0) node[midway, above] {\tiny{умное использование \texttt{fft}}};
+        \end{tikzpicture}
+        $\hat{\Pi}(\nu)$
+        \begin{tikzpicture}
+            \draw[->] (0,0) -- (3,0) node[midway, above] {\tiny{умное использование \texttt{ifft}}};
+        \end{tikzpicture}
+        $\Pi(t)$
+    \end{center}
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{sifft.png}
+            \caption{$\Pi(t)$, восстановленная \texttt{sfft}}
+            \label{fig:sifft}
+        \end{subfigure}
+        \hspace{5mm}
+        \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{sfft.png}
+            \caption{$\hat{\Pi}(t)$ восстановленной \texttt{sfft} $\Pi(t)$}
+            \label{fig:sfft}
+        \end{subfigure}
+        \caption{Умное использование быстрого преобразования Фурье \texttt{sfft}}
+        \label{fig:sffts}
+    \end{figure}
+
+
+    \section{Задание 2. Сэмплирование}
+    В этом задании будем исследовать теорему Найквиста-Шеннона-Котельникова на двух примерах.
+    \subsection{Сэмплирование синусов}
+    Зададим параметры $a_1=1,\,a_2=2,\,\omega_1=3,\,\omega_2=4,\,\varphi_1=\pi\div5,\,\varphi_2=\pi\div6$ и рассмотрим функцию
+    $$y(t)=a_1\sin{(\omega_1t+\varphi_1)}+a_2\sin{(\omega_2t+\varphi_2)}$$
+
+
+    Зададим в \texttt{Python} массивы времени \texttt{t} и значений \texttt{y}. Выберем малый шаг дискретизации $dt=10^{-4}$ для
+    имитирования непрерывной функции. Построим график полученной функции.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.45]{orig1.png}
+        \captionsetup{skip=0pt}
+        \caption{График непрерывного сигнала}
+        \label{fig:orig1}
+    \end{figure}
+
+
+    Теперь зададим сэмплированный вариант указанной функции: рассмотрим
+    разреженный вариант массива времени и соответствующий ему массив значений.
+    Сначала рассмотрим большой шаг $dt=0.2$.
+    Построим дискретный график поверх непрерывного.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.45]{1_sine.png}
+        \captionsetup{skip=0pt}
+        \caption{График сэмплированного сигнала поверх непрерывного}
+        \label{fig:1sine}
+    \end{figure}
+
+
+    Применим интерполяционную формулу из лекции к сэмплированным
+    данным с целью восстановить непрерывную функцию.
+    $$
+    f(t)=\sum\limits_{n=-\infty}^{\infty}f(t_n)\cdot\sinc{(2B(t-t_n))},\ \ t_n=\dfrac{n}{2B}
+    $$
+    В результате получатся новые массивы времени и значений -- той же размерности, что и исходные.
+
+
+    Построим график восстановленной функции поверх исходной.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[scale=0.45]{1_isine.png}
+        \captionsetup{skip=0pt}
+        \caption{График интерполированного сигнала поверх непрерывного}
+        \label{fig:1isine}
+    \end{figure}
+    
+
+    Далее исследуем влияние шага дискретизации на вид восстановленной функции
+    и соотнесем свои результаты с теоремой Найквиста-Шеннона-Котельникова. Синим цветом выделены исходные сигналы, оранжевым --
+    сэмплированные и восстановленные. Под шкалой времени на каждом графике указан шаг дискретизации сэмплирования $dt_s$.
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{2_sine.png}
+            \caption{Cэмплированный поверх непрерывного}
+            \label{fig:2sine}
+        \end{subfigure}
+        \hspace{5mm}
+        \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{2_isine.png}
+            \caption{Интерполированный поверх непр-ого}
+            \label{fig:2isine}
+        \end{subfigure}
+        \caption{Уменьшение шага дискретизации $dt=0.1$}
+        \label{fig:sines2}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{3_sine.png}
+            \caption{Cэмплированный поверх непр-ого}
+            \label{fig:3sine}
+        \end{subfigure}
+        \hspace{5mm}
+        \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{3_isine.png}
+            \caption{Интерполированный поверх непр-ого}
+            \label{fig:3isine}
+        \end{subfigure}
+        \caption{Уменьшение шага дискретизации $dt=0.05$}
+        \label{fig:sines3}
+    \end{figure}
+
+
+    \subsection{Сэмплирование sinus cardinalis}
+    Зададим параметр $b=2$ и рассмотрим функцию $$y(t)=\sinc{(bt)}=\sinc{(2t)}$$
+    Выполним все шаги из предыдущего пункта. Дополнительно для каждой величины
+    шага дискретизации построим Фурье-образ исходного и
+    восстановленного сигналов. Дадим объяснение увиденному, сделаем выводы.
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{1_sinc.png}
+            \caption{Cэмплированный поверх непр-ого}
+            \label{fig:sinc1}
+        \end{subfigure}
+        \hspace{5mm}
+        \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{1_isinc.png}
+            \caption{Интерполированный поверх непр-ого}
+            \label{fig:isinc1}
+        \end{subfigure}
+        \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{1_fsinc.png}
+            \caption{Фурье-образ}
+            \label{fig:fisinc1}
+        \end{subfigure}
+        \caption{Подпись}
+        \label{fig:sincs1}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{2_sinc.png}
+            \caption{Cэмплированный поверх непр-ого}
+            \label{fig:sinc2}
+        \end{subfigure}
+        \hspace{5mm}
+        \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{2_isinc.png}
+            \caption{Интерполированный поверх непр-ого}
+            \label{fig:isinc2}
+        \end{subfigure}
+        \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{2_fsinc.png}
+            \caption{Фурье-образ}
+            \label{fig:fisinc2}
+        \end{subfigure}
+        \caption{Подпись}
+        \label{fig:sincs2}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{3_sinc.png}
+            \caption{Cэмплированный поверх непр-ого}
+            \label{fig:sinc3}
+        \end{subfigure}
+        \hspace{5mm}
+        \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{3_isinc.png}
+            \caption{Интерполированный поверх непр-ого}
+            \label{fig:isinc3}
+        \end{subfigure}
+        \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{3_fsinc.png}
+            \caption{Фурье-образ}
+            \label{fig:fisinc3}
+        \end{subfigure}
+        \caption{Подпись}
+        \label{fig:sincs3}
+    \end{figure}
 \end{document}

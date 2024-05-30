@@ -17,13 +17,22 @@ v = np.arange(-V / 2, V / 2 + dv, dv)
 sinc_ = hp.sinc(v)
 name2 = 'cardinal sine'
 
-trapz_ft_ = fm.trapz_ft(rectf_, t, v)
-trapz_ift_ = fm.trapz_ift(trapz_ft_, t, v)
+new_T = 200
+new_dt = 0.01
+new_t = np.arange(-new_T / 2, new_T / 2 + new_dt, new_dt)
+new_rectf = hp.rectf(new_t)
 
-ortho_fft, ortho_ifft = fm.dft(rectf_, norm='ortho')
+new_V = 1 / new_dt
+new_dv = 1 / new_T
+new_v = np.arange(-new_V / 2, new_V / 2 + new_dv, new_dv)
 
-const = dt * np.exp(-2 * np.pi * 1j * v * t[0])
-smart_fft, smart_ifft = fm.dft(rectf_, coeff=const)
+tft_ = fm.tft(new_rectf, new_t, new_v)
+tift_ = fm.tift(tft_, new_t, new_v)
+
+ufft, uifft = fm.dft(rectf_, norm='ortho')
+
+c = dt * np.exp(-2 * np.pi * 1j * v * t[0])
+sfft, sifft = fm.dft(rectf_, coeff=c)
 
 sh.showf(t,
          rectf_,
@@ -33,29 +42,29 @@ sh.showf(t,
          ylabel=r'$\Pi(t)$')
 sh.showf(v,
          sinc_,
-         xlim=(-3, 3),
+         xlim=(-10, 10),
          title=(name2[0].upper()) + name2[1:],
          xlabel=rf'$\nu$',
          ylabel=r'$\hat{\Pi}(\nu)$')
 
-sh.showfs(t, [np.asarray(trapz_ift_).real, rectf_],
+sh.showfs([new_t, t], [np.asarray(tift_).real, rectf_],
           xlim=(-3, 3),
           title=f'Trapz ift {name1}',
           linest=['-', '--'],
-          labels=['itft rectf', 'rectf'],
-          xlabel=rf'$t,t\in {[t[0], round(t[-1], 2)]},dt={dt}$',
+          labels=['tift rectf', 'rectf'],
+          xlabel=rf'$t,t\in {[new_t[0], round(new_t[-1], 2)]},dt={new_dt}$',
           ylabel=r'$\Pi(t)$',
           legend=True)
-sh.showfs(v, [np.asarray(trapz_ft_).real, sinc_],
-          xlim=(-3, 3),
+sh.showfs([new_v, v], [np.asarray(tft_).real, sinc_],
+          xlim=(-10, 10),
           title=f'Trapz ft {name2}',
           linest=['-', '--'],
           labels=['tft rectf', 'sinc'],
-          xlabel=rf'$\nu$',
+          xlabel=rf'$\nu,\nu\in {[new_v[0], round(new_v[-1], 2)]},d\nu={new_dv}$',
           ylabel=r'$\hat{\Pi}(\nu)$',
           legend=True)
 
-sh.showfs(t, [ortho_ifft.real, rectf_],
+sh.showfs(t, [uifft.real, rectf_],
           xlim=(-3, 3),
           title=f'Unitary ifft {name1}',
           linest=['-', '--'],
@@ -63,8 +72,8 @@ sh.showfs(t, [ortho_ifft.real, rectf_],
           xlabel=rf'$t$',
           ylabel=r'$\Pi(t)$',
           legend=True)
-sh.showfs(v, [ortho_fft.real, sinc_],
-          xlim=(-3, 3),
+sh.showfs(v, [ufft.real, sinc_],
+          xlim=(-10, 10),
           title=f'Unitary fft {name2}',
           linest=['-', '--'],
           labels=['ufft', 'sinc'],
@@ -72,7 +81,7 @@ sh.showfs(v, [ortho_fft.real, sinc_],
           ylabel=r'$\hat{\Pi}(\nu)$',
           legend=True)
 
-sh.showfs(t, [smart_ifft.real, rectf_],
+sh.showfs(t, [sifft.real, rectf_],
           xlim=(-3, 3),
           title=f'Smart ifft {name1}',
           linest=['-', '--'],
@@ -80,8 +89,8 @@ sh.showfs(t, [smart_ifft.real, rectf_],
           xlabel=rf'$t$',
           ylabel=r'$\Pi(t)$',
           legend=True)
-sh.showfs(v, [smart_fft.real, sinc_],
-          xlim=(-3, 3),
+sh.showfs(v, [sfft.real, sinc_],
+          xlim=(-10, 10),
           title=f'Smart fft {name1}',
           linest=['-', '--'],
           labels=['sfft rectf', 'sinc'],

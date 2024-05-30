@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def trapz_ft(f, t, v):
+def tft(f, t, v):
     F = []
     for k in v:
         F_k = np.trapz(f * np.exp(-1j * 2 * np.pi * k * t), t)
@@ -9,7 +9,7 @@ def trapz_ft(f, t, v):
     return F
 
 
-def trapz_ift(F, t, v):
+def tift(F, t, v):
     f = []
     for k in t:
         f_k = np.trapz(F * np.exp(1j * 2 * np.pi * k * v), v)

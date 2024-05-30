@@ -4,6 +4,7 @@ import helpf as hp
 import ftmath as fm
 import showf as sh
 
+
 T = 20
 dt = 0.0001
 t = np.arange(-T / 2, T / 2 + dt, dt)
@@ -21,7 +22,7 @@ p2 = np.pi / 6
 y = hp.y_t(t, a1, a2, w1, w2, p1, p2)
 
 B = 7
-dt_s = 0.2  # ideal dt_s < 1/2B (Nyquist-Shannon-Kotelnikov theorem)
+dt_s = 0.05  # ideal dt_s < 1/2B (Nyquist-Shannon-Kotelnikov theorem)
 t_s = np.arange(-B, B + dt_s, dt_s)
 y_s = hp.y_t(t_s, a1, a2, w1, w2, p1, p2)
 
@@ -49,34 +50,34 @@ y_2ip_dft = fm.dft(y_2ip, coeff=const)
 sh.showfs([t, t_s], [y, y_s],
           title='Original and sampled signal',
           labels=['orig signal', 'sampl signal'],
-          xlabel=r'$t$',
+          xlabel=rf'$t, dt_s={dt_s}$',
           ylabel=r'$y(t)$',
           legend=True)
 sh.showfs(t, [y, y_ip],
           title='Interpolated and original signal',
           linest=['-', '--'],
           labels=['orig signal', 'interp signal'],
-          xlabel=r'$t$',
+          xlabel=rf'$t, dt_s={dt_s}$',
           ylabel=r'$y(t)$',
           legend=True)
 
 sh.showfs([t, t_s], [y_2, y_2s],
           title='Original and sampled signal',
           labels=['orig signal', 'sampl signal'],
-          xlabel=r'$t$',
+          xlabel=rf'$t, dt_s={dt_s}$',
           ylabel=r'$y(t)$',
           legend=True)
 sh.showfs(t, [y_2, y_2ip],
           title='Interpolated and original signal',
           linest=['-', '--'],
           labels=['orig signal', 'interp signal'],
-          xlabel=r'$t$',
+          xlabel=rf'$t, dt_s={dt_s}$',
           ylabel=r'$y(t)$',
           legend=True)
 sh.showfs(v, [y_2_dft[0].real, y_2ip_dft[0].real],
           xlim=(-3, 3),
           title='Smart fft interpolated and original signal',
           labels=['sfft orig', 'sfft interp'],
-          xlabel=r'$\nu$',
+          xlabel=rf'$\nu, dt_s={dt_s}$',
           ylabel=r'$\hat{y}(\nu)$',
           legend=True)

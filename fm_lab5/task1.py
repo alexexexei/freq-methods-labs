@@ -47,7 +47,7 @@ sh.showf(v,
          xlabel=rf'$\nu$',
          ylabel=r'$\hat{\Pi}(\nu)$')
 
-sh.showfs([new_t, t], [np.asarray(tift_).real, rectf_],
+sh.showfs([new_t, t], [tift_.real, rectf_],
           xlim=(-3, 3),
           title=f'Trapz ift {name1}',
           linest=['-', '--'],
@@ -55,7 +55,7 @@ sh.showfs([new_t, t], [np.asarray(tift_).real, rectf_],
           xlabel=rf'$t,t\in {[new_t[0], round(new_t[-1], 2)]},dt={new_dt}$',
           ylabel=r'$\Pi(t)$',
           legend=True)
-sh.showfs([new_v, v], [np.asarray(tft_).real, sinc_],
+sh.showfs([new_v, v], [tft_.real, sinc_],
           xlim=(-10, 10),
           title=f'Trapz ft {name2}',
           linest=['-', '--'],

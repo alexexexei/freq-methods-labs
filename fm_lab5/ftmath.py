@@ -6,7 +6,7 @@ def tft(f, t, v):
     for k in v:
         F_k = np.trapz(f * np.exp(-2j * np.pi * k * t), t)
         F.append(F_k)
-    return F
+    return np.array(F)
 
 
 def tift(F, t, v):
@@ -14,7 +14,7 @@ def tift(F, t, v):
     for k in t:
         f_k = np.trapz(F * np.exp(2j * np.pi * k * v), v)
         f.append(f_k)
-    return f
+    return np.array(f)
 
 
 def dft(f, norm=None, coeff=1):

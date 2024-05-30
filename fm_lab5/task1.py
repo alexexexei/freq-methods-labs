@@ -17,8 +17,8 @@ v = np.arange(-V / 2, V / 2 + dv, dv)
 sinc_ = hp.sinc(v)
 name2 = 'cardinal sine'
 
-trapz_ft = fm.trapz(rectf_, t, v)
-trapz_ift = fm.undo_trapz(trapz_ft, t, v)
+trapz_ft_ = fm.trapz_ft(rectf_, t, v)
+trapz_ift_ = fm.trapz_ift(trapz_ft_, t, v)
 
 ortho_fft, ortho_ifft = fm.dft(rectf_, norm='ortho')
 
@@ -38,7 +38,7 @@ sh.showf(v,
          xlabel=rf'$\nu$',
          ylabel=r'$\hat{\Pi}(\nu)$')
 
-sh.showfs(t, [np.asarray(trapz_ift).real, rectf_],
+sh.showfs(t, [np.asarray(trapz_ift_).real, rectf_],
           xlim=(-3, 3),
           title=f'Trapz ift {name1}',
           linest=['-', '--'],
@@ -46,7 +46,7 @@ sh.showfs(t, [np.asarray(trapz_ift).real, rectf_],
           xlabel=rf'$t,t\in {[t[0], round(t[-1], 2)]},dt={dt}$',
           ylabel=r'$\Pi(t)$',
           legend=True)
-sh.showfs(v, [np.asarray(trapz_ft).real, sinc_],
+sh.showfs(v, [np.asarray(trapz_ft_).real, sinc_],
           xlim=(-3, 3),
           title=f'Trapz ft {name2}',
           linest=['-', '--'],

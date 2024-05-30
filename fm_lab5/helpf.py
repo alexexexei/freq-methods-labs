@@ -11,3 +11,7 @@ def sinc(v):
 
 def y_t(t, a1, a2, w1, w2, p1, p2):
     return a1 * np.sin(w1 * t + p1) + a2 * np.sin(w2 * t + p2)
+
+
+def y_t_sinc(t, b):
+    return np.sinc(b * t)

@@ -13,7 +13,7 @@ def showf(x,
           grid=False,
           linest='-',
           color=None,
-          figsize_x=5,
+          figsize_x=7,
           figsize_y=4):
     plt.plot(x, y, label=label, color=color, linestyle=linest)
     plt.xlim(xlim)
@@ -40,7 +40,7 @@ def showfs(x,
            grid=False,
            linest: list = None,
            colors: list = None,
-           figsize_x=5,
+           figsize_x=7,
            figsize_y=4):
     if (labels is None):
         labels = [None] * len(y)
@@ -49,12 +49,20 @@ def showfs(x,
     if (colors is None):
         colors = [None] * len(y)
 
-    for k in range(len(y)):
-        plt.plot(x,
-                 y[k],
-                 label=labels[k],
-                 linestyle=linest[k],
-                 color=colors[k])
+    if isinstance(x, list):
+        for k in range(len(y)):
+            plt.plot(x[k],
+                     y[k],
+                     label=labels[k],
+                     linestyle=linest[k],
+                     color=colors[k])
+    else:
+        for k in range(len(y)):
+            plt.plot(x,
+                     y[k],
+                     label=labels[k],
+                     linestyle=linest[k],
+                     color=colors[k])
     plt.xlim(xlim)
     plt.ylim(ylim)
     plt.xlabel(xlabel)

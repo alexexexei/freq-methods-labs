@@ -26,10 +26,10 @@
 \lstdefinestyle{code}{
     language=Python,
     basicstyle=\footnotesize\ttfamily,
-    numbers=left,
-    numberstyle=\scriptsize\color{gray},
-    stepnumber=1,
-    numbersep=5pt,
+    % numbers=left,
+    % numberstyle=\scriptsize\color{gray},
+    % stepnumber=1,
+    % numbersep=5pt,
     backgroundcolor=\color{LightGray},
     showspaces=false,
     showstringspaces=false,
@@ -435,10 +435,195 @@
     \end{figure}
 
 
+    \subsection{Используемые программы}
+    Далее всегда будут использоваться язык программирования \texttt{Python} и библиотеки \texttt{numpy} и \texttt{matplotlib}.
+
+
+    Для удобного построения графиков с точной настройкой я написал программу, представленную на листинге ниже.
+    \begin{lstlisting}[label=showf, caption={Методы для построения графиков}]
+    # Method to build 1 function
+    def showf(x,
+              y,
+              xlim=(None, None),
+              ylim=(None, None),
+              title=None,
+              label=None,
+              xlabel=None,
+              ylabel=None,
+              legend=False,
+              grid=False,
+              linest='-',
+              color=None,
+              figsize_x=7,
+              figsize_y=4):
+        plt.plot(x, y, label=label, color=color, linestyle=linest)
+        plt.xlim(xlim)
+        plt.ylim(ylim)
+        plt.xlabel(xlabel)
+        plt.ylabel(ylabel)
+        plt.title(title)
+        plt.grid(grid)
+        if legend:
+            plt.legend()
+        plt.gcf().set_size_inches(figsize_x, figsize_y)
+        plt.show()
+
+    # Needed if we want to build more than 1 function
+    def showfs(x,
+               y: list,
+               xlim=(None, None),
+               ylim=(None, None),
+               title=None,
+               labels: list = None,
+               xlabel=None,
+               ylabel=None,
+               legend=False,
+               grid=False,
+               linest: list = None,
+               colors: list = None,
+               figsize_x=7,
+               figsize_y=4):
+        if (labels is None):
+            labels = [None] * len(y)
+        if (linest is None):
+            linest = ['-'] * len(y)
+        if (colors is None):
+            colors = [None] * len(y)
+        if isinstance(x, list):
+            for k in range(len(y)):
+                plt.plot(x[k],
+                         y[k],
+                         label=labels[k],
+                         linestyle=linest[k],
+                         color=colors[k])
+        else:
+            for k in range(len(y)):
+                plt.plot(x,
+                         y[k],
+                         label=labels[k],
+                         linestyle=linest[k],
+                         color=colors[k])
+        plt.xlim(xlim)
+        plt.ylim(ylim)
+        plt.xlabel(xlabel)
+        plt.ylabel(ylabel)
+        plt.title(title)
+        plt.grid(grid)
+        if legend:
+            plt.legend()
+        plt.gcf().set_size_inches(figsize_x, figsize_y)
+        plt.show()
+    \end{lstlisting}
+
+
+    \begin{lstlisting}[label=ex1, caption={Пример использования методов для построения графиков}]
+    # Usage example
+
+    # Building rectangular function
+    sh.showf(t,
+             rectf_,
+             xlim=(-3, 3),
+             title=(name1[0].upper()) + name1[1:],
+             xlabel=rf'$t$',
+             ylabel=r'$\Pi(t)$')
+
+    # Building comparison graph: trapz inverse Ft and rectangular function
+    sh.showfs([new_t, t], [tift_.real, rectf_],
+              xlim=(-3, 3),
+              title=f'Trapz ift {name1}',
+              linest=['-', '--'],
+              labels=['tift rectf', 'rectf'],
+             xlabel=rf'$t,t\in{[new_t[0],round(new_t[-1],2)]},dt={new_dt}$',
+              ylabel=r'$\Pi(t)$',
+              legend=True)
+    \end{lstlisting}
+
+
+    Вспомогательные функции.
+    \begin{lstlisting}[label=help1, caption={Методы для нахождения прямоугольной функции и кардинального синуса}]
+    # Rectangular function
+    def rectf(t):
+        return np.where((-0.5 <= t) & (t <= 0.5), 1, 0)
+
+    # Cardinal sine
+    def sinc(v):
+        return np.where(v == 0, 1, np.sin(np.pi * v) / (np.pi * v))
+    \end{lstlisting}
+
+
+    Основные математические операции.
+    \begin{lstlisting}[label=fmath1, caption={Методы, реализующие \texttt{trapz}, \texttt{dft} и умный \texttt{fft}}]
+    # trapz Fourier transform
+    def tft(f, t, v):
+        F = []
+        for k in v:
+            F_k = np.trapz(f * np.exp(-2j * np.pi * k * t), t)
+            F.append(F_k)
+        return np.array(F)
+
+    # trapz inverse Fourier transform
+    def tift(F, t, v):
+        f = []
+        for k in t:
+            f_k = np.trapz(F * np.exp(2j * np.pi * k * v), v)
+            f.append(f_k)
+        return np.array(f)
+
+    # DFT. For smart FFT special coeff is needed
+    def dft(f, norm=None, coeff=1):
+        fft_ = coeff * np.fft.fftshift(np.fft.fft(f, norm=norm))
+        ifft_ = np.fft.ifft(np.fft.ifftshift(fft_ / coeff), norm=norm)
+        return fft_, ifft_
+    \end{lstlisting}
+
+
+    Использование предыдущих наработок для выполнения задания 1.
+    \begin{lstlisting}[label=t1, caption={Реализация задания 1}]
+    # Set the t array and calculate rectangular function
+    T = 200
+    dt = 0.01
+    t = np.arange(-T / 2, T / 2 + dt, dt)
+    rectf_ = hp.rectf(t)
+    name1 = 'rectangular function'
+
+    # Set the v array and calculate cardinal sine
+    V = 1 / dt
+    dv = 1 / T
+    v = np.arange(-V / 2, V / 2 + dv, dv)
+    sinc_ = hp.sinc(v)
+    name2 = 'cardinal sine'
+
+    # Adjusting new t array to integrate on this interval
+    new_T = 200
+    new_dt = 0.01
+    new_t = np.arange(-new_T / 2, new_T / 2 + new_dt, new_dt)
+    new_rectf = hp.rectf(new_t)
+
+    # Adjusting new v array to integrate on this interval
+    new_V = 1 / new_dt
+    new_dv = 1 / new_T
+    new_v = np.arange(-new_V / 2, new_V / 2 + new_dv, new_dv)
+
+    # Calculating trapz
+    # Firstly direct transform, secondly inverse transform
+    tft_ = fm.tft(new_rectf, new_t, new_v)
+    tift_ = fm.tift(tft_, new_t, new_v)
+
+    # Calculating unitary fast Fourier transform
+    ufft, uifft = fm.dft(rectf_, norm='ortho')
+
+    # Finding special coefficient for smart FFT, then calculating smart FFT
+    c = dt * np.exp(-2 * np.pi * 1j * v * t[0])
+    sfft, sifft = fm.dft(rectf_, coeff=c)
+
+    # Build graphs using showf and showfs methods as in the example
+    \end{lstlisting}
+
+
     \section{Задание 2. Сэмплирование}
     В этом задании будем исследовать теорему Найквиста-Шеннона-Котельникова на двух примерах.
     \subsection{Сэмплирование синусов}
-    Зададим параметры $a_1=1,\,a_2=2,\,\omega_1=3,\,\omega_2=4,\,\varphi_1=\pi\div5,\,\varphi_2=\pi\div6$ и рассмотрим функцию
+    Зададим параметры $a_1=1,\,a_2=2,\,\omega_1=3,\,\omega_2=4,\,\varphi_1=\pi\div5,\,\varphi_2=\pi\div6,\,B=7$ и рассмотрим функцию
     $$y(t)=a_1\sin{(\omega_1t+\varphi_1)}+a_2\sin{(\omega_2t+\varphi_2)}$$
 
 
@@ -485,14 +670,14 @@
     
 
     Далее исследуем влияние шага дискретизации на вид восстановленной функции
-    и соотнесем свои результаты с теоремой Найквиста-Шеннона-Котельникова. Синим цветом выделены исходные сигналы, оранжевым --
+    и соотнесем результаты с теоремой Найквиста-Шеннона-Котельникова. Синим цветом выделены исходные сигналы, оранжевым --
     сэмплированные и восстановленные. Под шкалой времени на каждом графике указан шаг дискретизации сэмплирования $dt_s$.
     \begin{figure}[H]
         \centering
         \begin{subfigure}{0.45\textwidth}
             \centering
             \includegraphics[width=\linewidth]{2_sine.png}
-            \caption{Cэмплированный поверх непрерывного}
+            \caption{Cэмплированный поверх непр-ого}
             \label{fig:2sine}
         \end{subfigure}
         \hspace{5mm}
@@ -525,9 +710,19 @@
     \end{figure}
 
 
+    Теорема Найквиста-Шеннона-Котельникова гласит: если образ Фурье исходной функции содержится
+    внутри отрезка $[-B, B]$, то функция может быть безошибочно восстановлена по дискретным данным,
+    если для шага дискретизации $\Delta t$ выполнено условие $$\Delta t < \dfrac{1}{2B}$$
+
+
+    В данном случае $B=7$, значит при $\Delta t < 1\div14\approx 0.071$ теорема должна выполняться. Видим, что на рис. \ref{fig:1isine}
+    и \ref{fig:sines2} интерполированный сигнал не совпал с исходным при $\Delta t > 0.071$.
+    На рис. \ref{fig:sines3} результат в точности повторяет изначальный сигнал при $\Delta t = 0.05 < 0.071$, следовательно теорема выполняется.
+
+
     \subsection{Сэмплирование sinus cardinalis}
     Зададим параметр $b=2$ и рассмотрим функцию $$y(t)=\sinc{(bt)}=\sinc{(2t)}$$
-    Выполним все шаги из предыдущего пункта. Дополнительно для каждой величины
+    Оставим $B=7$. Выполним все шаги из предыдущего пункта. Дополнительно для каждой величины
     шага дискретизации построим Фурье-образ исходного и
     восстановленного сигналов. Дадим объяснение увиденному, сделаем выводы.
     \begin{figure}[H]
@@ -548,10 +743,10 @@
         \begin{subfigure}{0.45\textwidth}
             \centering
             \includegraphics[width=\linewidth]{1_fsinc.png}
-            \caption{Фурье-образ}
+            \caption{Фурье-образы восст. и исх. сигналов}
             \label{fig:fisinc1}
         \end{subfigure}
-        \caption{Подпись}
+        \caption{Сэмплирование sinс при шаге дискретизации $dt=0.2$}
         \label{fig:sincs1}
     \end{figure}
     \begin{figure}[H]
@@ -572,10 +767,10 @@
         \begin{subfigure}{0.45\textwidth}
             \centering
             \includegraphics[width=\linewidth]{2_fsinc.png}
-            \caption{Фурье-образ}
+            \caption{Фурье-образы восст. и исх. сигналов}
             \label{fig:fisinc2}
         \end{subfigure}
-        \caption{Подпись}
+        \caption{Уменьшение шага дискретизации $dt=0.1$}
         \label{fig:sincs2}
     \end{figure}
     \begin{figure}[H]
@@ -596,10 +791,97 @@
         \begin{subfigure}{0.45\textwidth}
             \centering
             \includegraphics[width=\linewidth]{3_fsinc.png}
-            \caption{Фурье-образ}
+            \caption{Фурье-образы восст. и исх. сигналов}
             \label{fig:fisinc3}
         \end{subfigure}
-        \caption{Подпись}
+        \caption{Уменьшение шага дискретизации $dt=0.05$}
         \label{fig:sincs3}
     \end{figure}
+
+
+    Мы получили аналогичные предыдущему пункту результаты -- для $\Delta t < 1\div14\approx0.071$ теорема
+    Найквиста-Шеннона-Котельникова выполнилась и интерполированный сигнал совпадает с иходным (см. рис.
+    \ref{fig:sincs3}). Фурье-образ интерполированного сигнала в точности повторяет образ изначального сигнала.
+    При $\Delta t > 0.071$ восстановленный сигнал не совпадает с исходным
+    (см. рис. \ref{fig:sincs1}, \ref{fig:sincs2}). Фурье-образы тоже не одинаковые, но при уменьшении шага дискретизации Фурье-образ
+    восстановленного сигнала приближается к образу исходного.
+
+
+    \subsection{Используемые программы}
+    Вспомогательные функции.
+    \begin{lstlisting}[label=code1, caption={Методы для нахождения двух функций из задания 2}]
+    # First paragraph function
+    def y_t(t, a1, a2, w1, w2, p1, p2):
+        return a1 * np.sin(w1 * t + p1) + a2 * np.sin(w2 * t + p2)
+    
+    # Second paragraph function
+    def y_t_sinc(t, b):
+        return np.sinc(b * t)
+    \end{lstlisting}
+
+
+    Основная математическая операция.
+    \begin{lstlisting}[label=int, caption={Метод для вычисления интерполированного сигнала}]
+    def interp(f, t, t_s, B):
+        ans = np.zeros_like(t)
+        for n in range(-len(t_s) // 2, len(t_s) // 2):
+            t_n = n / (2 * B)
+            ans += f(t_n) * np.sinc(2 * B * (t - t_n))
+        return ans
+    \end{lstlisting}
+
+
+    Программа для выполнения задания 2, реализующая предыдущие наработки.
+    \begin{lstlisting}[label=aaaa, caption={Реализация задания 2}]
+    # Calculating t array
+    T = 20
+    dt = 0.0001
+    t = np.arange(-T / 2, T / 2 + dt, dt)
+
+    # Calculating v array
+    V = 1 / dt
+    dv = 1 / T
+    v = np.arange(-V / 2, V / 2 + dv, dv)
+
+    # Calculating the first function (signal)
+    a1 = 1
+    a2 = 2
+    w1 = 3
+    w2 = 4
+    p1 = np.pi / 5
+    p2 = np.pi / 6
+    y = hp.y_t(t, a1, a2, w1, w2, p1, p2)
+
+    # ideal dt_s < 1/2B (Nyquist-Shannon-Kotelnikov theorem)
+    B = 7
+    dt_s = 0.05
+
+    # Calculating sampled signal
+    t_s = np.arange(-B, B + dt_s, dt_s)
+    y_s = hp.y_t(t_s, a1, a2, w1, w2, p1, p2)
+
+    def f(t):
+        return a1 * np.sin(w1 * t + p1) + a2 * np.sin(w2 * t + p2)
+
+    # Calculating interpolated signal
+    y_ip = fm.interp(f, t, t_s, B)
+
+    # Calculating the second function (signal)
+    b = 2
+    y_2 = hp.y_t_sinc(t, b)
+    y_2s = hp.y_t_sinc(t_s, b)
+
+    def g(t):
+        return np.sinc(b * t)
+
+    # Calculating sampled signal
+    y_2ip = fm.interp(g, t, t_s, B)
+
+    # Using smart FFT to calculate Fourier image
+    const = dt * np.exp(-2 * np.pi * 1j * v * t[0])
+    y_2_dft = fm.dft(y_2, coeff=const)
+    y_2ip_dft = fm.dft(y_2ip, coeff=const)
+
+    # Build graphs using showf and showfs methods as in the example
+    \end{lstlisting}
 \end{document}

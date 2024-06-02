@@ -17,9 +17,17 @@ def tift(F, t, v):
     return np.array(f)
 
 
-def dft(f, norm=None, coeff=1):
-    fft_ = coeff * np.fft.fftshift(np.fft.fft(f, norm=norm))
-    ifft_ = np.fft.ifft(np.fft.ifftshift(fft_ / coeff), norm=norm)
+def dft(f, norm=None):
+    fft_ = np.fft.fftshift(np.fft.fft(f, norm=norm))
+    ifft_ = np.fft.ifft(np.fft.ifftshift(fft_), norm=norm)
+    return fft_, ifft_
+
+
+def sdft(f, t, v, norm=None):
+    dt = t[1] - t[0]
+    c = dt * np.exp(-2 * np.pi * 1j * v * t[0])
+    fft_, ifft_ = dft(f, norm=norm)
+    fft_ *= c
     return fft_, ifft_
 
 

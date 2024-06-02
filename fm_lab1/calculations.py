@@ -18,7 +18,7 @@ def calc_a_n(n, start, end, gap_len, f):
     if n != 0:
         omega_n = calc_omega_n(n, gap_len)
         integrand *= cos(omega_n * t)
-    
+
     result = integrate(integrand, (t, start, end))
 
     coeff = calc_coeff(False, gap_len)
@@ -31,7 +31,7 @@ def calc_b_n(n, start, end, gap_len, f):
 
     omega_n = calc_omega_n(n, gap_len)
     integrand = f(t) * sin(omega_n * t)
-    
+
     result = integrate(integrand, (t, start, end))
 
     coeff = calc_coeff(False, gap_len)
@@ -40,7 +40,7 @@ def calc_b_n(n, start, end, gap_len, f):
 
 def calc_c_n(n, start, end, gap_len, f):
     omega_n = calc_omega_n(n, gap_len)
-    integrand = f(t) * E ** (-I * omega_n * t)
+    integrand = f(t) * E**(-I * omega_n * t)
 
     result = integrate(integrand, (t, start, end))
 
@@ -65,22 +65,23 @@ def calc_F_N(N, start, end, f):
 
 
 def calc_F_N_generic(N, gaps: list, functions: list):
-    if (len(gaps) != len(functions) 
-        or len(gaps) <= 0 
-        or len(functions) <= 0):
+    if (len(gaps) != len(functions) or len(gaps) <= 0 or len(functions) <= 0):
         return None
 
     gap_len = gaps[-1][1] - gaps[0][0]
 
-    a_0 = sum(calc_a_n(0, gap[0], gap[1], gap_len, functions[i]) 
-              for i, gap in enumerate(gaps))
+    a_0 = sum(
+        calc_a_n(0, gap[0], gap[1], gap_len, functions[i])
+        for i, gap in enumerate(gaps))
 
     F_N = a_0 / 2
     for n in range(1, N + 1):
-        a_n = sum(calc_a_n(n, gap[0], gap[1], gap_len, functions[i]) 
-                  for i, gap in enumerate(gaps))
-        b_n = sum(calc_b_n(n, gap[0], gap[1], gap_len, functions[i]) 
-                  for i, gap in enumerate(gaps))
+        a_n = sum(
+            calc_a_n(n, gap[0], gap[1], gap_len, functions[i])
+            for i, gap in enumerate(gaps))
+        b_n = sum(
+            calc_b_n(n, gap[0], gap[1], gap_len, functions[i])
+            for i, gap in enumerate(gaps))
 
         omega_n = calc_omega_n(n, gap_len)
         F_N += a_n * cos(omega_n * t) + b_n * sin(omega_n * t)
@@ -95,25 +96,24 @@ def calc_G_N(N, start, end, f):
         c_n = calc_c_n(n, start, end, gap_len, f)
 
         omega_n = calc_omega_n(n, gap_len)
-        G_N += c_n * E ** (I * omega_n * t)
+        G_N += c_n * E**(I * omega_n * t)
 
     return G_N
 
 
 def calc_G_N_generic(N, gaps: list, functions: list):
-    if (len(gaps) != len(functions) 
-        or len(gaps) <= 0 
-        or len(functions) <= 0):
+    if (len(gaps) != len(functions) or len(gaps) <= 0 or len(functions) <= 0):
         return None
 
     G_N = 0
     gap_len = gaps[-1][1] - gaps[0][0]
     for n in range(-N, N + 1):
-        c_n = sum(calc_c_n(n, gap[0], gap[1], gap_len, functions[i]) 
-                  for i, gap in enumerate(gaps))
-        
+        c_n = sum(
+            calc_c_n(n, gap[0], gap[1], gap_len, functions[i])
+            for i, gap in enumerate(gaps))
+
         omega_n = calc_omega_n(n, gap_len)
-        G_N += c_n * E ** (I * omega_n * t)
+        G_N += c_n * E**(I * omega_n * t)
 
     return G_N
 
@@ -124,24 +124,23 @@ def calc_parseval_coeffs(N, start, end, f):
     for n in range(-N, N + 1):
         c_n = calc_c_n(n, start, end, gap_len, f)
 
-        coeffs += re(c_n) ** 2 + im(c_n) ** 2
+        coeffs += re(c_n)**2 + im(c_n)**2
 
     return coeffs
 
 
 def calc_parseval_coeffs_generic(N, gaps: list, functions: list):
-    if (len(gaps) != len(functions) 
-        or len(gaps) <= 0 
-        or len(functions) <= 0):
+    if (len(gaps) != len(functions) or len(gaps) <= 0 or len(functions) <= 0):
         return None
-    
+
     coeffs = 0
     gap_len = gaps[-1][1] - gaps[0][0]
     for n in range(-N, N + 1):
-        c_n = sum(calc_c_n(n, gap[0], gap[1], gap_len, functions[i]) 
-                  for i, gap in enumerate(gaps))
-        
-        coeffs += re(c_n) ** 2 + im(c_n) ** 2
+        c_n = sum(
+            calc_c_n(n, gap[0], gap[1], gap_len, functions[i])
+            for i, gap in enumerate(gaps))
+
+        coeffs += re(c_n)**2 + im(c_n)**2
 
     return coeffs
 
@@ -160,6 +159,6 @@ def calc_parseval_square_func_generic(gaps: list, functions: list):
     for i in range(len(gaps)):
         integrand = functions[i] * conjugate(functions[i])
         result += integrate(integrand, (t, gaps[i][0], gaps[i][1]))
-    
+
     gap_len = gaps[-1][1] - gaps[0][0]
     return (1 / gap_len) * result

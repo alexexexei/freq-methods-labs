@@ -47,9 +47,9 @@ def fft_flt(u, W, shift=True):
     return flt_u, maybe_shifted_flt_U, U
 
 
-def get_AFR(W):
+def get_afr(W):
     return np.abs(W)
 
 
-def get_LAFR(W):
-    return 20 * np.log10(get_AFR(W))
+def get_lafr(W):
+    return 20 * np.log10(get_afr(W))

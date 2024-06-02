@@ -22,7 +22,7 @@ p2 = np.pi / 6
 y = hp.y_t(t, a1, a2, w1, w2, p1, p2)
 
 B = 7
-dt_s = 0.05  # ideal dt_s < 1/2B (Nyquist-Shannon-Kotelnikov theorem)
+dt_s = 0.05
 t_s = np.arange(-B, B + dt_s, dt_s)
 y_s = hp.y_t(t_s, a1, a2, w1, w2, p1, p2)
 
@@ -42,10 +42,9 @@ def g(t):
     return np.sinc(b * t)
 
 
-const = dt * np.exp(-2 * np.pi * 1j * v * t[0])
 y_2ip = fm.interp(g, t, t_s, B)
-y_2_dft = fm.dft(y_2, coeff=const)
-y_2ip_dft = fm.dft(y_2ip, coeff=const)
+y_2_sdft = fm.sdft(y_2, t, v)
+y_2ip_sdft = fm.sdft(y_2ip, t, v)
 
 sh.showf(t, y,
          title='Original continuous signal', 
@@ -79,7 +78,7 @@ sh.showfs(t, [y_2, y_2ip],
           xlabel=rf'$t, dt_s={dt_s}$',
           ylabel=r'$y(t)$',
           legend=True)
-sh.showfs(v, [y_2_dft[0].real, y_2ip_dft[0].real],
+sh.showfs(v, [y_2_sdft[0].real, y_2ip_sdft[0].real],
           xlim=(-3, 3),
           title='Smart fft interpolated and original signal',
           labels=['sfft orig', 'sfft interp'],

@@ -20,8 +20,9 @@ def find_a_b_c(N, f, gaps, gap_len):
 
 
 def sum_a_n(N, gaps, gap_len, funcs):
-    a_n = sum(calc_a_n(N, gap[0], gap[1], gap_len, funcs[i]) 
-              for i, gap in enumerate(gaps))
+    a_n = sum(
+        calc_a_n(N, gap[0], gap[1], gap_len, funcs[i])
+        for i, gap in enumerate(gaps))
 
     if (isinstance(a_n, int)):
         return a_n
@@ -29,8 +30,9 @@ def sum_a_n(N, gaps, gap_len, funcs):
 
 
 def sum_b_n(N, gaps, gap_len, funcs):
-    b_n = sum(calc_b_n(N, gap[0], gap[1], gap_len, funcs[i]) 
-              for i, gap in enumerate(gaps))
+    b_n = sum(
+        calc_b_n(N, gap[0], gap[1], gap_len, funcs[i])
+        for i, gap in enumerate(gaps))
 
     if (isinstance(b_n, int)):
         return b_n
@@ -38,9 +40,10 @@ def sum_b_n(N, gaps, gap_len, funcs):
 
 
 def sum_c_n(N, gaps, gap_len, funcs):
-    c_n = sum(calc_c_n(N, gap[0], gap[1], gap_len, funcs[i]) 
-              for i, gap in enumerate(gaps))
-    
+    c_n = sum(
+        calc_c_n(N, gap[0], gap[1], gap_len, funcs[i])
+        for i, gap in enumerate(gaps))
+
     if (isinstance(c_n, int)):
         return c_n
     return c_n.evalf()

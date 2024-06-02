@@ -17,7 +17,6 @@ fimgs = get_fimgs(fs, interval)
 build_f_t_rec(fs, clr=fs_color)
 build_fimg2_rec(fimgs, clr=fimgs_color)
 
-
 shfs = get_shfs(shifted_rectangular_function, a, b, consts[:3])
 shfimgs = get_fimgs(shfs, interval)
 
@@ -26,7 +25,6 @@ build_re_shfimg_rec(shfimgs, clr=fimgs_color)
 build_im_shfimg_rec(shfimgs, clr=fimgs_color)
 build_re_im_shfimg_rec(shfimgs, clr1=recol, clr2=imcol)
 build_abs_shfimg_rec(shfimgs, clr=fimgs_color)
-
 
 plpr = get_parsevals(fs, fimgs, interval)
 

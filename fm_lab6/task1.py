@@ -4,9 +4,6 @@ import numpy as np
 
 image = cv.imread("fm_lab6/src/4.png")
 
-if len(image.shape) == 3:
-    image = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
-
 image = image.astype(np.float64) / 255.0
 
 fft_ = np.fft.fftshift(np.fft.fft2(image))

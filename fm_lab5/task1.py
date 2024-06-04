@@ -29,8 +29,8 @@ new_v = np.arange(-new_V / 2, new_V / 2 + new_dv, new_dv)
 tft_ = fm.tft(new_rectf, new_t, new_v)
 tift_ = fm.tift(tft_, new_t, new_v)
 
-# for some reason fft is not unitary despite the norm='ortho' argument
 ufft, uifft = fm.dft(rectf_, norm='ortho')
+ufft /= max(ufft)
 sfft, sifft = fm.sdft(rectf_, t, v)
 
 sh.showf(t,

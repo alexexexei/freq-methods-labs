@@ -25,7 +25,7 @@ def dft(f, norm=None):
 
 def sdft(f, t, v, norm=None):
     dt = t[1] - t[0]
-    c = dt * np.exp(-2 * np.pi * 1j * v * t[0])
+    c = dt * np.exp(-2j * np.pi * v * t[0])
     fft_, ifft_ = dft(f, norm=norm)
     fft_ *= c
     return fft_, ifft_

@@ -40,7 +40,7 @@ def find_freqs_ampls(t, y, sr):
     ampls = []
 
     for freq in freqs:
-        int = trapz(y * exp(-1j * 2 * pi * freq * t), t)
+        int = trapz(y * exp(-2j * pi * freq * t), t)
         ampls.append(abs(int))
 
     return freqs, ampls

@@ -1,19 +1,23 @@
-import cv2 as cv
-import numpy as np
+import img_utils as iu
 
 
-image = cv.imread("fm_lab6/src/4.png")
+src = 'fm_lab6/src'
+img_path = f'{src}/4.png'
 
-image = image.astype(np.float64) / 255.0
+render_to = 'fm_lab6/renders/task1'
+rimg_path = f'{render_to}/fft2.png'
+reimg_path = f'{render_to}/new4.png'
 
-fft_ = np.fft.fftshift(np.fft.fft2(image))
+corr_im_path = f'{src}/corr_fft2.png'
+corrected = True
 
-fft_abs = np.abs(fft_)
-fft_angle = np.angle(fft_)
+img = iu.read_img(img_path)
+res, ang, nzmm = iu.fft2(img)
+ans = iu.convert_arr_to_img(res)
+iu.save_img(ans, rimg_path)
 
-fft_log = np.log1p(fft_abs)
-fft_norm = cv.normalize(fft_log, None, 0, 1, cv.NORM_MINMAX)
-
-magnitude_image = (fft_norm * 255).astype(np.uint8)
-
-cv.imwrite("fm_lab6/renders/ans.png", magnitude_image)
+if corrected:
+    img2 = iu.read_img(corr_im_path)
+    ans_ = iu.ifft2(img2, ang, nzmm)
+    ans_ = iu.convert_arr_to_img(ans_)
+    iu.save_img(ans_, reimg_path)

@@ -42,6 +42,29 @@ def rgb_angles(angles):
     return ar, ag, ab
 
 
+def raw_fft2(img: Image):
+    r, g, b = rgb_channels(img)
+
+    new_r = np.fft.fftshift(np.fft.fft2(r))
+    new_g = np.fft.fftshift(np.fft.fft2(g))
+    new_b = np.fft.fftshift(np.fft.fft2(b))
+
+    return np.stack((new_r, new_g, new_b), axis=2)
+
+
+def raw_ifft2(arr):
+    r, g, b = rgb_channels(arr)
+
+    new_r = np.fft.ifft2(np.fft.ifftshift(r))
+    new_g = np.fft.ifft2(np.fft.ifftshift(g))
+    new_b = np.fft.ifft2(np.fft.ifftshift(b))
+
+    res = np.stack((new_r.real, new_g.real, new_b.real), axis=2)
+    res = normalize(res)[0] * 255
+
+    return res.astype(np.uint8)
+
+
 def fft2_channel(channel):
     channel = channel.astype(np.float64) / 255
     fft_ = np.fft.fftshift(np.fft.fft2(channel))
@@ -68,16 +91,10 @@ def fft2(img: Image):
     nzg, min_g, max_g, ag = fft2_channel(g)
     nzb, min_b, max_b, ab = fft2_channel(b)
 
-    res = np.zeros((np.array(img).shape[0], np.array(img).shape[1], 3))
-    res[:, :, 0] = nzr
-    res[:, :, 1] = nzg
-    res[:, :, 2] = nzb
+    res = np.stack((nzr, nzg, nzb), axis=2)
     res = (res * 255).astype(np.uint8)
 
-    ang = np.zeros((np.array(img).shape[0], np.array(img).shape[1], 3))
-    ang[:, :, 0] = ar
-    ang[:, :, 1] = ag
-    ang[:, :, 2] = ab
+    ang = np.stack((ar, ag, ab), axis=2)
 
     nz_min_max = [(min_r, max_r), (min_g, max_g), (min_b, max_b)]
 
@@ -96,65 +113,19 @@ def ifft2(img: Image, angles, nz_min_max):
     new_g = ifft2_channel(g, ag, nz_g_min, nz_g_max)
     new_b = ifft2_channel(b, ab, nz_b_min, nz_b_max)
 
-    res = np.zeros((np.array(img).shape[0], np.array(img).shape[1], 3))
-    res[:, :, 0] = new_r
-    res[:, :, 1] = new_g
-    res[:, :, 2] = new_b
+    res = np.stack((new_r, new_g, new_b), axis=2)
     res = normalize(res)[0] * 255
-    
+
     return res.astype(np.uint8)
 
 
-def raw_fft2(img: Image):
-    r, g, b = rgb_channels(img)
-
-    new_r = np.fft.fftshift(np.fft.fft2(r))
-    new_g = np.fft.fftshift(np.fft.fft2(g))
-    new_b = np.fft.fftshift(np.fft.fft2(b))
-
-    res = np.zeros((np.array(img).shape[0], np.array(img).shape[1], 3))
-    res[:, :, 0] = new_r.real
-    res[:, :, 1] = new_g.real
-    res[:, :, 2] = new_b.real
-
-    return res
-
-
-def raw_ifft2(arr):
-    r, g, b = rgb_channels(arr)
-
-    new_r = np.fft.ifft2(np.fft.ifftshift(r))
-    new_g = np.fft.ifft2(np.fft.ifftshift(g))
-    new_b = np.fft.ifft2(np.fft.ifftshift(b))
-
-    res = np.zeros((arr.shape[0], arr.shape[1], 3))
-    res[:, :, 0] = new_r.real
-    res[:, :, 1] = new_g.real
-    res[:, :, 2] = new_b.real
-
-    return res
-
-
-def fft2_2img(img: Image):
-    res, ang, nz_min_max = fft2(img)
-    return convert_arr_to_img(res), ang, nz_min_max
-
-
-def ifft2_2img(img: Image, angles, nz_min_max):
-    return convert_arr_to_img(ifft2(img, angles, nz_min_max))
-
-
-def convolve2d(a, r, g, b, h, w, mode='same'):
+def convolve2d(a, r, g, b, mode='same'):
     c2r = sps.convolve2d(r, a, mode)
     c2g = sps.convolve2d(g, a, mode)
     c2b = sps.convolve2d(b, a, mode)
-
-    res = np.zeros((h, w, 3), dtype=np.uint8)
-    res[:, :, 0] = np.clip(c2r, 0, 255)
-    res[:, :, 1] = np.clip(c2g, 0, 255)
-    res[:, :, 2] = np.clip(c2b, 0, 255)
-
-    return res
+    return (np.stack(
+        (np.clip(c2r, 0, 255), np.clip(c2g, 0, 255), np.clip(c2b, 0, 255)),
+        axis=2)).astype(np.uint8)
 
 
 def block_kernel(n: int):
@@ -166,7 +137,7 @@ def gaussian_kernel(n: int):
     sum_ = 0
     for x in range(n):
         for y in range(n):
-            pow_ = -9 / (n**2) * ((x - (n + 1) / 2)**2+(y - (n + 1) / 2)**2)
+            pow_ = -9 / (n**2) * ((x - (n + 1) / 2)**2 + (y - (n + 1) / 2)**2)
             res = np.exp(pow_)
             a[x][y] = res
             sum_ += res
@@ -177,23 +148,13 @@ def gaussian_kernel(n: int):
 def block_blur_conv2(img: Image, n: int, mode='same'):
     a = block_kernel(n)
     r, g, b = rgb_channels(img)
-    w, h = img.size
-    return convolve2d(a, r, g, b, h, w, mode)
+    return convolve2d(a, r, g, b, mode)
 
 
 def gaussian_blur_conv2(img: Image, n: int, mode='same'):
     a = gaussian_kernel(n)
     r, g, b = rgb_channels(img)
-    w, h = img.size
-    return convolve2d(a, r, g, b, h, w, mode)
-
-
-def block_blur_conv2_2img(img: Image, n: int, mode='same'):
-    return convert_arr_to_img(block_blur_conv2(img, n, mode))
-
-
-def gaussian_blur_conv2_2img(img: Image, n: int, mode='same'):
-    return convert_arr_to_img(gaussian_blur_conv2(img, n, mode))
+    return convolve2d(a, r, g, b, mode)
 
 
 def apply_kernel(arr3, ker):
@@ -203,26 +164,18 @@ def apply_kernel(arr3, ker):
     new_g = g * ker
     new_b = b * ker
 
-    res = np.zeros((np.array(arr3).shape[0], np.array(arr3).shape[1], 3))
-    res[:, :, 0] = new_r.real
-    res[:, :, 1] = new_g.real
-    res[:, :, 2] = new_b.real
-
-    return res
+    return np.stack((new_r, new_g, new_b), axis=2)
 
 
 def fft2_blur(img: Image, kernel, n):
     a = kernel(n)
     w, h = img.size
-    k, l = a.shape
 
     fft2_img = raw_fft2(img)
     fft2_ker = np.fft.fftshift(np.fft.fft2(a, s=(h, w)))
     img_ker = apply_kernel(fft2_img, fft2_ker)
 
-    res = np.real(raw_ifft2(img_ker)) / 255
-
-    return res.astype(np.uint8)
+    return raw_ifft2(img_ker)
 
 
 def block_blur_fft2(img: Image, n: int):
@@ -231,6 +184,23 @@ def block_blur_fft2(img: Image, n: int):
 
 def gaussian_blur_fft2(img: Image, n: int):
     return fft2_blur(img, gaussian_kernel, n)
+
+
+def fft2_2img(img: Image):
+    res, ang, nz_min_max = fft2(img)
+    return convert_arr_to_img(res), ang, nz_min_max
+
+
+def ifft2_2img(img: Image, angles, nz_min_max):
+    return convert_arr_to_img(ifft2(img, angles, nz_min_max))
+
+
+def block_blur_conv2_2img(img: Image, n: int, mode='same'):
+    return convert_arr_to_img(block_blur_conv2(img, n, mode))
+
+
+def gaussian_blur_conv2_2img(img: Image, n: int, mode='same'):
+    return convert_arr_to_img(gaussian_blur_conv2(img, n, mode))
 
 
 def block_blur_fft2_2img(img: Image, n: int):

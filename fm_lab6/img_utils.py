@@ -16,6 +16,10 @@ def convert_arr_to_img(arr):
     return Image.fromarray(arr)
 
 
+def img2gray(img: Image):
+    return img.convert('L')
+
+
 def normalize(data):
     min_ = np.min(data)
     max_ = np.max(data)
@@ -215,6 +219,34 @@ def sharpen_fft2(img: Image, n: int = 1, K=None):
     return raw_ifft2(img_ker)
 
 
+def edgen_conv2(img: Image, K = None):
+    img2gray_ = img2gray(img)
+
+    if K is None:
+        K = [[-1, -1, -1], [-1, 8, -1], [-1, -1, -1]]
+
+    c2d = sps.convolve2d(img2gray_, K, mode='same')
+    nc2d = (normalize(c2d)[0] * 255).astype(np.uint8)
+
+    return nc2d
+
+
+def edgen_fft2(img: Image, K = None):
+    img2gray_ = img2gray(img)
+
+    if K is None:
+        K = [[-1, -1, -1], [-1, 8, -1], [-1, -1, -1]]
+
+    w, h = img.size
+    fft2_img = np.fft.fftshift(np.fft.fft2(img2gray_))
+    fft2_ker = np.fft.fftshift(np.fft.fft2(K, s=(h, w)))
+    img_ker = fft2_img * fft2_ker
+    res = np.fft.ifft2(np.fft.ifftshift(img_ker)).real
+    res = (normalize(res)[0] * 255).astype(np.uint8)
+
+    return res
+
+
 def fft2_2img(img: Image):
     res, ang, nz_min_max = fft2(img)
     return convert_arr_to_img(res), ang, nz_min_max
@@ -246,3 +278,11 @@ def sharpen_conv2_2img(img: Image, n: int = 1, K=None):
 
 def sharpen_fft2_2img(img: Image, n: int = 1, K=None):
     return convert_arr_to_img(sharpen_fft2(img, n, K))
+
+
+def edgen_conv2_2img(img: Image, K = None):
+    return convert_arr_to_img(edgen_conv2(img, K))
+
+
+def edgen_fft2_2img(img: Image, K = None):
+    return convert_arr_to_img(edgen_fft2(img, K))

@@ -59,10 +59,9 @@ def raw_ifft2(arr):
     new_g = np.fft.ifft2(np.fft.ifftshift(g))
     new_b = np.fft.ifft2(np.fft.ifftshift(b))
 
-    res = np.stack((new_r.real, new_g.real, new_b.real), axis=2)
-    res = normalize(res)[0] * 255
-
-    return res.astype(np.uint8)
+    return np.stack((np.clip(new_r.real, 0, 255), np.clip(
+        new_g.real, 0, 255), np.clip(new_b.real, 0, 255)),
+                    axis=2).astype(np.uint8)
 
 
 def fft2_channel(channel):
@@ -119,7 +118,8 @@ def ifft2(img: Image, angles, nz_min_max):
     return res.astype(np.uint8)
 
 
-def convolve2d(a, r, g, b, mode='same'):
+def convolve2d(img: Image, a, mode='same'):
+    r, g, b = rgb_channels(img)
     c2r = sps.convolve2d(r, a, mode)
     c2g = sps.convolve2d(g, a, mode)
     c2b = sps.convolve2d(b, a, mode)
@@ -147,14 +147,12 @@ def gaussian_kernel(n: int):
 
 def block_blur_conv2(img: Image, n: int, mode='same'):
     a = block_kernel(n)
-    r, g, b = rgb_channels(img)
-    return convolve2d(a, r, g, b, mode)
+    return convolve2d(img, a, mode)
 
 
 def gaussian_blur_conv2(img: Image, n: int, mode='same'):
     a = gaussian_kernel(n)
-    r, g, b = rgb_channels(img)
-    return convolve2d(a, r, g, b, mode)
+    return convolve2d(img, a, mode)
 
 
 def apply_kernel(arr3, ker):
@@ -186,6 +184,37 @@ def gaussian_blur_fft2(img: Image, n: int):
     return fft2_blur(img, gaussian_kernel, n)
 
 
+def sharpen_conv2(img: Image, n: int = 1, K=None):
+    if n <= 0:
+        return img
+
+    if K is None:
+        K = [[0, -1, 0], [-1, 5, -1], [0, -1, 0]]
+
+    ans = convolve2d(img, K)
+    for i in range(n - 1):
+        ans = convolve2d(ans, K)
+
+    return ans
+
+
+def sharpen_fft2(img: Image, n: int = 1, K=None):
+    if n <= 0:
+        return img
+
+    if K is None:
+        K = [[0, -1, 0], [-1, 5, -1], [0, -1, 0]]
+
+    w, h = img.size
+    fft2_img = raw_fft2(img)
+    fft2_ker = np.fft.fftshift(np.fft.fft2(K, s=(h, w)))
+    img_ker = apply_kernel(fft2_img, fft2_ker)
+    for i in range(n - 1):
+        img_ker = apply_kernel(img_ker, fft2_ker)
+
+    return raw_ifft2(img_ker)
+
+
 def fft2_2img(img: Image):
     res, ang, nz_min_max = fft2(img)
     return convert_arr_to_img(res), ang, nz_min_max
@@ -209,3 +238,11 @@ def block_blur_fft2_2img(img: Image, n: int):
 
 def gaussian_blur_fft2_2img(img: Image, n: int):
     return convert_arr_to_img(gaussian_blur_fft2(img, n))
+
+
+def sharpen_conv2_2img(img: Image, n: int = 1, K=None):
+    return convert_arr_to_img(sharpen_conv2(img, n, K))
+
+
+def sharpen_fft2_2img(img: Image, n: int = 1, K=None):
+    return convert_arr_to_img(sharpen_fft2(img, n, K))

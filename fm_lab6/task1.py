@@ -12,12 +12,10 @@ corr_im_path = f'{src}/corr_fft2.png'
 corrected = True
 
 img = iu.read_img(img_path)
-res, ang, nzmm = iu.fft2(img)
-ans = iu.convert_arr_to_img(res)
+ans, ang, nzmm = iu.fft2_2img(img)
 iu.save_img(ans, rimg_path)
 
 if corrected:
     img2 = iu.read_img(corr_im_path)
-    ans_ = iu.ifft2(img2, ang, nzmm)
-    ans_ = iu.convert_arr_to_img(ans_)
-    iu.save_img(ans_, reimg_path)
+    ans2 = iu.ifft2_2img(img2, ang, nzmm)
+    iu.save_img(ans2, reimg_path)

@@ -204,7 +204,7 @@
     \end{figure}
 
 
-    Для восстановления изображения понадобилась формула ниже:
+    Для восстановления изображения понадобилась формула
     $$
     \hat{X}=|\hat{X}|_{new}\cdot e^{i\angle\hat{X}},
     $$
@@ -214,7 +214,7 @@
     за фазы исходных амплитуд. Без массива углов мы бы не смогли привести изображение к изначальной <<структуре>>.
 
 
-    \subsection{Листинг для задания 1}
+    \subsection{Используемые программы}
     Для реализации программ, необходимых для выполнения задания 1, были использованы язык программирования
     \texttt{python} с библиотеками \texttt{pillow} и \texttt{numpy}.
     \begin{lstlisting}[label=task1, caption={Программные методы, необходимые для задания 1}]
@@ -282,7 +282,7 @@
         ifft_ = np.fft.ifft2(np.fft.ifftshift(col_res))
         return np.real(ifft_)
     
-    # Method to apply fft2 to an image. Processes three channels at once
+    # Method to apply fft2 to an image. Processes 3 channels at once
     def fft2(img: Image):
         r, g, b = rgb_channels(img)
     
@@ -297,7 +297,7 @@
         nz_min_max = [(min_r, max_r), (min_g, max_g), (min_b, max_b)]
         return res, ang, nz_min_max
     
-    # Method to apply ifft2 to an image. Processes three channels at once
+    # Method to apply ifft2 to an image. Processes 3 channels at once
     def ifft2(img: Image, angles, nz_min_max):
         r, g, b = rgb_channels(img)
         ar, ag, ab = rgb_angles(angles)
@@ -357,4 +357,297 @@
 
 
     \section{Задание 2. Размытие изображения}
+    Оставим то же изображение, что и в предыдущем пункте.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.45\linewidth]{4.png}
+        \captionsetup{skip=0pt}
+        \caption{Исходное изображение для задания 2}
+        \label{fig:4dotpng2}
+    \end{figure}
+    
+    
+    Проделаем следующие шаги:
+    \begin{enumerate}
+        \item Загрузим изображение в \texttt{python}. Будем обрабатывать каждый цветовой канал по отдельности.
+        \item Выберем три нечетных значения $n\geq3$. Пусть $n=9,13,21$.
+        \item \textit{Блочное размытие}. Создадим три матрицы ядра блочного размытия. Для этого
+        используем команду \texttt{np.ones((n, n)) / (n**2)}.
+        \item \textit{Размытие по Гауссу}. Cоздадим три матрицы ядра гауссовского размытия. Для
+        этого заполним матрицу $n \times n$ значениями функции
+        $$
+        f(x,y)=e^{-\frac{9}{n^2}\left(\left(x-\frac{n+1}{2}\right)^2+\left(y-\frac{n+1}{2}\right)^2\right)}
+        $$
+        и поделим все значения на сумму полученных элементов. Важно, чтобы значения матрицы были центрально-симметричны.
+        \item Выполним свёртку каждого канала исходного изображения с каждым из ядер для каждого из
+        размытий командой \texttt{convolve2d}. Для этого понадобится библиотека \texttt{scipy}. Должно получиться шесть результатов.
+        \item Проанализируем полученные изображения. Если размытие будет слабо заметно, то возьмем большее значение $n$.
+        \item Найдем Фурье-образы от каждого канала исходного изображения и от каждого из ядер, заполнив пропуски нулями. Для этого используем дополнительный параметр
+        функции \texttt{fft2(your\_image, s=(h, w))}, где h и w -- высота и ширина исходного изображения.
+        \item Поэлементно перемножим Фурье-образы каждого канала изображения с образами каждого из ядер.
+        \item Выполним обратное преобразование Фурье от полученных произведений.
+        \item Сравним изображения, полученные с помощью свёртки и Фурье-преобразования.
+        \item Сравним качество блочного и гауссовского размытия.
+    \end{enumerate}
+
+
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}{0.30\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{bl_c2_n=9.png}
+            \caption{Блочное при $n=9$}
+            \label{fig:bl_c2_n=9}
+        \end{subfigure}
+        \begin{subfigure}{0.30\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{bl_c2_n=13.png}
+            \caption{Блочное при $n=13$}
+            \label{fig:bl_c2_n=13}
+        \end{subfigure}
+        \begin{subfigure}{0.30\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{bl_c2_n=21.png}
+            \caption{Блочное при $n=21$}
+            \label{fig:bl_c2_n=21}
+        \end{subfigure}
+        \caption{Блочные размытия сверткой для $n=9,13,21$}
+        \label{fig:blcls}
+    \end{figure}
+
+
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}{0.30\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{g_c2_n=9.png}
+            \caption{Гаусс при $n=9$}
+            \label{fig:g_c2_n=9}
+        \end{subfigure}
+        \begin{subfigure}{0.30\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{g_c2_n=13.png}
+            \caption{Гаусс при $n=13$}
+            \label{fig:g_c2_n=13}
+        \end{subfigure}
+        \begin{subfigure}{0.30\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{g_c2_n=21.png}
+            \caption{Гаусс при $n=21$}
+            \label{fig:g_c2_n=21}
+        \end{subfigure}
+        \caption{Размытия по Гауссу сверткой для $n=9,13,21$}
+        \label{fig:gcls}
+    \end{figure}
+
+
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}{0.30\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{bl_fft2_n=9.png}
+            \caption{Блочное при $n=9$}
+            \label{fig:bl_fft2_n=9}
+        \end{subfigure}
+        \begin{subfigure}{0.30\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{bl_fft2_n=13.png}
+            \caption{Блочное при $n=13$}
+            \label{fig:bl_fft2_n=13}
+        \end{subfigure}
+        \begin{subfigure}{0.30\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{bl_fft2_n=21.png}
+            \caption{Блочное при $n=21$}
+            \label{fig:bl_fft2_n=21}
+        \end{subfigure}
+        \caption{Блочные размытия произведением Фурье-образов для $n=9,13,21$}
+        \label{fig:blfft2s}
+    \end{figure}
+
+
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}{0.30\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{g_fft2_n=9.png}
+            \caption{Гаусс при $n=9$}
+            \label{fig:g_fft2_n=9}
+        \end{subfigure}
+        \begin{subfigure}{0.30\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{g_fft2_n=13.png}
+            \caption{Гаусс при $n=13$}
+            \label{fig:g_fft2_n=13}
+        \end{subfigure}
+        \begin{subfigure}{0.30\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{g_fft2_n=21.png}
+            \caption{Гаусс при $n=21$}
+            \label{fig:g_fft2_n=21}
+        \end{subfigure}
+        \caption{Размытия по Гауссу произведением Фурье-образов для $n=9,13,21$}
+        \label{fig:gfft2s}
+    \end{figure}
+
+
+    Сравнивая рисунки \ref{fig:blcls} с \ref{fig:blfft2s}
+    и \ref{fig:gcls} с \ref{fig:gfft2s} видим, что результаты свертки совпадают с результатами произведения
+    Фурье-образов. Это можно объяснить теоремой о свертке, представляемой формулой
+    $$
+    \mathcal{F}\left\{g\right\}\mathcal{F}\left\{f\right\}=\mathcal{F}\left\{g*f\right\},
+    $$
+    то есть после произведения Фурье-образа изображения $g$ с образом ядра $f$ и обратного преобразования Фурье
+    мы получили свертку $g*f$. Следовательно, выполнилась теорема о свертке.
+
+
+    На всех изображениях размытие хорошо видно. При увеличении значения параметра $n$ размытие увеличивается.
+    Блочное размытие более резкое -- сильнее размывает детали на изображении по сравнению с размытием по Гауссу при тех же значениях параметра $n$
+    (детализация корабля см. рис. \ref{fig:bl_c2_n=21} и \ref{fig:g_c2_n=21}). Следовательно, размытие по Гауссу более качественное.
+
+
+    \subsection{Используемые программы}
+    Для выполнения данного задания были написаны новые методы, а также использованы
+    некоторые старые, представленные в предыдущем листинге \ref{task1}. Добавилась библиотека \texttt{scipy}.
+    \begin{lstlisting}[label=task2, caption={Программные методы, необходимые для задания 2}]
+    import scipy.signal as sps
+
+    # Method to apply fft2 to each channel
+    def raw_fft2(img: Image):
+        r, g, b = rgb_channels(img)
+        new_r = np.fft.fftshift(np.fft.fft2(r))
+        new_g = np.fft.fftshift(np.fft.fft2(g))
+        new_b = np.fft.fftshift(np.fft.fft2(b))
+        return np.stack((new_r, new_g, new_b), axis=2)
+
+    # Method to apply ifft2 to each channel
+    def raw_ifft2(arr):
+        r, g, b = rgb_channels(arr)
+        new_r = np.fft.ifft2(np.fft.ifftshift(r))
+        new_g = np.fft.ifft2(np.fft.ifftshift(g))
+        new_b = np.fft.ifft2(np.fft.ifftshift(b))
+        return np.stack((np.clip(new_r.real, 0, 255), np.clip(
+            new_g.real, 0, 255), np.clip(new_b.real, 0, 255)),
+                        axis=2).astype(np.uint8)
+
+    # Method to apply convolve2d to each channel
+    # Uses mode='same' as default to save image side dimensions
+    def convolve2d(img: Image, a, mode='same'):
+        r, g, b = rgb_channels(img)
+        c2r = sps.convolve2d(r, a, mode)
+        c2g = sps.convolve2d(g, a, mode)
+        c2b = sps.convolve2d(b, a, mode)
+        return (np.stack((np.clip(c2r, 0, 255),
+                np.clip(c2g, 0, 255), np.clip(c2b, 0, 255)),
+                axis=2)).astype(np.uint8)
+
+    # Method that returns block kernel
+    def block_kernel(n: int):
+        return np.ones((n, n)) / (n**2)
+
+    # Method that calculates and returns gaussian kernel
+    def gaussian_kernel(n: int):
+        a = np.zeros((n, n), dtype=np.float32)
+        sum_ = 0
+        for x in range(n):
+            for y in range(n):
+                pow_ = -9 / (n**2) * \
+                       ((x - (n + 1) / 2)**2 + (y - (n + 1) / 2)**2)
+                res = np.exp(pow_)
+                a[x][y] = res
+                sum_ += res
+        a /= sum_
+        return a
+
+    # Method that gets block kernel and returns the convolve2d result
+    def block_blur_conv2(img: Image, n: int, mode='same'):
+        a = block_kernel(n)
+        return convolve2d(img, a, mode)
+
+    # Method that gets gaussian kernel and returns the convolve2d result
+    def gaussian_blur_conv2(img: Image, n: int, mode='same'):
+        a = gaussian_kernel(n)
+        return convolve2d(img, a, mode)
+
+    # Method to apply kernel to each channel
+    def apply_kernel(arr3, ker):
+        r, g, b = rgb_channels(arr3)
+        new_r = r * ker
+        new_g = g * ker
+        new_b = b * ker
+        return np.stack((new_r, new_g, new_b), axis=2)
+
+    # Method to blur images with fft2
+    # Uses abstract kernel
+    def fft2_blur(img: Image, kernel, n):
+        a = kernel(n)
+        w, h = img.size
+        fft2_img = raw_fft2(img)
+        fft2_ker = np.fft.fftshift(np.fft.fft2(a, s=(h, w)))
+        img_ker = apply_kernel(fft2_img, fft2_ker)
+        return raw_ifft2(img_ker)
+
+    # Method that gets block kernel and returns the blurred fft2 result
+    def block_blur_fft2(img: Image, n: int):
+        return fft2_blur(img, block_kernel, n)
+    # Method that gets gaussian kernel and returns the blurred fft2 result
+    def gaussian_blur_fft2(img: Image, n: int):
+        return fft2_blur(img, gaussian_kernel, n)
+
+    # Helper method for external use of block blur with conv2
+    def block_blur_conv2_2img(img: Image, n: int, mode='same'):
+        return convert_arr_to_img(block_blur_conv2(img, n, mode))
+    
+    # Helper method for external use of gaussian blur with conv2
+    def gaussian_blur_conv2_2img(img: Image, n: int, mode='same'):
+        return convert_arr_to_img(gaussian_blur_conv2(img, n, mode))
+    
+    # Helper method for external use of block blur with fft2
+    def block_blur_fft2_2img(img: Image, n: int):
+        return convert_arr_to_img(block_blur_fft2(img, n))
+    
+    # Helper method for external use of gaussian blur with fft2
+    def gaussian_blur_fft2_2img(img: Image, n: int):
+        return convert_arr_to_img(gaussian_blur_fft2(img, n))
+    \end{lstlisting}
+
+
+    Все вышеперечисленные доработки используются в программе, представленной ниже.
+    \begin{lstlisting}[label=task22, caption={Реализация задания 2}]
+    import img_utils as iu
+
+    # Specify the image source and render output
+    src = 'fm_lab6/src'
+    img_path = f'{src}/4.png'
+    render_to = 'fm_lab6/renders/task2'
+    r1 = f'{render_to}/block_blur'
+    r2 = f'{render_to}/gaussian_blur'
+
+    # Starting cycle to check different n par. values
+    img = iu.read_img(img_path)
+    n = [9, 13, 21]
+    for i in n:
+        # Rendering block blur with conv2
+        conv2_i = iu.block_blur_conv2_2img(img, i)
+        rimg_path1 = f'{r1}/bl_c2_n={i}.png'
+        iu.save_img(conv2_i, rimg_path1)
+
+        # Rendering gaussian blur with conv2
+        conv2_i2 = iu.gaussian_blur_conv2_2img(img, i)
+        rimg_path3 = f'{r2}/g_c2_n={i}.png'
+        iu.save_img(conv2_i2, rimg_path3)
+
+        # Rendering block blur with fft2
+        fft2_i = iu.block_blur_fft2_2img(img, i)
+        rimg_path2 = f'{r1}/bl_fft2_n={i}.png'
+        iu.save_img(fft2_i, rimg_path2)
+
+        # Rendering gaussian blur with fft2
+        fft2_i2 = iu.gaussian_blur_fft2_2img(img, i)
+        rimg_path4 = f'{r2}/g_fft2_n={i}.png'
+        iu.save_img(fft2_i2, rimg_path4)
+    \end{lstlisting}
+
+
+    \section{Задание 3. Увеличение резкости}
 \end{document}

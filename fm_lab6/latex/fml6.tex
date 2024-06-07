@@ -126,7 +126,7 @@
         Так как изображение цветное, выполним преобразование для каждого из цветовых каналов по отдельности.
         \item Разделим полученные образы каждого канала на массивы модулей и аргументов с помощью функций библиотеки \texttt{numpy} \texttt{abs} и \texttt{angle}.
         \item Для удобства работы, найдем логарифм от каждого массива модулей и нормализуем его
-        значения в диапазон от 0 до 1. Чтобы избежать неопределённости в логарифме,
+        значения в диапазон от 0 до 1. Чтобы избежать неопределeнности в логарифме,
         предварительно прибавим ко всем значениям 1. Для этого понадобится команда \texttt{np.log1p()}. Для обратной операции \texttt{np.expm1()}.
         \item Объединим преобразованные каналы. Сохраним полученный массив (нормализованный логарифм модуля Фурье-образа)
         как изображение командой \texttt{save}, вызываемой от объекта \texttt{Image}.
@@ -358,35 +358,26 @@
 
     \section{Задание 2. Размытие изображения}
     Оставим то же изображение, что и в предыдущем пункте.
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=0.45\linewidth]{4.png}
-        \captionsetup{skip=0pt}
-        \caption{Исходное изображение для задания 2}
-        \label{fig:4dotpng2}
-    \end{figure}
-    
-    
     Проделаем следующие шаги:
     \begin{enumerate}
         \item Загрузим изображение в \texttt{python}. Будем обрабатывать каждый цветовой канал по отдельности.
         \item Выберем три нечетных значения $n\geq3$. Пусть $n=9,13,21$.
         \item \textit{Блочное размытие}. Создадим три матрицы ядра блочного размытия. Для этого
-        используем команду \texttt{np.ones((n, n)) / (n**2)}.
+        используем команду \texttt{np.ones((n,n))/(n**2)}.
         \item \textit{Размытие по Гауссу}. Cоздадим три матрицы ядра гауссовского размытия. Для
         этого заполним матрицу $n \times n$ значениями функции
         $$
         f(x,y)=e^{-\frac{9}{n^2}\left(\left(x-\frac{n+1}{2}\right)^2+\left(y-\frac{n+1}{2}\right)^2\right)}
         $$
         и поделим все значения на сумму полученных элементов. Важно, чтобы значения матрицы были центрально-симметричны.
-        \item Выполним свёртку каждого канала исходного изображения с каждым из ядер для каждого из
+        \item Выполним свeртку каждого канала исходного изображения с каждым из ядер для каждого из
         размытий командой \texttt{convolve2d}. Для этого понадобится библиотека \texttt{scipy}. Должно получиться шесть результатов.
         \item Проанализируем полученные изображения. Если размытие будет слабо заметно, то возьмем большее значение $n$.
         \item Найдем Фурье-образы от каждого канала исходного изображения и от каждого из ядер, заполнив пропуски нулями. Для этого используем дополнительный параметр
-        функции \texttt{fft2(your\_image, s=(h, w))}, где h и w -- высота и ширина исходного изображения.
+        функции \texttt{fft2(my\_image, s=(h, w))}, где h и w -- высота и ширина исходного изображения.
         \item Поэлементно перемножим Фурье-образы каждого канала изображения с образами каждого из ядер.
         \item Выполним обратное преобразование Фурье от полученных произведений.
-        \item Сравним изображения, полученные с помощью свёртки и Фурье-преобразования.
+        \item Сравним изображения, полученные с помощью свeртки и Фурье-преобразования.
         \item Сравним качество блочного и гауссовского размытия.
     \end{enumerate}
 
@@ -515,17 +506,21 @@
     # Method to apply fft2 to each channel
     def raw_fft2(img: Image):
         r, g, b = rgb_channels(img)
+
         new_r = np.fft.fftshift(np.fft.fft2(r))
         new_g = np.fft.fftshift(np.fft.fft2(g))
         new_b = np.fft.fftshift(np.fft.fft2(b))
+
         return np.stack((new_r, new_g, new_b), axis=2)
 
     # Method to apply ifft2 to each channel
     def raw_ifft2(arr):
         r, g, b = rgb_channels(arr)
+
         new_r = np.fft.ifft2(np.fft.ifftshift(r))
         new_g = np.fft.ifft2(np.fft.ifftshift(g))
         new_b = np.fft.ifft2(np.fft.ifftshift(b))
+
         return np.stack((np.clip(new_r.real, 0, 255), np.clip(
             new_g.real, 0, 255), np.clip(new_b.real, 0, 255)),
                         axis=2).astype(np.uint8)
@@ -534,9 +529,11 @@
     # Uses mode='same' as default to save image side dimensions
     def convolve2d(img: Image, a, mode='same'):
         r, g, b = rgb_channels(img)
+
         c2r = sps.convolve2d(r, a, mode)
         c2g = sps.convolve2d(g, a, mode)
         c2b = sps.convolve2d(b, a, mode)
+
         return (np.stack((np.clip(c2r, 0, 255),
                 np.clip(c2g, 0, 255), np.clip(c2b, 0, 255)),
                 axis=2)).astype(np.uint8)
@@ -572,9 +569,11 @@
     # Method to apply kernel to each channel
     def apply_kernel(arr3, ker):
         r, g, b = rgb_channels(arr3)
+
         new_r = r * ker
         new_g = g * ker
         new_b = b * ker
+
         return np.stack((new_r, new_g, new_b), axis=2)
 
     # Method to blur images with fft2
@@ -582,15 +581,18 @@
     def fft2_blur(img: Image, kernel, n):
         a = kernel(n)
         w, h = img.size
+
         fft2_img = raw_fft2(img)
         fft2_ker = np.fft.fftshift(np.fft.fft2(a, s=(h, w)))
         img_ker = apply_kernel(fft2_img, fft2_ker)
+
         return raw_ifft2(img_ker)
 
-    # Method that gets block kernel and returns the blurred fft2 result
+    # Method that passes block ker. and returns the blurred fft2 res.
     def block_blur_fft2(img: Image, n: int):
         return fft2_blur(img, block_kernel, n)
-    # Method that gets gaussian kernel and returns the blurred fft2 result
+
+    # Method that passes gaussian ker. and returns the blurred fft2 res.
     def gaussian_blur_fft2(img: Image, n: int):
         return fft2_blur(img, gaussian_kernel, n)
 
@@ -605,7 +607,6 @@
     # Helper method for external use of block blur with fft2
     def block_blur_fft2_2img(img: Image, n: int):
         return convert_arr_to_img(block_blur_fft2(img, n))
-    
     # Helper method for external use of gaussian blur with fft2
     def gaussian_blur_fft2_2img(img: Image, n: int):
         return convert_arr_to_img(gaussian_blur_fft2(img, n))
@@ -623,7 +624,7 @@
     r1 = f'{render_to}/block_blur'
     r2 = f'{render_to}/gaussian_blur'
 
-    # Starting cycle to check different n par. values
+    # Starting cycle to check different n values
     img = iu.read_img(img_path)
     n = [9, 13, 21]
     for i in n:
@@ -650,4 +651,246 @@
 
 
     \section{Задание 3. Увеличение резкости}
+    Для выполнения данного задания используем то же изображение, что и в предыдущем пункте.
+    Проделаем следующие шаги:
+    \begin{enumerate}
+        \item Загрузим изображение в \texttt{python}. Будем обрабатывать каждый цветовой канал по отдельности.
+        \item Зададим матрицу ядра увеличения резкости
+        $$K=
+        \begin{bmatrix}
+            0 &-1 &0\\
+            -1 &5 &-1\\
+            0 &-1 &0
+        \end{bmatrix}
+        $$
+        \item Найдем свeртку каждого из трех каналов исходного изображения с ядром командой \texttt{convolve2d} из библиотеки \texttt{scipy}.
+        \item Проанализируем полученные изображения. Если увеличение резкости будет слабо заметно, применим свeртку с ядром ещe несколько раз.
+        \item Найдем Фурье-образы каждого канала изображения и ядра, как в задании 2.
+        \item Поэлементно перемножим Фурье-образы каждого канала изображения и ядра и выполним обратное преобразование Фурье от их произведений. Объединим преобразованные каналы.
+        \item Сравним изображения, полученные двумя способами.
+    \end{enumerate}
+
+
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{sharp_conv2_n=1.png}
+            \caption{Свертка при $n=1$}
+            \label{fig:shcv2n=1}
+        \end{subfigure}
+        \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{sharp_fft2_n=1.png}
+            \caption{Произв. Фурье-образов при $n=1$}
+            \label{fig:shfft2n=1}
+        \end{subfigure}
+        \caption{Увеличения резкости сверткой и произведением Фурье-образов}
+        \label{fig:shcv2fft2s}
+    \end{figure}
+
+
+    Видим, что изображения в обоих случаях стали более четкими, применять преобразование еще раз не требуется. Разницу с оригинальным хорошо видно при сравнении детализации
+    корабля и облаков. Результат сверткой и произведением Фурье-образов совпадают, следовательно выполнилась теорема о свертке.
+
+
+    \subsection{Используемые программы}
+    Для выполнения данного задания понадобилась написать новые методы, а также воспользоваться уже сделанными, приведенными
+    в предыдущих листингах \ref{task1} и \ref{task2}.
+    \begin{lstlisting}[label=task3, caption={Программные методы, необходимые для задания 3}]
+    # Method to sharpen image with conv2
+    def sharpen_conv2(img: Image, n: int = 1, K=None):
+        if n <= 0:
+            return img
+
+        if K is None:
+            K = [[0, -1, 0], [-1, 5, -1], [0, -1, 0]]
+
+        ans = convolve2d(img, K)
+        for i in range(n - 1):
+            ans = convolve2d(ans, K)
+
+        return ans
+    
+    # Method to sharpen image with fft2
+    def sharpen_fft2(img: Image, n: int = 1, K=None):
+        if n <= 0:
+            return img
+
+        if K is None:
+            K = [[0, -1, 0], [-1, 5, -1], [0, -1, 0]]
+
+        w, h = img.size
+
+        fft2_img = raw_fft2(img)
+        fft2_ker = np.fft.fftshift(np.fft.fft2(K, s=(h, w)))
+        
+        img_ker = apply_kernel(fft2_img, fft2_ker)
+        for i in range(n - 1):
+            img_ker = apply_kernel(img_ker, fft2_ker)
+
+        return raw_ifft2(img_ker)
+
+    # Helper method for external use of sharpen with conv2
+    def sharpen_conv2_2img(img: Image, n: int = 1, K=None):
+        return convert_arr_to_img(sharpen_conv2(img, n, K))
+    
+    # Helper method for external use of sharpen with fft2
+    def sharpen_fft2_2img(img: Image, n: int = 1, K=None):
+        return convert_arr_to_img(sharpen_fft2(img, n, K))
+    \end{lstlisting}
+
+
+    Ниже приведена программа, применяющая написанные методы.
+    \begin{lstlisting}[label=task33, caption={Реализация задания 3}]
+    import img_utils as iu
+
+    # Specify the image source and render output
+    src = 'fm_lab6/src'
+    img_path = f'{src}/4.png'
+    render_to = 'fm_lab6/renders/task3'
+
+    # Starting cycle to check different n values
+    img = iu.read_img(img_path)
+    n = [1, 2]
+    for i in n:
+        # Rendering sharpen with conv2
+        ans = iu.sharpen_conv2_2img(img, i)
+        iu.save_img(ans, f'{render_to}/sharp_conv2_n={i}.png')
+        
+        # Rendering sharpen with fft2
+        ans2 = iu.sharpen_fft2_2img(img, i)
+        iu.save_img(ans2, f'{render_to}/sharp_fft2_n={i}.png')
+    \end{lstlisting}
+
+
+    \section{Задание 4. Выделение краeв}
+    Найдем в интернете качественное изображение малого размера в стиле pixel art. Пусть это будет изображение, представленное ниже.
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}{0.35\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{pa.png}
+            \caption{Исх. изобр. для задания 4}
+            \label{fig:padotpng}
+        \end{subfigure}
+        \hspace{10mm}
+        \begin{subfigure}{0.35\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{img2gray.png}
+            \caption{Черно-белое изображение}
+            \label{fig:padotpnggray}
+        \end{subfigure}
+        \caption{Исходное и преобразованное к черно-белому изображения для задания 4}
+        \label{fig:task4origin}
+    \end{figure}
+
+
+    Далее проделаем следующие шаги:
+    \begin{enumerate}
+        \item Загрузим изображение в \texttt{python}, преобразуем его в чeрно-белое (команда \texttt{im2gray}) и поделим все элементы на 255.
+        \item Зададим матрицу ядра выделения краeв
+        $$
+        K=
+        \begin{bmatrix}
+            -1 &-1 &-1\\
+            -1 &8 &-1\\
+            -1 &-1 &-1
+        \end{bmatrix}
+        $$
+        \item Найдем свертку исходного изображения с ядром командой \texttt{convolve2d}.
+        \item Нормализуем значения полученного массива в диапазон от 0 до 1.
+        \item Проанализируем полученные изображения.
+        \item Найдем Фурье-образы исходного изображения и ядра.
+        \item Поэлементно перемножим Фурье-образы изображения и ядра и выполним обратное преобразование Фурье от их произведения.
+        \item Сравним изображения, полученные двумя способами.
+    \end{enumerate}
+
+
+    Далее сразу приведены изображения, полученные двумя способами.
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}{0.35\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{edgen_conv2.png}
+            \caption{Свертка}
+            \label{fig:padotpngnew}
+        \end{subfigure}
+        \hspace{10mm}
+        \begin{subfigure}{0.35\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{edgen_fft2.png}
+            \caption{Произв. Фурье-образов}
+            \label{fig:padotpnggraynew}
+        \end{subfigure}
+        \caption{Выделение краев сверткой и произведением Фурье-образов}
+        \label{fig:task4new}
+    \end{figure}
+
+
+    Видим, что остались только выделенные края пикселей. В некоторых местах края четче, чем в других. Изображения получились одинаковыми, но одно светлее другого, что, скорее всего,
+    вызвано ошибками в вычислениях. Следовательно, выполняется теорема о свертке.
+
+
+    \subsection{Используемые программы}
+    Для реализации данного задания потребовалось написать новые методы и воспользоваться некоторыми другими, приведенными ранее
+    в листингах \ref{task1}, \ref{task2}, \ref{task3}.
+    \begin{lstlisting}[label=task4, caption={Программные методы, необходимые для задания 4}]
+    # Method to convert rgb image to gray image
+    def img2gray(img: Image):
+        return img.convert('L')
+
+    # Method to edgen image with conv2
+    def edgen_conv2(img: Image, K = None):
+        img2gray_ = img2gray(img)
+        if K is None:
+            K = [[-1, -1, -1], [-1, 8, -1], [-1, -1, -1]]
+        c2d = sps.convolve2d(img2gray_, K, mode='same')
+        nc2d = (normalize(c2d)[0] * 255).astype(np.uint8)
+        return nc2d
+    
+    # Method to edgen image with fft2
+    def edgen_fft2(img: Image, K = None):
+        img2gray_ = img2gray(img)
+        if K is None:
+            K = [[-1, -1, -1], [-1, 8, -1], [-1, -1, -1]]
+        w, h = img.size
+        fft2_img = np.fft.fftshift(np.fft.fft2(img2gray_))
+        fft2_ker = np.fft.fftshift(np.fft.fft2(K, s=(h, w)))
+        img_ker = fft2_img * fft2_ker
+        res = np.fft.ifft2(np.fft.ifftshift(img_ker)).real
+        res = (normalize(res)[0] * 255).astype(np.uint8)
+        return res
+    # Helper method for external use of edgen with conv2
+    def edgen_conv2_2img(img: Image, K = None):
+        return convert_arr_to_img(edgen_conv2(img, K))
+    
+    # Helper method for external use of edgen with fft2
+    def edgen_fft2_2img(img: Image, K = None):
+        return convert_arr_to_img(edgen_fft2(img, K))
+    \end{lstlisting}
+
+
+    Написанные методы были использованы в программе, приведенной ниже.
+    \begin{lstlisting}[label=task44, caption={Реализация задания 4}]
+    import img_utils as iu
+
+    # Specify the image source and render output
+    src = 'fm_lab6/src'
+    img_path = f'{src}/pa.png'
+    render_to = 'fm_lab6/renders/task4'
+
+    # Read image and convert to gray
+    img = iu.read_img(img_path)
+    gray = iu.img2gray(img)
+    iu.save_img(gray, f'{render_to}/img2gray.png')
+
+    # Rendering edgen image with conv2
+    ans = iu.edgen_conv2_2img(img)
+    iu.save_img(ans, f'{render_to}/edgen_conv2.png')
+
+    # Rendering edgen image with fft2
+    ans2 = iu.edgen_fft2_2img(img)
+    iu.save_img(ans2, f'{render_to}/edgen_fft2.png')
+    \end{lstlisting}
 \end{document}

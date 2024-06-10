@@ -2,13 +2,14 @@ import img_utils as iu
 
 
 src = 'fm_lab6/src'
-img_path = f'{src}/4.png'
+curr_img = '2'
+img_path = f'{src}/{curr_img}.png'
 
 render_to = 'fm_lab6/renders/task1'
-rimg_path = f'{render_to}/fft2.png'
-reimg_path = f'{render_to}/new4.png'
+rimg_path = f'{render_to}/fft2_{curr_img}.png'
+reimg_path = f'{render_to}/new4_{curr_img}.png'
 
-corr_im_path = f'{src}/corr_fft2.png'
+corr_im_path = f'{src}/corr_fft2_{curr_img}.png'
 corrected = True
 
 img = iu.read_img(img_path)

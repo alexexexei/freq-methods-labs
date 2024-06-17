@@ -225,15 +225,23 @@
 
 
     \noindent Для построения графиков $f(t)$ используется метод, представленный ниже.
-    На строках 7-8 приведен пример использования -- сначала задается функция,
+    На строках 15-16 приведен пример использования -- сначала задается функция,
     принимающая параметры $a\text{ и }b$, после чего вызывается метод build\_{f}\_{t}.
     Далее в отчете эта программа используется по умолчанию
     \begin{lstlisting}[label=f_t_rect, caption=Программа для построения графика $f(t)$]
     def build_f_t(f_t, clr, lbl):
         if (lbl == None):
-            plot(f_t, line_color=clr, xlabel=r'$t$', ylabel=r'$f(t)$')
+            plot(f_t,
+            line_color=clr,
+            xlabel=r'$t$',
+            ylabel=r'$f(t)$')
         else:
-            plot(f_t, line_color=clr, xlabel=r'$t$', ylabel=r'$f(t)$', label=lbl, legend=True)
+            plot(f_t,
+            line_color=clr,
+            xlabel=r'$t$',
+            ylabel=r'$f(t)$',
+            label=lbl,
+            legend=True)
 
     func = rectangular_function(1, 2)
     build_f_t(func, 'red', None)

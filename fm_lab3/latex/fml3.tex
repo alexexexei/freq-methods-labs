@@ -370,20 +370,13 @@
     Синим цветом обозначается оригинальный сигнал, красным фильтрованный. 
 
     
-    После анализа графиков можно сделать вывод, что параметр $c$ отвечает за похожесть сигнала на синусоиду с разрывом
-    (см. рис. \ref{fig:fig71}, \ref{fig:fig01}). Чем больше значение параметра $c$,
+    После анализа графиков можно сделать вывод, что параметр $c$ отвечает за синусоидальный шум. Чем больше значение параметра $c$,
     тем больше растягивается сигнал по оси $Oy$, то есть сильнее возрастает амплитуда волн. При $b=0$ сигнал $u$ описывается
     в формулой синусоиды $$u=g+c\cdot\sin{(d\cdot t+0)}$$ (см. рис. \ref{fig:fig81}, \ref{fig:fig91}). Чем больше $g$, тем выше поднимается график.
     Параметр $d$ характеризует растяжение графика по оси $Ox$. При увеличении значения параметра $d$ частота волн повышается.
     Значение параметра $b$ как и в пунктах ранее влияет на загрязненность сигнала -- чем меньше $b$, тем чище исходный и фильтрованный сигналы.
-    Как виды помехи параметры $b,\,c,\,d$ можно назвать амплитудным, наклонным/дуговым (синусоидальным) и частотным шумами соответственно.
-    Исследовав влияние частот среза можно сказать, что обнулять частоты пиков слева и справа от наивысшей(их) амплитуд(ы) недостаточно. Такой
-    подход скорее искривляет сигнал (см. рис. \ref{fig:fig71}). При обнулении соседних пиков вместе (расширении диапазона обнуляемых
-    частот) фильтрация снова скорее искажает исходный сигнал (см. рис. \ref{fig:dklfksdjfo}, \ref{fig:vbvbv}). Фильтр верхних частот выравнивает исходный сигнал,
-    что мы уже наблюдали в пункте ранее. Совместно с фильтром специфических частот интересных результатов не обнаружилось. Лучше всего справился фильтр нижних
-    частот.
-    Вместе с фильтром специфических частот выходит достаточно интересный результат, скорее всего второй лучший из всех (см. рис. \ref{fig:fig77}, \ref{fig:fig87},
-    \ref{fig:fig97}, \ref{fig:fig107}, \ref{fig:fig07}, \ref{fig:sdjfsdfj}, \ref{fig:fsdjflsfl}, \ref{fig:snf}).
+    Как виды помехи параметры можно назвать так: $b$ -- белый шум, $c \text{ и } d$ гармонический шум.
+    Исследовав влияние частот среза можно сказать, что обнулять частоты пиков слева и справа от наивысшей(их) амплитуд(ы) недостаточно.
 
 
     \begin{figure}[!htb]
@@ -623,20 +616,8 @@
     Синим цветом обозначается оригинальный сигнал, красным фильтрованный.
 
 
-    По полученным графикам можно сделать вывод, что фильтр верхних частот выравнивает сигнал так, что линия при амплитуде равной
-    нулю становится его серединой. Если брать маленький диапазон $[-\nu_0,\nu_0]$, то сигнал после фильтрации сохраняет свою
-    изначальную форму или по крайней мере очень похож на исходный при условии, что исходный сигнал напоминает синусоиду с разрывом
-    (имеет хотя бы один полный период синусоиды до разрыва или в разрыве или после разрыва). При этом любые резкие возрастания или
-    убывания амплитуд горизонтально центрируются, что можно рассмотреть на рисунках \ref{fig:fig63}, \ref{fig:fig65}, \ref{fig:fig_c} и \ref{fig:fig_e}.
-    Явление постоянного амплитудного смещения называется DC offset и является нежелательным, например, в звукозаписи, так как является
-    причиной возникновения щелчков в ней. Описанная в предыдущих предложениях фильтрация частично нивелирует данное явление. В остальных
-    случаях фильтрованный сигнал концентрируется в некоторой окресности линии $A=0$, где $A$ -- амплитуда. Ровные (прямые) части сигнала становятся
-    больше похожи на синусоиду (см. рис. \ref{fig:fig33}, \ref{fig:fig57}, \ref{fig:fig59}, \ref{fig:fig67}), дуговые части отражаются относительно
-    $A=0$ и их амплитуды вытягиваются (см. рис. \ref{fig:fig61}, \ref{fig:fig_a}, \ref{fig:fig_g}). При увеличении частотного диапазона $[-\nu_0,\nu_0]$
-    синусоиды ровных частей исходного сигнала постепенно превращаются в похожие на исходные ровные (прямые) части, но центрированные относительно линии $A=0$
-    (см. рис. \ref{fig:fig45}, \ref{fig:fig47}, \ref{fig:fig49}, \ref{fig:fig51}, \ref{fig:fig53}). Дуговые части испытывают аналогичный процесс (см. рис. \ref{fig:fig_323234}).
-    На графиках модуля Фурье-образа видно, как при увеличении диапазона все больше частот с высокими амплитудами отсекаются и, тем ровнее получается
-    фильтрованный сигнал.
+    По полученным графикам можно сделать вывод -- фильтр верхних частот в данном случае отрезает значимую часть сигнала,
+    содержащуюся в нижних частотах, и оставляет только белый и/или гармонический шум, находящийся преимущественно на высоких частотах.
 
 
     \begin{figure}[!htb]
@@ -646,7 +627,6 @@
         \caption{График исходного и фильтрованного сигналов (1)}
         \label{fig:fig27}
     \end{figure}
-    \newpage
     \begin{figure}[!htb]
         \centering
         \includegraphics[scale=0.48]{1_abs_u_U_nolow.png}
@@ -675,7 +655,6 @@
         \caption{График исходного и фильтрованного сигналов (3)}
         \label{fig:fig31}
     \end{figure}
-    \newpage
     \begin{figure}[!htb]
         \centering
         \includegraphics[scale=0.48]{3_abs_u_U_nolow.png}
@@ -697,7 +676,6 @@
         \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (4)}
         \label{fig:fig34}
     \end{figure}
-    \newpage
     \begin{figure}[!htb]
         \centering
         \includegraphics[scale=0.48]{5_u_flt_u_nolow.png}
@@ -719,7 +697,6 @@
         \caption{График исходного и фильтрованного сигналов (6)}
         \label{fig:fig37}
     \end{figure}
-    \newpage
     \begin{figure}[!htb]
         \centering
         \includegraphics[scale=0.48]{6_abs_u_U_nolow.png}
@@ -741,7 +718,6 @@
         \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (7)}
         \label{fig:fig40}
     \end{figure}
-    \newpage
     \begin{figure}[!htb]
         \centering
         \includegraphics[scale=0.48]{8_u_flt_u_nolow.png}
@@ -763,7 +739,6 @@
         \caption{График исходного и фильтрованного сигналов (9)}
         \label{fig:fig43}
     \end{figure}
-    \newpage
     \begin{figure}[!htb]
         \centering
         \includegraphics[scale=0.48]{9_abs_u_U_nolow.png}
@@ -785,7 +760,6 @@
         \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (10)}
         \label{fig:fig46}
     \end{figure}
-    \newpage
     \begin{figure}[!htb]
         \centering
         \includegraphics[scale=0.48]{11_u_flt_u_nolow.png}
@@ -807,7 +781,6 @@
         \caption{График исходного и фильтрованного сигналов (12)}
         \label{fig:fig49}
     \end{figure}
-    \newpage
     \begin{figure}[!htb]
         \centering
         \includegraphics[scale=0.48]{12_abs_u_U_nolow.png}
@@ -829,7 +802,6 @@
         \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (13)}
         \label{fig:fig52}
     \end{figure}
-    \newpage
     \begin{figure}[!htb]
         \centering
         \includegraphics[scale=0.48]{14_u_flt_u_nolow.png}
@@ -851,7 +823,6 @@
         \caption{График исходного и фильтрованного сигналов (15)}
         \label{fig:fig55}
     \end{figure}
-    \newpage
     \begin{figure}[!htb]
         \centering
         \includegraphics[scale=0.48]{15_abs_u_U_nolow.png}
@@ -873,7 +844,6 @@
         \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (16)}
         \label{fig:fig58}
     \end{figure}
-    \newpage
     \begin{figure}[!htb]
         \centering
         \includegraphics[scale=0.48]{17_u_flt_u_nolow.png}
@@ -895,7 +865,6 @@
         \caption{График исходного и фильтрованного сигналов (18)}
         \label{fig:fig61}
     \end{figure}
-    \newpage
     \begin{figure}[!htb]
         \centering
         \includegraphics[scale=0.48]{18_abs_u_U_nolow.png}
@@ -917,7 +886,6 @@
         \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (19)}
         \label{fig:fig64}
     \end{figure}
-    \newpage
     \begin{figure}[!htb]
         \centering
         \includegraphics[scale=0.48]{20_u_flt_u_nolow.png}
@@ -939,7 +907,6 @@
         \caption{График исходного и фильтрованного сигналов (21)}
         \label{fig:fig67}
     \end{figure}
-    \newpage
     \begin{figure}[!htb]
         \centering
         \includegraphics[scale=0.48]{21_abs_u_U_nolow.png}
@@ -961,7 +928,6 @@
         \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (22)}
         \label{fig:fig_b}
     \end{figure}
-    \newpage
     \begin{figure}[!htb]
         \centering
         \includegraphics[scale=0.48]{23_u_flt_u_nolow.png}
@@ -983,7 +949,6 @@
         \caption{График исходного и фильтрованного сигналов (24)}
         \label{fig:fig_e}
     \end{figure}
-    \newpage
     \begin{figure}[!htb]
         \centering
         \includegraphics[scale=0.48]{24_abs_u_U_nolow.png}
@@ -1019,7 +984,6 @@
         \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (26)}
         \label{fig:fig_56456}
     \end{figure}
-    \newpage
 
 
     \section{Задание 2. Фильтрация звука.}
@@ -1067,28 +1031,28 @@
         \centering
         \includegraphics[scale=0.48]{u_flt_u_audio.png}
         \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов аудиозаписи (1).}
+        \caption{График исходного и фильтрованного сигналов аудиозаписи (1)}
         \label{fig:fig113}
     \end{figure}
     \begin{figure}[!htb]
         \centering
         \includegraphics[scale=0.48]{abs_u_U_audio.png}
         \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов аудиозаписи (1).}
+        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов аудиозаписи (1)}
         \label{fig:fig114}
     \end{figure}
     \begin{figure}[!htb]
         \centering
         \includegraphics[scale=0.48]{u_flt_u_audio_v2.png}
         \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов аудиозаписи (2).}
+        \caption{График исходного и фильтрованного сигналов аудиозаписи (2)}
         \label{fig:fig115}
     \end{figure}
     \begin{figure}[H]
         \centering
         \includegraphics[scale=0.48]{abs_u_U_audio_v2.png}
         \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов аудиозаписи (2).}
+        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов аудиозаписи (2)}
         \label{fig:fig116}
     \end{figure}
 
@@ -1103,7 +1067,7 @@
     далее их результат можно использовать для выполнения фильтрации и построения графиков.
 
 
-    \begin{lstlisting}[label=l1, caption={Файл help.py. Вспомогательные функции.}]
+    \begin{lstlisting}[label=l1, caption={Файл help.py. Вспомогательные функции}]
     def get_t(T, dt):
         return np.arange(-T/2, T/2 + dt, dt)   
         
@@ -1130,17 +1094,15 @@
         
         return gs   
     \end{lstlisting}
-    \begin{lstlisting}[label=l2, caption={Файл static.py. Вспомогательные переменные.}]
+    \begin{lstlisting}[label=l2, caption={Файл static.py. Вспомогательные переменные}]
+    import help as hp
+
     a = 2
-    t_1 = -1.5
-    t_2 = 2.5
-        
-    T = 10
-    dt = 0.01
-        
-    V = 1/dt
-    dv = 1/T
-        
+    t_1, t_2 = -1.5, 2.5
+
+    T, dt = 10, 0.01
+    V, dv = 1 / dt, 1 / T
+
     time = hp.get_t(T, dt)
     freq = hp.get_v(V, dv)
     g_fs = hp.get_g_fs(time, t_1, t_2, a)
@@ -1155,24 +1117,47 @@
     графика.
 
 
-    \begin{lstlisting}[label=l3, caption={Файл builder.py. Реализация построения графиков.}]
-    def build_u_to_U(freq: list, u: list, clr='b',
-                xl1=None, xl2=None, yl1=None,
-                yl2=None, xlab='Frequency', ylab='Amplitude',
-                label=None, title=None, fz1=6.4, 
-                fz2=4.8, legend: bool = True, grid: bool = True):
-        U = get_U(u)
-        build_u_or_U(freq, U, clr,
-                    xl1, xl2, yl1,
-                    yl2, xlab, ylab,
-                    label, title, fz1, 
-                    fz2, legend, grid)
+    \begin{lstlisting}[label=l3, caption={Файл builder.py. Реализация построения графиков}]
+    import matplotlib.pyplot as plt
+    import numpy as np
 
-    def build_u_or_U(torv: list, uorU: list, clr='b',
-                xl1=None, xl2=None, yl1=None,
-                yl2=None, xlab=None, ylab='Amplitude',
-                label=None, title=None, fz1=6.4, 
-                fz2=4.8, legend: bool = True, grid: bool = True):
+    from help import get_U
+
+    def build_u_to_U(freq: list,
+                    u: list,
+                    clr='b',
+                    xl1=None,
+                    xl2=None,
+                    yl1=None,
+                    yl2=None,
+                    xlab='Frequency',
+                    ylab='Amplitude',
+                    label=None,
+                    title=None,
+                    fz1=6.4,
+                    fz2=4.8,
+                    legend: bool = True,
+                    grid: bool = True):
+        U = get_U(u)
+        build_u_or_U(freq, U, clr, xl1, xl2,
+                    yl1, yl2, xlab, ylab, label,
+                    title, fz1, fz2, legend, grid)
+
+    def build_u_or_U(torv: list,
+                    uorU: list,
+                    clr='b',
+                    xl1=None,
+                    xl2=None,
+                    yl1=None,
+                    yl2=None,
+                    xlab=None,
+                    ylab='Amplitude',
+                    label=None,
+                    title=None,
+                    fz1=6.4,
+                    fz2=4.8,
+                    legend: bool = True,
+                    grid: bool = True):
         plt.plot(torv, uorU, color=clr, label=label)
         plt.xlabel(xlab)
         plt.ylabel(ylab)
@@ -1185,12 +1170,24 @@
         plt.gcf().set_size_inches(fz1, fz2)
         plt.show()
 
-    def build_u__flt_u(time: list, u: list, flt_u: list,
-                clr1='b', clr2='r', lab1='Noisy signal',
-                lab2='Filtered signal', xlab='Time', ylab='Amplitude',
-                title=None, fz1=6.4, fz2=4.8, 
-                legend: bool = True, grid: bool = True, xl1=None, 
-                xl2=None, yl1=None, yl2=None):
+    def build_u__flt_u(time: list,
+                    u: list,
+                    flt_u: list,
+                    clr1='b',
+                    clr2='r',
+                    lab1='Noisy signal',
+                    lab2='Filtered signal',
+                    xlab='Time',
+                    ylab='Amplitude',
+                    title=None,
+                    fz1=6.4,
+                    fz2=4.8,
+                    legend: bool = True,
+                    grid: bool = True,
+                    xl1=None,
+                    xl2=None,
+                    yl1=None,
+                    yl2=None):
         plt.plot(time, u, color=clr1, label=lab1)
         plt.plot(time, flt_u, color=clr2, label=lab2)
         plt.xlabel(xlab)
@@ -1204,26 +1201,48 @@
         plt.gcf().set_size_inches(fz1, fz2)
         plt.show()
 
-    def build_abs_u_to_U__flt_U(freq: list, u: list, flt_U: list,
-                clr1='b', clr2='r', lab1='Abs noisy signal',
-                lab2='Abs filtered signal', xlab='Frequency', ylab='Amplitude',
-                xl1=None, xl2=None, yl1=None, 
-                yl2=None, title=None, fz1=6.4, 
-                fz2=4.8, legend: bool = True, grid: bool = True):
+    def build_abs_u_to_U__flt_U(freq: list,
+                                u: list,
+                                flt_U: list,
+                                clr1='b',
+                                clr2='r',
+                                lab1='Abs noisy signal',
+                                lab2='Abs filtered signal',
+                                xlab='Frequency',
+                                ylab='Amplitude',
+                                xl1=None,
+                                xl2=None,
+                                yl1=None,
+                                yl2=None,
+                                title=None,
+                                fz1=6.4,
+                                fz2=4.8,
+                                legend: bool = True,
+                                grid: bool = True):
         U = get_U(u)
-        build_abs_U__flt_U(freq, U, flt_U, 
-                    clr1, clr2, lab1, 
-                    lab2, xlab, ylab, 
-                    xl1, xl2, yl1, 
-                    yl2, title, fz1, 
-                    fz2, legend, grid)
+        build_abs_U__flt_U(freq, U, flt_U, clr1,
+                           clr2, lab1, lab2, xlab,
+                           ylab, xl1, xl2, yl1, yl2,
+                           title, fz1, fz2, legend, grid)
 
-    def build_abs_U__flt_U(freq: list, U: list, flt_U: list,
-                clr1='b', clr2='r', lab1='Abs noisy signal',
-                lab2='Abs filtered signal', xlab='Frequency', ylab='Amplitude',
-                xl1=None, xl2=None, yl1=None, 
-                yl2=None, title=None, fz1=6.4, 
-                fz2=4.8, legend: bool = True, grid: bool = True):
+    def build_abs_U__flt_U(freq: list,
+                        U: list,
+                        flt_U: list,
+                        clr1='b',
+                        clr2='r',
+                        lab1='Abs noisy signal',
+                        lab2='Abs filtered signal',
+                        xlab='Frequency',
+                        ylab='Amplitude',
+                        xl1=None,
+                        xl2=None,
+                        yl1=None,
+                        yl2=None,
+                        title=None,
+                        fz1=6.4,
+                        fz2=4.8,
+                        legend: bool = True,
+                        grid: bool = True):
         plt.plot(freq, np.abs(U), color=clr1, label=lab1)
         plt.plot(freq, np.abs(flt_U), color=clr2, label=lab2)
         plt.xlabel(xlab)
@@ -1328,126 +1347,148 @@
 
 
     \begin{lstlisting}[label=l5, caption={Файл nohigh.py. Фильтрация нижних частот.}]
+    import help as hp
+    import static as st
+
+    import filters as ft
+    import builder as bd
+
     time = st.time
     freq = st.freq
     g_fs = st.g_fs
-        
-    b = 0.5
-    c = 0
-    d = 0.1
-    v_0 = st.V / 10
-        
+
+    b, c, d = 0.5, 0, 0.1
+    v_0 = 2.5
+
     u = hp.u_f(g_fs, time, b, c, d)
     flt_u, flt_U = ft.filter_low(freq, u, v_0)
-        
-    bd.build_u__flt_u(time, u, flt_u,
+
+    bd.build_u__flt_u(
+        time,
+        u,
+        flt_u,
         title=rf'Low frequency filter. b={b}, c={c}, d={d}, $\nu_0$={v_0}',
-                      fz1=12, fz2=6)
-    bd.build_abs_u_to_U__flt_U(freq, u, flt_U,
-    title=rf'Abs low frequency filter. b={b}, c={c}, d={d}, $\nu_0$={v_0}',
-                               xl1=-20, xl2=20, fz1=12, fz2=6)
+        fz1=12,
+        fz2=6)
+    bd.build_abs_u_to_U__flt_U(
+        freq,
+        u,
+        flt_U,
+        title=
+        rf'Abs low frequency filter. b={b}, c={c}, d={d}, $\nu_0$={v_0}',
+        xl1=-5,
+        xl2=5,
+        fz1=12,
+        fz2=6)
     \end{lstlisting}
     \begin{lstlisting}[label=l6, caption={Файл nolow.py. Фильтрация верхних частот.}]
+    import help as hp
+    import static as st
+
+    import filters as ft
+    import builder as bd
+
     time = st.time
     freq = st.freq
     g_fs = st.g_fs
-    
-    b = 0.5
-    c = 1
-    d = 0.1
-    v_0 = st.V / 10
-    
+
+    b, c, d = 5, 10, 0.5
+    v_0 = 0.3
+
     u = hp.u_f(g_fs, time, b, c, d)
     flt_u, flt_U = ft.filter_high(freq, u, v_0)
-    
-    bd.build_u__flt_u(time, u, flt_u,
+
+    bd.build_u__flt_u(
+        time,
+        u,
+        flt_u,
         title=rf'High frequency filter. b={b}, c={c}, d={d}, $\nu_0$={v_0}',
-                      fz1=12, fz2=6)
-    bd.build_abs_u_to_U__flt_U(freq, u, flt_U,
-    title=rf'Abs high frequency filter. b={b}, c={c}, d={d}, $\nu_0$={v_0}',
-                               fz1=12, fz2=6, xl1=-20, xl2=20)
+        fz1=12,
+        fz2=6)
+    bd.build_abs_u_to_U__flt_U(
+        freq,
+        u,
+        flt_U,
+        title=
+        rf'Abs high frequency filter. b={b}, c={c}, d={d}, $\nu_0$={v_0}',
+        fz1=12,
+        fz2=6,
+        xl1=-5,
+        xl2=5)
     \end{lstlisting}
     \begin{lstlisting}[label=l7, caption={Файл nospec.py. Фильтрация специфических частот.}]
+    import help as hp
+    import static as st
+
+    import filters as ft
+    import builder as bd
+
     time = st.time
     freq = st.freq
     g_fs = st.g_fs
-        
-    b = 1
-    c = 2
-    d = 1
-    v_0 = 0.39
-    v_0_1 = 0.39
-    v_0_2 = [[-0.77, -0.39], [0.39, 0.77]]
+
+    b, c, d = 1.5, -2, -3
+    v0, v01 = [[-0.52, -0.3], [0.3, 0.52]], 10
     u = hp.u_f(g_fs, time, b, c, d)
-        
-    build_u_U = True
-    filter_low = False
-    filter_high = False
-    filter_special_out = True
-        
-    flt_u, flt_U = None, None
-    flt_u_0, flt_U_0 = None, None
-    flt_u_1, flt_U_1 = None, None
-    flt_u_2, flt_U_2 = None, None
-        
-    if build_u_U:
-        bd.build_u_or_U(time, u, xlab='Time',
-                        title=f'Noisy signal. b={b}, c={c}, d={d}',
-                        legend=False, fz1=12, fz2=6)
-        bd.build_u_to_U(freq, u,
-                        title=f'fft noisy signal. b={b}, c={c}, d={d}',
-                        legend=False, fz1=12, fz2=6, xl1=-10, xl2=10)
-        
-    if filter_low:
-     flt_u, flt_U = ft.filter_low(freq, u, v_0)
-     bd.build_u__flt_u(time, u, flt_u,
-     title=rf'Low frequency filter. b={b}, c={c}, d={d}, $\nu_0$={v_0}',
-                       fz1=12, fz2=6)
-     bd.build_abs_u_to_U__flt_U(freq, u, flt_U,
-     title=rf'Abs low frequency filter. b={b}, c={c}, d={d}, $\nu_0$={v_0}',
-                                fz1=12, fz2=6, xl1=-25, xl2=25)
-        
-    if filter_high:
-      flt_u_1, flt_U_1 = ft.filter_high(freq, u, v_0_1)
-      bd.build_u__flt_u(time, u, flt_u_1,
-      title=rf'High frequency filter. b={b}, c={c}, d={d}, $\nu_0$={v_0_1}',
-                        fz1=12, fz2=6)
-      bd.build_abs_u_to_U__flt_U(freq, u, flt_U_1,
-      title=rf'Abs high frequency filter. b={b}, c={c}, d={d}, $\nu_0$={v_0_1}', fz1=12, fz2=6, xl1=-25, xl2=25)
-        
-    if filter_special_out:
-        flt_u_0, flt_U_0 = ft.filter_special_out(freq, u, v_0_2)
-        bd.build_u__flt_u(time, u, flt_u_0,
-        title=rf'Special frequency filter. b={b}, c={c}, d={d}, $\nu_0$={v_0_2}', fz1=12, fz2=6)
-        bd.build_abs_u_to_U__flt_U(freq, u, flt_U_0,
-        title=rf'Abs special frequency filter. b={b}, c={c}, d={d}, $\nu_0$={v_0_2}', fz1=12, fz2=6, xl1=-10, xl2=10)
-        
-    if filter_low and filter_special_out:
-        flt_u_2, flt_U_2 = ft.filter_special_out(freq, flt_u, v_0_2)
-        bd.build_u__flt_u(time, u, flt_u_2,
-         title=rf'Low and special frequency filter. b={b}, c={c}, d={d}, (1) $\nu_0$={v_0}, (2) $\nu_0$={v_0_2}', fz1=12, fz2=6)
-        bd.build_abs_u_to_U__flt_U(freq, u, flt_U_2,
-         title=rf'Abs low and special frequency filter. b={b}, c={c}, d={d}, (1) $\nu_0$={v_0}, (2) $\nu_0$={v_0_2}', fz1=12, fz2=6,
-                                   xl1=-25, xl2=25)
-        
-    if filter_high and filter_special_out:
-       flt_u_2, flt_U_2 = ft.filter_special_out(freq, flt_u_1, v_0_2)
-       bd.build_u__flt_u(time, u, flt_u_2,
-       title=rf'High and special frequency filter. b={b}, c={c}, d={d}, (1) $\nu_0$={v_0_1}, (2) $\nu_0$={v_0_2}', fz1=12, fz2=6)
-       bd.build_abs_u_to_U__flt_U(freq, u, flt_U_2,
-       title=rf'Abs high and special frequency filter. b={b}, c={c}, d={d}, (1) $\nu_0$={v_0_1}, (2) $\nu_0$={v_0_2}', fz1=12, fz2=6,
-                                  xl1=-25, xl2=25)
+
+    flt_u_so, flt_U_so = ft.filter_special_out(freq, u, v0)
+    bd.build_u__flt_u(
+        time,
+        u,
+        flt_u_so.real,
+        title=
+        rf'Special frequency filter. b={b}, c={c}, d={d}, $\nu_0$={v0}',
+        fz1=12,
+        fz2=6)
+    bd.build_abs_u_to_U__flt_U(
+        freq,
+        u,
+        flt_U_so,
+        title=
+        rf'Abs special frequency filter. b={b}, c={c}, d={d}, $\nu_0$={v0}',
+        fz1=12,
+        fz2=6,
+        xl1=-10,
+        xl2=10)
+
+    flt_u_lso, flt_U_lso = ft.filter_low(freq, flt_u_so, v01)
+    bd.build_u__flt_u(
+        time,
+        u,
+        flt_u_lso.real,
+        title=
+        rf'Low and special frequency filter. b={b}, c={c}, d={d}, (1) $\nu_0$={v01}, (2) $\nu_0$={v0}',
+        fz1=12,
+        fz2=6)
+    bd.build_abs_u_to_U__flt_U(
+        freq,
+        u,
+        flt_U_lso,
+        title=
+        rf'Abs low and special frequency filter. b={b}, c={c}, d={d}, (1) $\nu_0$={v01}, (2) $\nu_0$={v0}',
+        fz1=12,
+        fz2=6,
+        xl1=-10 - v01,
+        xl2=10 + v01)
     \end{lstlisting}
     \begin{lstlisting}[label=l8, caption={Файл audio.py. Фильтрация шумов в аудиозаписи.}]
+    import numpy as np
+    import librosa
+    from scipy.io.wavfile import write
+    from playsound import playsound
+
+    import filters as ft
+    import builder as bd
+
     filter_all = True
     build_U = True
-        
+
     title = 'High frequency filter audio'
     title2 = 'Abs high frequency filter audio'
     if filter_all:
         title = 'High and special frequency filter audio'
         title2 = 'Abs high and special frequency filter audio'
-        
+
     src = 'sound/MUHA.wav'
     filename = 'sound/filtered_MUHA_2.wav'
     try:
@@ -1457,35 +1498,49 @@
         src = lab + src
         filename = lab + filename
         audio, rate = librosa.load(src, sr=None)
-        
+
     dt = 1 / rate
     T = len(audio) * dt
-        
+
     time = np.linspace(0, T, len(audio), endpoint=False)
     freq = np.linspace(-rate / 2, rate / 2, len(audio), endpoint=False)
-        
+
     flt_u, flt_U = ft.filter_high(freq, audio, 300)
     if filter_all:
         flt_u, flt_U = ft.filter_special_out(freq, flt_u,
-                                    [[freq[0], -1000], [1000, freq[-1]]])
-        flt_u_float = flt_u.real.astype(np.float32)
-        
-        
+                                            [[freq[0], -4500],
+                                            [4500, freq[-1]]])
+    flt_u_float = flt_u.real.astype(np.float32)
+
     if build_U:
-        bd.build_u_or_U(time, audio, xlab='Time',
-                        title='Noisy audio signal', fz1=12, fz2=6,
+        bd.build_u_or_U(time,
+                        audio,
+                        xlab='Time',
+                        title='Noisy audio signal',
+                        fz1=12,
+                        fz2=6,
                         legend=False)
-        bd.build_u_to_U(freq, audio, title='fft noisy audio signal',
-                        legend=False, fz1=12, fz2=6,
-                        xl1=-875, xl2=875, yl1=-4000,
-                        yl2=4000)
-        
-        bd.build_u__flt_u(time, audio, flt_u,
-                          title=title, fz1=12, fz2=6)
-        bd.build_abs_u_to_U__flt_U(freq, audio, flt_U,
-                                   title=title2, xl1=-1500, xl2=1500,
-                                   yl1=0, yl2=2000, fz1=12, fz2=6)
-        
+        bd.build_u_to_U(freq,
+                        audio,
+                        title='fft noisy audio signal',
+                        legend=False,
+                        fz1=12,
+                        fz2=6,
+                        xl1=0,
+                        yl1=0,
+                        yl2=20)
+
+    bd.build_u__flt_u(time, audio, flt_u, title=title, fz1=12, fz2=6)
+    bd.build_abs_u_to_U__flt_U(freq,
+                            audio,
+                            flt_U,
+                            title=title2,
+                            fz1=12,
+                            fz2=6,
+                            xl1=0,
+                            yl1=0,
+                            yl2=20)
+
     write(filename, rate, flt_u_float)
     playsound(filename)
     \end{lstlisting}

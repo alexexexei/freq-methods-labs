@@ -9,9 +9,7 @@ time = st.time
 freq = st.freq
 g_fs = st.g_fs
 
-b = 5
-c = 10
-d = 0.5
+b, c, d = 5, 10, 0.5
 v_0 = 0.3
 
 u = hp.u_f(g_fs, time, b, c, d)

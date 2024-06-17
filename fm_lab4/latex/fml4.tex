@@ -292,49 +292,52 @@
 
     import build_func as bf
     import fourier_math as fm
+    import helper as hr
 
-    T = 200
-    dt = 0.25
+    T, dt = 200, 0.25
     t = np.arange(-T / 2, T / 2 + dt, dt)
     y = np.sin(t)
 
     a = 0.2
-    y += a * (np.random.rand(len(t)) - 0.5)
+    y = hr.apply_noise(y, a, t)
 
     ndsin = fm.numerical_diff(y, dt)
     ndsin.append(y[-1] / 2)
 
-    V = 1 / dt
-    dv = 1 / T
+    V, dv = 1 / dt, 1 / T
     v = np.arange(-V / 2, V / 2 + dv, dv)
     spdsin, Y, dY = fm.spectral_diff(y, t, v)
     tdcos = -np.sin(t)
 
-    bf.build_f(t, y, ttl=f'Noisy sine, a={a}, dt={dt}',
-               xlab='Time', ylab='Amplitude')
-    bf.build_f(v, np.array(Y).real,
-               ttl=f'Real part of Fourier image of sine, a={a}, dt={dt}',
-               xlab='Frequency', ylab='Amplitude')
-    bf.build_f(v, np.array(Y).imag,
-             ttl=f'Imaginary part of Fourier image of sine, a={a}, dt={dt}',
-             xlab='Frequency', ylab='Amplitude', xl1=-0.763, xl2=0.763)
-    bf.build_f(v, dY.real,
-               ttl=f'Real part of spectral derivative of Fourier image of sine, a={a}, dt={dt}',
-               xlab='Frequency', ylab='Amplitude')
-    bf.build_f(v, dY.imag,
-               ttl=f'Imaginary part of spectral derivative of Fourier image of sine, a={a}, dt={dt}',
-               xlab='Frequency', ylab='Amplitude')
-
-    bf.build_f(t, ndsin,
-               ttl=f'Numerical derivative of sine, a={a}, dt={dt}',
-               xlab='Time', ylab='Amplitude')
-    bf.build_f(t, np.array(spdsin).real,
-            ttl=f'Real part of spectral derivative of sine, a={a}, dt={dt}',
-            xlab='Time', ylab='Amplitude')
-    bf.build_fs(t, y=[ndsin, np.array(spdsin).real, tdcos],
-                colors=[None, None, 'r'], legend=True, 
-                labels=['Num. der. of sine', 'Re. spec. der. of sine', 'True der. of cosine'],
-                ttl=f'True der. of cosine, num. der. of sine and spec. der. of sine comparison; a={a}, dt={dt}')
+    # Usage example
+    bf.build_f(t,
+            y,
+            ttl=f'Noisy sine, a={a}, dt={dt}',
+            xlab='Time',
+            ylab='Amplitude')
+    bf.build_f(v,
+            np.array(Y).real,
+            ttl=f'Real part of Fourier image of sine, a={a}, dt={dt}',
+            xlab='Frequency',
+            ylab='Amplitude')
+    bf.build_f(v,
+            np.array(Y).imag,
+            ttl=f'Imaginary part of Fourier image of sine, a={a}, dt={dt}',
+            xlab='Frequency',
+            ylab='Amplitude',
+            xl1=-0.763,
+            xl2=0.763)
+    bf.build_fs(
+        t,
+        y=[ndsin, np.array(spdsin).real, tdcos],
+        colors=[None, None, 'r'],
+        legend=True,
+        labels=[
+            'Num. der. of sine', 'Re. spec. der. of sine', 'True der. of cosine'
+        ],
+        ttl=
+        f'True der. of cosine, num. der. of sine and spec. der. of sine comparison; a={a}, dt={dt}'
+    )
     \end{lstlisting}
 
 
@@ -831,26 +834,32 @@
         flist2 = [abs(np.fft.fftshift(U)), abs(np.fft.fftshift(flt_U))]
         llist1 = ['Original signal', 'Filtered signal']
         llist2 = ['Abs original signal fft', 'Abs filtered signal fft']
-        lslist = ['-', '-']
-        clist = [None, None]
+        lslist, clist = ['-', '-'], [None, None]
         if g_f is not None:
             flist1.append(g_f)
             llist1.append(r'Original function $g(t)$')
             lslist.append('--')
             clist.append('r')
 
-        bf.build_fs(t, y=flist1, labels=llist1, colors=clist, ls=lslist,
+        bf.build_fs(t, y=flist1, labels=llist1,
+              colors=clist, ls=lslist,
               ttl=f'{name}. a={a}, b={b}, c={c}, d={d}, T={T}', 
-              xlab='Time', ylab='Amplitude', legend=True, xl1=xl0, xl2=xl01)
+              xlab='Time', ylab='Amplitude',
+              legend=True, xl1=xl0, xl2=xl01)
         bf.build_fs(v, y=flist2, labels=llist2, 
                   ttl=f'{name} abs fft. a={a}, b={b}, c={c}, d={d}, T={T}', 
-                  xlab='Frequency', ylab='Amplitude', legend=True, xl1=xl1, xl2=xl2)
+                  xlab='Frequency', ylab='Amplitude',
+                  legend=True, xl1=xl1, xl2=xl2)
         bf.build_f(w, y=AFR,
-              ttl=f'{name} amplitude-frequency response. a={a}, b={b}, c={c}, d={d}, T={T}',xlab='Angular frequency', 
-              ylab='Amplitude', xl1=xl3, xl2=xl4)
+              ttl=
+              f'{name} amplitude-frequency response. a={a}, b={b}, c={c}, d={d}, T={T}',xlab='Angular frequency', 
+              ylab='Amplitude',
+              xl1=xl3, xl2=xl4)
         bf.build_f(np.log10(w[w > 0]), y=LAFR,
-                ttl=f'{name} logarithmic amplitude frequency response. a={a}, b={b}, c={c}, d={d}, T={T}',
-                ylab='Amplitude', xl1=xl5, xl2=xl6)
+                ttl=
+                f'{name} logarithmic amplitude frequency response. a={a}, b={b}, c={c}, d={d}, T={T}',
+                ylab='Amplitude',
+                xl1=xl5, xl2=xl6)
 
     T, dt = 10, 0.01
     V, dv = 1 / dt, 1 / T
@@ -1037,9 +1046,15 @@
     W = lf.W_1f(w, T)
     flt_u, flt_U, U = fm.fft_flt(prices, W, shift=False)
 
-    bf.build_fs(dates, [prices, flt_u.real], ticks=range(0, len(dates), 7),
-                rot=45, xlab='Dates', ylab=f'Prices ({find_price.lower()})',
-                ttl=f'First order linear filter, date_step={date_step}, T={T}', fz2=8,
-                legend=True, labels=['Original prices', 'Smoothed prices'])
+    bf.build_fs(dates, [prices, flt_u.real],
+                ticks=range(0, len(dates), 7),
+                rot=45,
+                xlab='Dates',
+                ylab=f'Prices ({find_price.lower()})',
+                ttl=
+                f'First order linear filter, date_step={date_step}, T={T}',
+                fz2=8,
+                legend=True,
+                labels=['Original prices', 'Smoothed prices'])
     \end{lstlisting}
 \end{document}

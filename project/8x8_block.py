@@ -46,10 +46,8 @@ quantization_color = np.array([
 image_rgb = Image.fromarray(np.array(matrix_8x8_rgb, dtype=np.uint8))
 
 new_size = (400, 400)
-
-image_rgb_resized = image_rgb.resize(new_size, Image.NEAREST)
-
-image_rgb_resized.save("rgb_image.png")
+# image_rgb_resized = image_rgb.resize(new_size, Image.NEAREST)
+# image_rgb_resized.save("rgb_image.png")
 
 image_ycrcb = image_rgb.convert("YCbCr")
 y, cb, cr = image_ycrcb.split()

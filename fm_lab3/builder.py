@@ -103,8 +103,10 @@ def build_abs_u_to_U__flt_U(freq: list,
                             legend: bool = True,
                             grid: bool = True):
     U = get_U(u)
-    build_abs_U__flt_U(freq, U, flt_U, clr1, clr2, lab1, lab2, xlab, ylab, xl1,
-                       xl2, yl1, yl2, title, fz1, fz2, legend, grid)
+    build_abs_U__flt_U(freq, U, flt_U, clr1,
+                       clr2, lab1, lab2, xlab,
+                       ylab, xl1, xl2, yl1, yl2,
+                       title, fz1, fz2, legend, grid)
 
 
 def build_abs_U__flt_U(freq: list,

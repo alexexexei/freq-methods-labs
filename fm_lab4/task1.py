@@ -20,7 +20,6 @@ V = 1 / dt
 dv = 1 / T
 v = np.arange(-V / 2, V / 2 + dv, dv)
 spdsin, Y, dY = fm.spectral_diff(y, t, v)
-tdcos = -np.sin(t)
 
 bf.build_f(t,
            y,
@@ -66,12 +65,12 @@ bf.build_f(t,
            ylab='Amplitude')
 bf.build_fs(
     t,
-    y=[ndsin, np.array(spdsin).real, tdcos],
+    y=[ndsin, np.array(spdsin).real, np.cos(t)],
     colors=[None, None, 'r'],
     legend=True,
     labels=[
-        'Num. der. of sine', 'Re. spec. der. of sine', 'True der. of cosine'
+        'numd(sine)', 'Re(spd(sine))', 'cos(t)'
     ],
     ttl=
-    f'True der. of cosine, num. der. of sine and spec. der. of sine comparison; a={a}, dt={dt}'
+    f'Numerical and spectral derivatives of sine and cosine comparison; a={a}, dt={dt}'
 )

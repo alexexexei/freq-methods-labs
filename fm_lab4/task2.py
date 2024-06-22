@@ -113,6 +113,7 @@ if perform_W_1:
     u = hr.get_u(g_fun, t, b, c, d)
 
     T_0 = 0.1
+
     W_1 = lf.w_1f(w, T_0)
     W_1_LOG = lf.w_1f(w_log, T_0)
 
@@ -129,6 +130,9 @@ if perform_W_1:
             W_1_LOG,
             g_f=g_fun,
             name='First order linear filter',
+            xl1=0,
+            xl2=20,
+            xl3=0,
             xl5=0,
             xl6=2.5)
 
@@ -141,9 +145,10 @@ if perform_W_2:
     g_fun = hr.get_g_f(t, t_1, t_2, a)
     u = hr.get_u(g_fun, t, b, c, d)
 
-    T_1 = 0.001
     T_2 = 0.2
     T_3 = 0.3
+    T_1 = np.sqrt(T_2 * T_3)
+    
     W_2 = lf.w_2f(w, T_1, T_2, T_3)
     W_2_LOG = lf.w_2f(w_log, T_1, T_2, T_3)
 

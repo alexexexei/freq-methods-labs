@@ -139,14 +139,14 @@ if perform_W_1:
 if perform_W_2:
     a = 5
     b = 0
-    c = 5
+    c = 0.1
     d = 15
 
     g_fun = hr.get_g_f(t, t_1, t_2, a)
     u = hr.get_u(g_fun, t, b, c, d)
 
-    T_2 = 0.2
-    T_3 = 0.3
+    T_2 = 0.0000000000000001
+    T_3 = 0.5
     T_1 = np.sqrt(T_2 * T_3)
     
     W_2 = lf.w_2f(w, T_1, T_2, T_3)
@@ -164,5 +164,8 @@ if perform_W_2:
             W_2_LOG,
             g_f=g_fun,
             name='Special filter',
+            xl1=0,
+            xl2=10,
+            xl3=0,
             xl5=0,
             xl6=2.5)

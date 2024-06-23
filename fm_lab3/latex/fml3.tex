@@ -395,7 +395,7 @@
 
 
     Параметр $d$ характеризует растяжение сигнала во временной области по оси $Ox$. При увеличении его значения частота волн повышается.
-    На графиках Фурье-образов увеличение значения параметра $d$ удаляет от нижних частот высокий пик, отвечающий за
+    На графиках Фурье-образов увеличение значения параметра $d$ отдаляет от нижних частот высокий пик, отвечающий за
     гармонический шум (сравн. рис. \ref{fig:fig72}, \ref{fig:fig722}), что упрощает фильтрацию сигнала, так как, например, на рис. \ref{fig:fig72}
     синусоидальный шум находится в том же месте, где наибольшее количество информации о сигнале -- его удаление приведет к потере некоторой информации об исходном сигнале,
     восстановленный будет выглядеть хуже, чем при б\'{о}льших значениях параметра $d$.
@@ -491,6 +491,8 @@
     \section{Задание 2. Фильтрация звука.}
     Построим графики исходного сигнала аудиозаписи и его Фурье-образа.
     На записи присутствует громкий гул, следовательно необходимо вырезать частоты из аудиозаписи, имеющие наибольшую амплитуду.
+
+    Далее расположены графики сигнала аудиозаписи и ее Фурье-образа.
     \begin{figure}[H]
         \centering
         \begin{subfigure}{0.45\textwidth}
@@ -503,17 +505,25 @@
         \begin{subfigure}{0.45\textwidth}
             \centering
             \includegraphics[width=\linewidth]{U_audio.png}
-            \caption{Частотная область}
+            \caption{Частотная область (1)}
             \label{fig:fig112}
+        \end{subfigure}
+        \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{U_audio_2.png}
+            \caption{Частотная область (2)}
+            \label{fig:fig1122}
         \end{subfigure}
         \caption{Графики исходного сигнала и его Фурье-образа}
         \label{fig:timefreq0}
     \end{figure}
     
     
-    Определим по второму графику, какие частоты могут создавать шумы.
+    Определим по второму и третьему графикам, какие частоты могут создавать шумы.
     Самые большие амплитуды находятся в диапазоне частот $[-300,300]$ Гц. Чтобы их вырезать, потребуется фильтр верхних частот, который
-    мы рассматривали в задании 1. Применим фильтр и посмотрим результирующие графики.
+    мы рассматривали в задании 1. Также с помощью фильтра специфических частот
+    вырежем частоты в диапазонах $[\nu_{0},-4500]$ и $[4500,\nu_{-1}]$, чтобы избавится от высокочастотного шума, похожего на эффект <<фейзер>>.
+    Применим фильтры и посмотрим результирующие графики.
     \begin{figure}[H]
         \centering
         \begin{subfigure}{0.45\textwidth}
@@ -526,20 +536,22 @@
         \begin{subfigure}{0.45\textwidth}
             \centering
             \includegraphics[width=\linewidth]{abs_audio.png}
-            \caption{Частотная область}
+            \caption{Частотная область (1)}
             \label{fig:fig114}
+        \end{subfigure}
+        \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{abs_audio_2.png}
+            \caption{Частотная область (2)}
+            \label{fig:fig1142}
         \end{subfigure}
         \caption{Графики исходного и фильтрованного сигналов и модулей их Фурье-образов}
         \label{fig:timefreq}
     \end{figure}
 
     
-    Видим как из сигнала во временной области пропал белый шум -- оставшиеся амплитуды являются голосом, который 
-    мы хотели хорошо расслышать.
-    На графике модулей Фурье-образов наблюдаем, что мы вырезали
-    низкие частоты с наибольшей амплитудой, которые соответствовали громкому гулу. Запись filtered\_{MUHA}.wav можно послушать,
+    После фильтрации получили достаточно чистый сигнал (см. рис. \ref{fig:fig113}). Запись можно послушать,
     на этом \href{https://drive.google.com/drive/folders/1AuXIiKRWvXFOtJqV3uqPzC494zZ7vCrd?usp=sharing}{гугл-диске}.
-    На записи голос слышно хорошо, однако остался некоторый звуковой эффект фейзер.
 
     
     \section{Листинги программных реализаций}
@@ -823,8 +835,8 @@
     freq = st.freq
     g_fs = st.g_fs
 
-    b, c, d = 0.5, 0, 0.1
-    v_0 = 2.5
+    b, c, d = 0.5, 0, 0
+    v_0 = 1
 
     u = hp.u_f(g_fs, time, b, c, d)
     flt_u, flt_U = ft.filter_low(freq, u, v_0)
@@ -832,7 +844,7 @@
     bd.build_u__flt_u(
         time,
         u,
-        flt_u,
+        flt_u.real,
         title=rf'Low frequency filter. b={b}, c={c}, d={d}, $\nu_0$={v_0}',
         fz1=12,
         fz2=6)
@@ -842,8 +854,8 @@
         flt_U,
         title=
         rf'Abs low frequency filter. b={b}, c={c}, d={d}, $\nu_0$={v_0}',
-        xl1=-5,
-        xl2=5,
+        xl1=0,
+        xl2=20,
         fz1=12,
         fz2=6)
     \end{lstlisting}
@@ -860,8 +872,8 @@
     freq = st.freq
     g_fs = st.g_fs
 
-    b, c, d = 5, 10, 0.5
-    v_0 = 0.3
+    b, c, d = 0.5, 1, 10
+    v_0 = 0.5
 
     u = hp.u_f(g_fs, time, b, c, d)
     flt_u, flt_U = ft.filter_high(freq, u, v_0)
@@ -869,7 +881,7 @@
     bd.build_u__flt_u(
         time,
         u,
-        flt_u,
+        flt_u.real,
         title=rf'High frequency filter. b={b}, c={c}, d={d}, $\nu_0$={v_0}',
         fz1=12,
         fz2=6)
@@ -881,7 +893,7 @@
         rf'Abs high frequency filter. b={b}, c={c}, d={d}, $\nu_0$={v_0}',
         fz1=12,
         fz2=6,
-        xl1=-5,
+        xl1=0,
         xl2=5)
     \end{lstlisting}
 
@@ -897,9 +909,11 @@
     freq = st.freq
     g_fs = st.g_fs
 
-    b, c, d = 1.5, -2, -3
-    v0, v01 = [[-0.52, -0.3], [0.3, 0.52]], 10
+    b, c, d = 0.5, 10, 20
     u = hp.u_f(g_fs, time, b, c, d)
+
+    v = [2.594, 3.858]
+    v0, v01 = [[-v[1], -v[0]], v], 3.8
 
     flt_u_so, flt_U_so = ft.filter_special_out(freq, u, v0)
     bd.build_u__flt_u(
@@ -918,7 +932,7 @@
         rf'Abs special frequency filter. b={b}, c={c}, d={d}, $\nu_0$={v0}',
         fz1=12,
         fz2=6,
-        xl1=-10,
+        xl1=0,
         xl2=10)
 
     flt_u_lso, flt_U_lso = ft.filter_low(freq, flt_u_so, v01)
@@ -938,8 +952,8 @@
         rf'Abs low and special frequency filter. b={b}, c={c}, d={d}, (1) $\nu_0$={v01}, (2) $\nu_0$={v0}',
         fz1=12,
         fz2=6,
-        xl1=-10 - v01,
-        xl2=10 + v01)
+        xl1=0,
+        xl2=10)
     \end{lstlisting}
 
 
@@ -966,10 +980,12 @@
     freq = np.linspace(-rate / 2, rate / 2, len(audio), endpoint=False)
 
     flt_u, flt_U = ft.filter_high(freq, audio, 300)
+    flt_u, flt_U = ft.filter_special_out(freq, flt_u,
+                [[freq[0], -4500], [4500, freq[-1]]])
     flt_u_float = flt_u.real.astype(np.float32)
 
     bd.build_u_or_U(time,
-                    audio,
+                    audio.real,
                     xlab='Time',
                     title='Noisy audio signal',
                     fz1=12,
@@ -982,10 +998,18 @@
                     fz1=12,
                     fz2=6,
                     xl1=0,
-                    yl1=0,
-                    yl2=20)
+                    xl2=500)
+    bd.build_u_to_U(freq,
+                    audio,
+                    title='fft noisy audio signal',
+                    legend=False,
+                    fz1=12,
+                    fz2=6,
+                    xl1=3000,
+                    yl1=0.25,
+                    yl2=5)
 
-    bd.build_u__flt_u(time, audio, flt_u, title=title, fz1=12, fz2=6)
+    bd.build_u__flt_u(time, audio.real, flt_u, title=title, fz1=12, fz2=6)
     bd.build_abs_u_to_U__flt_U(freq,
                             audio,
                             flt_U,
@@ -993,8 +1017,17 @@
                             fz1=12,
                             fz2=6,
                             xl1=0,
-                            yl1=0,
-                            yl2=20)
+                            xl2=500,
+                            yl2=2000)
+    bd.build_abs_u_to_U__flt_U(freq,
+                            audio,
+                            flt_U,
+                            title=title2,
+                            fz1=12,
+                            fz2=6,
+                            xl1=3000,
+                            yl1=-0.25,
+                            yl2=5)
 
     write(filename, rate, flt_u_float)
     playsound(filename)

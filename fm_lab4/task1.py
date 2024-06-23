@@ -8,8 +8,8 @@ import helper as hr
 T = 200
 dt = 0.25
 t = np.arange(-T / 2, T / 2 + dt, dt)
-y = np.sin(t)
 
+y = np.sin(t)
 a = 0.2
 y = hr.apply_noise(y, a, t)
 

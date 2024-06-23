@@ -106,6 +106,10 @@
     \newpage
 % \end{document}
     \section{Задание 1. Жесткие фильтры}
+    В этом задании выполним жесткую фильтрацию сигнала. Для этого будем находить Фурье-образ сигнала, обнулять его значения
+    на некоторых диапазонах частот, затем восстанавливать сигнал с помощью обратного преобразования.
+
+
     Зададим такие числа $a,\,t_1,\,t_2$, что $t_1<t_2$, и рассмотрим функцию $g$ такую, что
     $g(t)=a$ при $t\in[t_1,t_2]$ и $g(t)=0$ при других $t$. $$\sqsupset a=2,\ \ t_1=-1.5,\ \ t_2=2.5,\ \ g(t)=
     \begin{cases}
@@ -116,240 +120,111 @@
 
 
     Выберем интервал времени $T=10$ и шаг дискретизации $dt=0.01$. Зададим в python массив времени $t$ от $-0.5\cdot T$ до $0.5\cdot T+dt$
-    с шагом $dt$ и включим последнюю точку. Найдем список значений $g$ и зададим зашумленную версию сигнала как
+    с шагом $dt$ и включим последнюю точку. Найдем список значений $g(t)$ и зададим зашумленную версию сигнала как
     $$
-    u=g+b\cdot(\text{random}(\text{len}(t))-0.5) + c\cdot \sin(d\cdot t);
+    u=g(t)+b\cdot(\text{random}(\text{len}(t))-0.5) + c\cdot \sin(d\cdot t);
     $$
 
 
-    В данном задании мы выполняем жесткую фильтрацию сигнала $u$. Алгоритм следующий: находится Фурье-образ от сигнала,
-    обнуляются его значения на некоторых диапазонах частот, затем сигнал восстанавливается обратным преобразованием Фурье.
-    Далее строятся графики с помощью программы на языке python. Используемый код с пояснениями находится в отдельной секции.
-
-
-    В задаваемом сигнале параметр $a$ отвечает за высоту, на которую поднимется часть сигнала от нуля, а $t_1 \text{ и } t_2$ -- начало
-    и конец промежутка с подъемом соответственно. Таким образом, на интервале длины $t_2-t_1=2.5+1.5=4$, начиная с $t_1=-1.5$ и заканчивая $t_2=2.5$,
-    на высоте $a=2$ будет находится часть от всего сигнала, который, в свою очередь, располагается на промежутке $[-0.5\cdot T,0.5\cdot T]=[-5,5]$
-    длины $2\cdot T\cdot 0.5=10$. Параметры $b,\,c,\,d$ отвечают за шум, присутствующий в сигнале. Далее будут рассмотрены графики и сделаны выводы о
-    влиянии каждого параметра на сам сигнал и на его результат фильтрации.
+    В заданном сигнале параметр $a$ функции $g(t)$ отвечает за высоту, на которую поднимется часть сигнала от нуля на промежутке $[t_1,t_2]$.
+    Оставшиеся параметры вносят различные виды шума в сигнал.
 
 
     \subsection{Убираем высокие частоты. Фильтр нижних частот}
-    Возьмем параметр $c=0$. Далее действуем в соответствии с алгоритмом. Возьмем некоторый диапазон частот $[-\nu_0, \nu_0]$, на котором оставим Фурье-образ
-    сигнала $u$ неизменным, а на остальных частотах обнулим его значения. Такое поведение соответствует фильтру \textit{нижних} частот, так как он пропускает
-    все частоты ниже частоты среза. Построим сравнительные графики исходного и фильтрованного сигналов на некотором интервале $[t_1,t_2]$, а также модуля
-    Фурье-образа исходного и фильтрованного сигналов. Исследуем влияние частоты среза $\nu_0$ и значения параметра $b$ на эффективность фильтрации.
+    Положим параметр $c=0$. Возьмем некоторый диапазон частот $[-\nu_0, \nu_0]$, на котором оставим Фурье-образ
+    сигнала $u$ неизменным, а на остальных частотах обнулим его значения. То есть применим фильтр \textit{нижних} частот -- он пропускает
+    все частоты ниже частоты среза. Построим сравнительные графики исходного и фильтрованного сигналов, а также модулей
+    их Фурье-образов. Исследуем влияние частоты среза $\nu_0$ и значения параметра $b$ на эффективность фильтрации.
     
     
-    Далее будут приведены рисунки полученных графиков. На каждом графике подписаны выбранные значения $b,\,c,\,d,\,\nu_0$
-    (хотя, при условии, что $c=0$, менять или рассматривать параметр $d$ не требуется). Также отмечена легенда -- синим цветом
-    обозначается оригинальный сигнал, красным фильтрованный.
+    Далее будут приведены рисунки полученных графиков. На каждом графике подписаны выбранные значения $b,\,c,\,d,\,\nu_0$.
+    Синим цветом обозначается оригинальный сигнал, красным фильтрованный.
 
 
-    \begin{figure}[!htb]
+    \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.48]{1_u_flt_u_nohigh.png}
+        \includegraphics[scale=0.48]{1_nohigh.png}
         \captionsetup{skip=0pt}
         \caption{График исходного и фильтрованного сигналов (1)}
         \label{fig:fig1}
     \end{figure}
-    \begin{figure}[!htb]
+    \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.48]{1_abs_u_U_nohigh.png}
+        \includegraphics[scale=0.48]{1_abs_nohigh.png}
         \captionsetup{skip=0pt}
         \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (1)}
         \label{fig:fig2}
     \end{figure}
-    \begin{figure}[!htb]
+    \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.48]{2_u_flt_u_nohigh.png}
+        \includegraphics[scale=0.48]{2_nohigh.png}
         \captionsetup{skip=0pt}
         \caption{График исходного и фильтрованного сигналов (2)}
         \label{fig:fig3}
     \end{figure}
-    \begin{figure}[!htb]
+    \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.48]{2_abs_u_U_nohigh.png}
+        \includegraphics[scale=0.48]{2_abs_nohigh.png}
         \captionsetup{skip=0pt}
         \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (2)}
         \label{fig:fig4}
     \end{figure}
-    \begin{figure}[!htb]
+    \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.48]{3_u_flt_u_nohigh.png}
+        \includegraphics[scale=0.48]{3_nohigh.png}
         \captionsetup{skip=0pt}
         \caption{График исходного и фильтрованного сигналов (3)}
         \label{fig:fig5}
     \end{figure}
-    \begin{figure}[!htb]
+    \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.48]{3_abs_u_U_nohigh.png}
+        \includegraphics[scale=0.48]{3_abs_nohigh.png}
         \captionsetup{skip=0pt}
         \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (3)}
         \label{fig:fig6}
     \end{figure}
-    \begin{figure}[!htb]
+    \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.48]{5_u_flt_u_nohigh.png}
+        \includegraphics[scale=0.48]{4_nohigh.png}
         \captionsetup{skip=0pt}
         \caption{График исходного и фильтрованного сигналов (4)}
         \label{fig:fig7}
     \end{figure}
-    \begin{figure}[!htb]
+    \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.48]{5_abs_u_U_nohigh.png}
+        \includegraphics[scale=0.48]{4_abs_nohigh.png}
         \captionsetup{skip=0pt}
         \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (4)}
         \label{fig:fig8}
     \end{figure}
-    \begin{figure}[!htb]
+    \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.48]{4_u_flt_u_nohigh.png}
+        \includegraphics[scale=0.48]{5_nohigh.png}
         \captionsetup{skip=0pt}
         \caption{График исходного и фильтрованного сигналов (5)}
         \label{fig:fig9}
     \end{figure}
-    \begin{figure}[!htb]
+    \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.48]{4_abs_u_U_nohigh.png}
+        \includegraphics[scale=0.48]{5_abs_nohigh.png}
         \captionsetup{skip=0pt}
         \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (5)}
         \label{fig:fig10}
     \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{11_u_flt_u_nohigh.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (6)}
-        \label{fig:fig11}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{11_abs_u_U_nohigh.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (6)}
-        \label{fig:fig12}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{12_u_flt_u_nohigh.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (7)}
-        \label{fig:fig13}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{12_abs_u_U_nohigh.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (7)}
-        \label{fig:fig14}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{13_u_flt_u_nohigh.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (8)}
-        \label{fig:fig15}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{13_abs_u_U_nohigh.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (8)}
-        \label{fig:fig16}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{8_u_flt_u_nohigh.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (9)}
-        \label{fig:fig17}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{8_abs_u_U_nohigh.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (9)}
-        \label{fig:fig18}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{7_u_flt_u_nohigh.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (10)}
-        \label{fig:fig19}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{7_abs_u_U_nohigh.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (10)}
-        \label{fig:fig20}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{6_u_flt_u_nohigh.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (11)}
-        \label{fig:fig21}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{6_abs_u_U_nohigh.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (11)}
-        \label{fig:fig22}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{10_u_flt_u_nohigh.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (12)}
-        \label{fig:fig23}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{10_abs_u_U_nohigh.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (12)}
-        \label{fig:fig24}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{9_u_flt_u_nohigh.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (13)}
-        \label{fig:fig25}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{9_abs_u_U_nohigh.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (13)}
-        \label{fig:fig26}
-    \end{figure}
 
 
-    Исходя из графиков можно сделать вывод, что значение параметра $b$ отвечает за амплитуду каждой волны.
-    Чем больше значение $b$, тем зашумленнее, <<грязнее>> выглядит сигнал, так как амплитуды волн возрастают.
-    Фильтрованный сигнал при больших значениях $b$ также имеет более глубокие ямы и высокие подъемы, то есть
-    испытывает увеличение амплитуды. Наглядно такое возрастание можно наблюдать на графиках модуля Фурье-образа
-    исходного и фильтрованного сигналов -- на рисунке \ref{fig:fig2} амплитуды частот больше прижимаются к линии 
-    $A=0$, а на рисунке \ref{fig:fig8} они больше стремятся к линии $A=50$, где $A$ -- амплитуда. Значение
-    параметра $b$ влияет на эффективность фильтрации -- чем меньше значение $b$, тем чище сигнал и тем лучше
-    фильтрация. При большом количестве белого шума фильтрация ухудшается (см. рис. \ref{fig:fig7}).
-    При $b=0$ получается особый случай -- сигнал превращается в прямоугольную функцию, а фильтрованный
-    сигнал выглядит как ее аппроксимация.
+    Исходя из графиков можно сделать вывод, что значение параметра $b$ отвечает за белый шум.
+    Чем больше значение $b$, тем больше белого шума (сравн. рис. \ref{fig:fig1}, \ref{fig:fig3}, \ref{fig:fig5}) --
+    сложнее фильтровать сигнал, так как увеличивается его концентрация в значащих частотах. В данном случае
+    основная информация о сигнале находится на нижних частотах вблизи нуля -- это мы видим на графиках Фурье-образов.
+    При $b=0$ сигнал становится прямоугольной функцией. Фильтрация такого сигнала выглядит как ее аппроксимация (см. рис. \ref{fig:fig1}).
+    При большом значении $b$ исходный сигнал восстановить не получится.
 
 
-    Больше всего влияния на эффективность фильтрации оказывает частота среза $\nu_0$. Этот параметр необходимо подобрать
-    так, чтобы оставались только те частоты, которые имеют заметно более высокую амплитуду по сравнению с остальными.
-    Чем меньше частота среза $\nu_0$, тем заметно лучше фильтрация. Однако если взять слишком маленькое значение $\nu_0$,
-    то фильтрация будет слишком сильной, и мы потеряем большую часть значащих частот в сигнале, что можно увидеть на рисунках
-    \ref{fig:fig11}, \ref{fig:fig12}. Это происходит потому, что мы задели и нижние частоты тоже, оставив лишь малую их часть. Можно сказать, что
-    $\nu_0$ -- это порог, которым мы определяем, является ли частота верхней или нижней. Такой параметр нужно подбирать с умом, чтобы
-    получить от фильтрации ожидаемый результат. Если взять слишком больше значение $\nu_0$, то фильтрация будет не очень эффективной
-    (см. рис. \ref{fig:fig25}, \ref{fig:fig26}), так как мы оставили некоторые верхние частоты, которые можно было обнулить.
+    Эффективность фильтрации зависит от выбора частоты среза $\nu_0$. Зададим маленький диапазон --
+    вырежем б\'{о}льшую часть шума и часть нужного сигнала (см. рис. \ref{fig:fig8}). Большой диапазон оставит и сигнал и некоторую
+    часть шума, которую можно было вырезать (см. рис. \ref{fig:fig10}). Значение, сохраняющее наибольшее количество
+    значащих частот, будет являться оптимальным и даст наилучшую фильтрацию.
 
 
     \subsection{Убираем специфические частоты. Режекторный фильтр}
@@ -361,7 +236,8 @@
 
 
     Синусоидальный шум отображается на графике Фурье-образа как высокий пик помимо исходного, который мы наблюдали ранее в диапазоне низких частот
-    -- там содержится наибольшее количество информации об исходном сигнале. Обнулим этот высокий дополнительный пик и посмотрим результат. Должен
+    и который содержит наибольшее количество информации об исходном сигнале. Чтобы увидеть этот дополнительный высокий пик, необходимо взять немаленькое значение параметра $d$.
+    Обнулим частоты в его диапазоне и посмотрим результат. Должен
     получиться сигнал, похожий на прямоугольную функцию. Также совместим фильтрацию специфических частот с низкими, то есть уберем высокие, которые
     несут наименьшее количество информации об исходном сигнале, но вносят значительный шум.
 
@@ -369,704 +245,182 @@
     Далее будут приведены рисунки полученных графиков. На каждом графике подписаны выбранные значения $b,\,c,\,d,\,\nu_0$. 
     Синим цветом обозначается оригинальный сигнал, красным фильтрованный. 
 
-    
+
+    % \begin{figure}[H]
+    %     \centering
+    %     \includegraphics[scale=0.48]{1_u_flt_u_nospec.png}
+    %     \captionsetup{skip=0pt}
+    %     \caption{График исходного и фильтрованного сигналов (1.1)}
+    %     \label{fig:fig71}
+    % \end{figure}
+    % \begin{figure}[H]
+    %     \centering
+    %     \includegraphics[scale=0.48]{1_abs_u_U_nospec.png}
+    %     \captionsetup{skip=0pt}
+    %     \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (1.1)}
+    %     \label{fig:fig72}
+    % \end{figure}
+    % \begin{figure}[H]
+    %     \centering
+    %     \includegraphics[scale=0.48]{1_3_u_flt_u_nospec.png}
+    %     \captionsetup{skip=0pt}
+    %     \caption{График исходного и фильтрованного сигналов (1.2)}
+    %     \label{fig:fig77}
+    % \end{figure}
+    % \begin{figure}[H]
+    %     \centering
+    %     \includegraphics[scale=0.48]{1_3_abs_u_U_nospec.png}
+    %     \captionsetup{skip=0pt}
+    %     \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (1.2)}
+    %     \label{fig:fig78}
+    % \end{figure}
+
+
     После анализа графиков можно сделать вывод, что параметр $c$ отвечает за синусоидальный шум. Чем больше значение параметра $c$,
     тем больше растягивается сигнал по оси $Oy$, то есть сильнее возрастает амплитуда волн. При $b=0$ сигнал $u$ описывается
-    в формулой синусоиды $$u=g+c\cdot\sin{(d\cdot t+0)}$$ (см. рис. \ref{fig:fig81}, \ref{fig:fig91}). Чем больше $g$, тем выше поднимается график.
+    в формулой синусоиды $$u=g+c\cdot\sin{(d\cdot t+0)}$$ (см. рис. \ref{fig:fig81}, \ref{fig:fig91}).
     Параметр $d$ характеризует растяжение графика по оси $Ox$. При увеличении значения параметра $d$ частота волн повышается.
-    Значение параметра $b$ как и в пунктах ранее влияет на загрязненность сигнала -- чем меньше $b$, тем чище исходный и фильтрованный сигналы.
+    Чем меньше $b$, тем меньше белого шума и проще восстанавливать сигнал.
     Как виды помехи параметры можно назвать так: $b$ -- белый шум, $c \text{ и } d$ гармонический шум.
-    Исследовав влияние частот среза можно сказать, что обнулять частоты пиков слева и справа от наивысшей(их) амплитуд(ы) недостаточно.
-
-
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{1_u_flt_u_nospec.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (1)}
-        \label{fig:fig71}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{1_abs_u_U_nospec.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (1)}
-        \label{fig:fig72}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{1_3_u_flt_u_nospec.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (1)}
-        \label{fig:fig77}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{1_3_abs_u_U_nospec.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (1)}
-        \label{fig:fig78}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{2_u_flt_u_nospec.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (2)}
-        \label{fig:fig81}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{2_abs_u_U_nospec.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (2)}
-        \label{fig:fig82}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{2_3_u_flt_u_nospec.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (2)}
-        \label{fig:fig87}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{2_3_abs_u_U_nospec.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (2)}
-        \label{fig:fig88}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{3_u_flt_u_nospec.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (3)}
-        \label{fig:fig91}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{3_abs_u_U_nospec.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (3)}
-        \label{fig:fig92}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{3_3_u_flt_u_nospec.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (3)}
-        \label{fig:fig97}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{3_3_abs_u_U_nospec.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (3)}
-        \label{fig:fig98}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{4_u_flt_u_nospec.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (4)}
-        \label{fig:fig101}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{4_abs_u_U_nospec.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (4)}
-        \label{fig:fig102}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{4_3_u_flt_u_nospec.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (4)}
-        \label{fig:fig107}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{4_3_abs_u_U_nospec.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (4)}
-        \label{fig:fig108}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{5_u_flt_u_nospec.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (5)}
-        \label{fig:fig01}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{5_abs_u_U_nospec.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (5)}
-        \label{fig:fig02}
-    \end{figure}
-    \begin{figure}[H]
-        \centering
-        \includegraphics[scale=0.48]{5_3_u_flt_u_nospec.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (5)}
-        \label{fig:fig07}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{5_3_abs_u_U_nospec.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (5)}
-        \label{fig:fig08}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{6_u_flt_u_nospec.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (6)}
-        \label{fig:mlll}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{6_abs_u_U_nospec.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (6)}
-        \label{fig:dchjdhc}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{6_3_u_flt_u_nospec.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (6)}
-        \label{fig:sdjfsdfj}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{6_3_abs_u_U_nospec.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (6)}
-        \label{fig:oirjghofgj}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{7_u_flt_u_nospec.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (7)}
-        \label{fig:dklfksdjfo}
-    \end{figure}
-    \begin{figure}[H]
-        \centering
-        \includegraphics[scale=0.48]{7_abs_u_U_nospec.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (7)}
-        \label{fig:dfsjusdf}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{7_3_u_flt_u_nospec.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (7)}
-        \label{fig:fsdjflsfl}
-    \end{figure}
-    \begin{figure}[H]
-        \centering
-        \includegraphics[scale=0.48]{7_3_abs_u_U_nospec.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (7)}
-        \label{fig:f939}
-    \end{figure}
-    \begin{figure}[H]
-        \centering
-        \includegraphics[scale=0.48]{8_u_flt_u_nospec.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (8)}
-        \label{fig:vbvbv}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{8_abs_u_U_nospec.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (8)}
-        \label{fig:wewew}
-    \end{figure}
-    \begin{figure}[H]
-        \centering
-        \includegraphics[scale=0.48]{8_3_u_flt_u_nospec.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (8)}
-        \label{fig:snf}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{8_3_abs_u_U_nospec.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (8)}
-        \label{fig:wkljkf}
-    \end{figure}
-
+   
 
     \subsection{Убираем низкие частоты. Фильтр верхних частот.}
     Рассмотрим графики, где в некоторой окресности точки $\nu=0$ обнулим все значения частот Фурье-образа.
     Такое поведение соответствует фильтру \textit{верхних} частот, так как он пропускает все частоты выше частоты среза.
-    Окресность будет настраиваться выбором диапазона частот $[-\nu_0,\nu_0]$. Для лучшей показательности выбраны как маленькие
-    окресности около нуля, так и большие. Также рассмотрим поведение фильтрации при различных параметрах $b,\,c,\,d$.
+    Окресность будет настраиваться выбором диапазона частот $[-\nu_0,\nu_0]$.
 
 
     Далее будут приведены рисунки полученных графиков. На каждом графике подписаны выбранные значения $b,\,c,\,d,\,\nu_0$. 
     Синим цветом обозначается оригинальный сигнал, красным фильтрованный.
 
 
-    По полученным графикам можно сделать вывод -- фильтр верхних частот в данном случае отрезает значимую часть сигнала,
-    содержащуюся в нижних частотах, и оставляет только белый и/или гармонический шум, находящийся преимущественно на высоких частотах.
-
-
-    \begin{figure}[!htb]
+    \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.48]{1_u_flt_u_nolow.png}
+        \includegraphics[scale=0.48]{1_nolow.png}
         \captionsetup{skip=0pt}
         \caption{График исходного и фильтрованного сигналов (1)}
         \label{fig:fig27}
     \end{figure}
-    \begin{figure}[!htb]
+    \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.48]{1_abs_u_U_nolow.png}
+        \includegraphics[scale=0.48]{1_abs_nolow.png}
         \captionsetup{skip=0pt}
         \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (1)}
         \label{fig:fig28}
     \end{figure}
-    \begin{figure}[!htb]
+    \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.48]{2_u_flt_u_nolow.png}
+        \includegraphics[scale=0.48]{2_nolow.png}
         \captionsetup{skip=0pt}
         \caption{График исходного и фильтрованного сигналов (2)}
         \label{fig:fig29}
     \end{figure}
     \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.48]{2_abs_u_U_nolow.png}
+        \includegraphics[scale=0.48]{2_abs_nolow.png}
         \captionsetup{skip=0pt}
         \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (2)}
         \label{fig:fig30}
     \end{figure}
-    \begin{figure}[!htb]
+    \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.48]{3_u_flt_u_nolow.png}
+        \includegraphics[scale=0.48]{3_nolow.png}
         \captionsetup{skip=0pt}
         \caption{График исходного и фильтрованного сигналов (3)}
         \label{fig:fig31}
     \end{figure}
-    \begin{figure}[!htb]
+    \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.48]{3_abs_u_U_nolow.png}
+        \includegraphics[scale=0.48]{3_abs_nolow.png}
         \captionsetup{skip=0pt}
         \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (3)}
         \label{fig:fig32}
     \end{figure}
-    \begin{figure}[!htb]
+    \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.48]{4_u_flt_u_nolow.png}
+        \includegraphics[scale=0.48]{4_nolow.png}
         \captionsetup{skip=0pt}
         \caption{График исходного и фильтрованного сигналов (4)}
         \label{fig:fig33}
     \end{figure}
-    \begin{figure}[!htb]
+    \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.48]{4_abs_u_U_nolow.png}
+        \includegraphics[scale=0.48]{4_abs_nolow.png}
         \captionsetup{skip=0pt}
         \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (4)}
         \label{fig:fig34}
     \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{5_u_flt_u_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (5)}
-        \label{fig:fig35}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{5_abs_u_U_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (5)}
-        \label{fig:fig36}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{6_u_flt_u_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (6)}
-        \label{fig:fig37}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{6_abs_u_U_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (6)}
-        \label{fig:fig38}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{7_u_flt_u_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (7)}
-        \label{fig:fig39}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{7_abs_u_U_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (7)}
-        \label{fig:fig40}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{8_u_flt_u_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (8)}
-        \label{fig:fig41}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{8_abs_u_U_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (8)}
-        \label{fig:fig42}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{9_u_flt_u_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (9)}
-        \label{fig:fig43}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{9_abs_u_U_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (9)}
-        \label{fig:fig44}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{10_u_flt_u_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (10)}
-        \label{fig:fig45}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{10_abs_u_U_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (10)}
-        \label{fig:fig46}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{11_u_flt_u_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (11)}
-        \label{fig:fig47}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{11_abs_u_U_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (11)}
-        \label{fig:fig48}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{12_u_flt_u_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (12)}
-        \label{fig:fig49}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{12_abs_u_U_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (12)}
-        \label{fig:fig50}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{13_u_flt_u_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (13)}
-        \label{fig:fig51}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{13_abs_u_U_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (13)}
-        \label{fig:fig52}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{14_u_flt_u_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (14)}
-        \label{fig:fig53}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{14_abs_u_U_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (14)}
-        \label{fig:fig54}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{15_u_flt_u_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (15)}
-        \label{fig:fig55}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{15_abs_u_U_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (15)}
-        \label{fig:fig56}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{16_u_flt_u_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (16)}
-        \label{fig:fig57}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{16_abs_u_U_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (16)}
-        \label{fig:fig58}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{17_u_flt_u_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (17)}
-        \label{fig:fig59}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{17_abs_u_U_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (17)}
-        \label{fig:fig60}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{18_u_flt_u_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (18)}
-        \label{fig:fig61}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{18_abs_u_U_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (18)}
-        \label{fig:fig62}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{19_u_flt_u_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (19)}
-        \label{fig:fig63}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{19_abs_u_U_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (19)}
-        \label{fig:fig64}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{20_u_flt_u_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (20)}
-        \label{fig:fig65}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{20_abs_u_U_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (20)}
-        \label{fig:fig66}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{21_u_flt_u_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (21)}
-        \label{fig:fig67}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{21_abs_u_U_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (21)}
-        \label{fig:fig68}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{22_u_flt_u_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (22)}
-        \label{fig:fig_a}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{22_abs_u_U_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (22)}
-        \label{fig:fig_b}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{23_u_flt_u_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (23)}
-        \label{fig:fig_c}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{23_abs_u_U_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (23)}
-        \label{fig:fig_d}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{24_u_flt_u_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (24)}
-        \label{fig:fig_e}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{24_abs_u_U_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (24)}
-        \label{fig:fig_f}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{25_u_flt_u_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (25)}
-        \label{fig:fig_g}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{25_abs_u_U_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (25)}
-        \label{fig:fig_h}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{26_u_flt_u_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов (26)}
-        \label{fig:fig_323234}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{26_abs_u_U_nolow.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов (26)}
-        \label{fig:fig_56456}
-    \end{figure}
+    
+    
+    По полученным графикам можно сделать вывод, что фильтр верхних частот в данном случае отрезает значимую часть сигнала,
+    содержащуюся в нижних частотах, и оставляет только белый и/или гармонический шум, находящийся преимущественно на высоких частотах.
+    Например, на рис. \ref{fig:fig33} видно, что фильтрованный сигнал почти не имеет подъема на том промежутке, где он должен быть, то есть
+    почти вся информация о том, что сигнал имел подъем, была вырезана (см. рис. \ref{fig:fig34}).
+    Следовательно, для заданного сигнала $u$ такой фильтр не
+    подходит для восстановления исходного сигнала.
 
 
     \section{Задание 2. Фильтрация звука.}
-    В данном задании необходимо убрать шумы из записи голоса в файле MUHA.wav так, чтобы остался только голос. 
-    При прослушивании записи голос слышно не очень хорошо, так как присутствует громкий гул. Построим графики
-    исходного сигнала аудиозаписи и его Фурье-образа. Определим по второму графику, какие частоты могут создавать
-    шумы. Так как гул громкий, нам необходимо вырезать частоты из аудиозаписи, имеющие наибольшую амплитуду. Такие частоты мы можем
-    наблюдать примерно в диапазоне $[-300,300]$ Гц. Чтобы вырезать эти частоты, потребуется фильтр верхних частот, который
-    мы рассматривали в задании 1. После применения фильтра построим сравнительный график исходного и фильтрованного
-    сигналов аудиозаписи. Можем наблюдать, насколько чище стал сигнал -- оставшиеся амплитуды являются голосом, который 
-    нам нужен. Это легко понять исходя из того, что между каждым возрастанием амплитуд есть интервал с падением амплитуд, 
-    где они находится в некоторой окресности нуля -- это паузы в предложении, которое говорит человек на записи. Также построим
-    сравнительный график модуля исходного и фильтрованного сигналов аудиозаписи. На нем мы видим, что мы успешно вырезали
-    низкие частоты с наибольшей амплитудой, которые соответствовали громкому гулу. Теперь послушаем аудиозапись filtered\_{MUHA}.wav, которая 
-    оставлена на этом \href{https://drive.google.com/drive/folders/1AuXIiKRWvXFOtJqV3uqPzC494zZ7vCrd?usp=sharing}{гугл-диске}, 
-    и убедимся в том, что все посторонние шумы пропали. На записи голос слышно хорошо, однако остался некоторый звуковой эффект 
-    фейзер. Избавиться от него удалось обрезав частоты в диапазоне $[-22050, -1000]$ и $[1000, 22050]$ Гц, то есть применив фильтр нижних частот,
-    однако голос сильно потерял в качестве. Прослушать этот вариант можно на том же
-    \href{https://drive.google.com/drive/folders/1AuXIiKRWvXFOtJqV3uqPzC494zZ7vCrd?usp=sharing}{гугл-диске},
-    файл выложен под названием filtered\_{MUHA}\_{2}.wav.
-
-
-    Далее представлены рисунки с графиками, о которых говорилось в предыдущем абзаце. Синим цветом обозначен исходный сигнал,
-    красным -- фильтрованный. Также представлены графики для фильтрованной аудиозаписи filtered\_{MUHA}\_{2}.wav. Стоит заметить,
-    что на рисунке \ref{fig:fig116} видно, как окресность нуля стала меньше по сравнению с рисунком \ref{fig:fig113}, то есть в 
-    подобных диапазонах амплитуды частот уменьшились (убрали высокочастотный эффект фейзер, оставив диапазон с низкими частотами, но
-    без тех, что создавали громкий гул).
-
-
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{noisy_audio.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного сигнала аудиозаписи.}
-        \label{fig:fig111}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{U_audio.png}
-        \captionsetup{skip=0pt}
-        \caption{График Фурье-образа исходного сигнала аудиозаписи.}
-        \label{fig:fig112}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{u_flt_u_audio.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов аудиозаписи (1)}
-        \label{fig:fig113}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{abs_u_U_audio.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов аудиозаписи (1)}
-        \label{fig:fig114}
-    \end{figure}
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.48]{u_flt_u_audio_v2.png}
-        \captionsetup{skip=0pt}
-        \caption{График исходного и фильтрованного сигналов аудиозаписи (2)}
-        \label{fig:fig115}
-    \end{figure}
+    Построим графики исходного сигнала аудиозаписи и его Фурье-образа.
+    На записи присутствует громкий гул, следовательно необходимо вырезать частоты из аудиозаписи, имеющие наибольшую амплитуду.
     \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.48]{abs_u_U_audio_v2.png}
-        \captionsetup{skip=0pt}
-        \caption{График модуля Фурье-образа исходного и фильтрованного сигналов аудиозаписи (2)}
-        \label{fig:fig116}
+        \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{audio.png}
+            \caption{Временная область}
+            \label{fig:fig111}
+        \end{subfigure}
+        \hspace{5mm}
+        \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{U_audio.png}
+            \caption{Частотная область}
+            \label{fig:fig112}
+        \end{subfigure}
+        \caption{Графики исходного сигнала и его Фурье-образа}
+        \label{fig:timefreq0}
+    \end{figure}
+    
+    
+    Определим по второму графику, какие частоты могут создавать шумы.
+    Самые большие амплитуды находятся в диапазоне частот $[-300,300]$ Гц. Чтобы их вырезать, потребуется фильтр верхних частот, который
+    мы рассматривали в задании 1. Применим фильтр и посмотрим результирующие графики.
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{faudio.png}
+            \caption{Временная область}
+            \label{fig:fig113}
+        \end{subfigure}
+        \hspace{5mm}
+        \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{abs_audio.png}
+            \caption{Частотная область}
+            \label{fig:fig114}
+        \end{subfigure}
+        \caption{Графики исходного и фильтрованного сигналов и модулей их Фурье-образов}
+        \label{fig:timefreq}
     \end{figure}
 
     
+    Видим как из сигнала во временной области пропал белый шум -- оставшиеся амплитуды являются голосом, который 
+    мы хотели хорошо расслышать.
+    На графике модулей Фурье-образов наблюдаем, что мы вырезали
+    низкие частоты с наибольшей амплитудой, которые соответствовали громкому гулу. Запись filtered\_{MUHA}.wav можно послушать,
+    на этом \href{https://drive.google.com/drive/folders/1AuXIiKRWvXFOtJqV3uqPzC494zZ7vCrd?usp=sharing}{гугл-диске}.
+    На записи голос слышно хорошо, однако остался некоторый звуковой эффект фейзер.
+
+    
     \section{Листинги программных реализаций}
-    В этой секции будут рассмотрены программные реализации, которые использовались по ходу выполнения лабораторной работы.
-    Программы написаны на языке python с подключенными библиотеками numpy и matplotlib.
+    Все программы написаны на языке python с подключенными библиотеками numpy и matplotlib.
 
-
+    
     Два файла, которые необходимы для задания массива времени и частот, вычисления массива функций $g$, задания
     сигнала $u$, а также подсчета Фурье-образа сигнала $u$. Достаточно передать в функции необходимые параметры и
     далее их результат можно использовать для выполнения фильтрации и построения графиков.
-
-
     \begin{lstlisting}[label=l1, caption={Файл help.py. Вспомогательные функции}]
     def get_t(T, dt):
         return np.arange(-T/2, T/2 + dt, dt)   
@@ -1109,14 +463,8 @@
     \end{lstlisting}
 
 
-    Программа для построения сравнительных графиков исходного и фильтрованного сигналов (функция build\_{u}\_\_{flt}\_{u}), 
-    модуля Фурье-образа исходного и фильтрованного сигналов (функции build\_{abs}\_{U}\_\_{flt}\_{U} и build\_{abs}\_{u}\_{to}\_{U}\_\_{flt}\_{U}, 
-    где вторая из приведенных в данном абзаце -- вспомогательная. В нее можно передать исходный сигнал $u$, который преобразуется в Фурье-образ.
-    Написана лишь для удобства пользователя) и графиков исходного сигнала или его Фурье-образа (функции build\_{u}\_{or}\_{U} и build\_{u}\_{to}\_{U}, 
-    где вторая из приведенных в данном абзаце нужна для удобства). Все функции принимают максимально много необязательных параметров для гибкой настройки
-    графика.
-
-
+    Программа для построения сравнительных графиков исходного и фильтрованного сигналов и
+    модулей их Фурье-образов.
     \begin{lstlisting}[label=l3, caption={Файл builder.py. Реализация построения графиков}]
     import matplotlib.pyplot as plt
     import numpy as np
@@ -1258,15 +606,10 @@
     \end{lstlisting}
 
 
-    Программа, реализующая фильтрацию. Пользователь может вызвать такие функции, как filter\_{high}, filter\_{low}, filter\_{special}\_{out}/{in}
-    для фильтрации верхних, нижних и специфических частот соответственно. Первые две функции принимают некоторый параметр
-    $\nu_0$, а последняя принимает список диапазонов с некоторыми $\nu_{0}^{i}$ и $\nu_{0}^{j}$ (где $i,\,j$ -- индексы, не степени).
-    Здесь реализован алгоритм, описанный в первом задании -- берется Фурье-образ, фильтруется и преобразуется обратно из частотного
-    пространства во временное. Функция filter\_{U} обнуляет частоты, соответствующие конкретному шагу в зависимости от решения фильтров
-    проверки high\_{filter}, low\_{filter} и special\_{filter}\_{out}/{in}.
-
-
-    \begin{lstlisting}[label=l4, caption={Файл filters.py. Реализация фильтров.}]
+    Программа, реализующая методы фильтрации верхних, нижних и специфических частот.
+    Здесь реализован алгоритм, описанный в первом задании -- вычисляется Фурье-образ,
+    фильтруется и преобразуется обратно из частотного пространства во временное.
+    \begin{lstlisting}[label=l4, caption={Файл filters.py. Реализация фильтров}]
     def filter_U(u: list, freq: list, v_0, filter):
         flt_U = get_U(u)
         for i in range(len(freq)):
@@ -1339,14 +682,9 @@
 
     Далее представлены программы, в которых используются все предыдущие наработки. Типовой алгоритм -- задать
     параметры $b,\,c,\,d$ и некоторый $\nu_0$, далее воспользоваться функциями создания зашумленного сигнала,
-    фильтрации нужных частот и построения необходимых графиков. Любые остальные добавления в код нужны лишь
-    для удобства, например, когда нужно построить много графиков и сравнивать их друг с другом или анализировать
-    различные результаты по типу совмещения нескольких фильтров на одном сигнале. В случае очистки специфических
-    частот задается список $\nu_{0}^{i},\,\nu_{0}^{j}$. В каджый файл импортируются numpy как np, static как st,
-    help как hp и filters как ft. Для работы с аудиозаписью подключены библиотеки librosa, scipy и playsound.
-
-
-    \begin{lstlisting}[label=l5, caption={Файл nohigh.py. Фильтрация нижних частот.}]
+    фильтрации нужных частот и построения необходимых графиков.
+    Для работы с аудиозаписью подключены библиотеки librosa, scipy и playsound.
+    \begin{lstlisting}[label=l5, caption={Файл nohigh.py. Фильтрация нижних частот}]
     import help as hp
     import static as st
 
@@ -1381,7 +719,9 @@
         fz1=12,
         fz2=6)
     \end{lstlisting}
-    \begin{lstlisting}[label=l6, caption={Файл nolow.py. Фильтрация верхних частот.}]
+
+
+    \begin{lstlisting}[label=l6, caption={Файл nolow.py. Фильтрация верхних частот}]
     import help as hp
     import static as st
 
@@ -1416,7 +756,9 @@
         xl1=-5,
         xl2=5)
     \end{lstlisting}
-    \begin{lstlisting}[label=l7, caption={Файл nospec.py. Фильтрация специфических частот.}]
+
+
+    \begin{lstlisting}[label=l7, caption={Файл nospec.py. Фильтрация специфических частот}]
     import help as hp
     import static as st
 
@@ -1471,7 +813,9 @@
         xl1=-10 - v01,
         xl2=10 + v01)
     \end{lstlisting}
-    \begin{lstlisting}[label=l8, caption={Файл audio.py. Фильтрация шумов в аудиозаписи.}]
+
+
+    \begin{lstlisting}[label=l8, caption={Файл audio.py. Фильтрация шумов в аудиозаписи}]
     import numpy as np
     import librosa
     from scipy.io.wavfile import write
@@ -1480,24 +824,12 @@
     import filters as ft
     import builder as bd
 
-    filter_all = True
-    build_U = True
-
     title = 'High frequency filter audio'
     title2 = 'Abs high frequency filter audio'
-    if filter_all:
-        title = 'High and special frequency filter audio'
-        title2 = 'Abs high and special frequency filter audio'
 
-    src = 'sound/MUHA.wav'
-    filename = 'sound/filtered_MUHA_2.wav'
-    try:
-        audio, rate = librosa.load(src, sr=None)
-    except:
-        lab = 'fm_lab3/'
-        src = lab + src
-        filename = lab + filename
-        audio, rate = librosa.load(src, sr=None)
+    src = 'fm_lab3/sound/MUHA.wav'
+    filename = 'fm_lab3/sound/filtered_MUHA.wav'
+    audio, rate = librosa.load(src, sr=None)
 
     dt = 1 / rate
     T = len(audio) * dt
@@ -1506,29 +838,24 @@
     freq = np.linspace(-rate / 2, rate / 2, len(audio), endpoint=False)
 
     flt_u, flt_U = ft.filter_high(freq, audio, 300)
-    if filter_all:
-        flt_u, flt_U = ft.filter_special_out(freq, flt_u,
-                                            [[freq[0], -4500],
-                                            [4500, freq[-1]]])
     flt_u_float = flt_u.real.astype(np.float32)
 
-    if build_U:
-        bd.build_u_or_U(time,
-                        audio,
-                        xlab='Time',
-                        title='Noisy audio signal',
-                        fz1=12,
-                        fz2=6,
-                        legend=False)
-        bd.build_u_to_U(freq,
-                        audio,
-                        title='fft noisy audio signal',
-                        legend=False,
-                        fz1=12,
-                        fz2=6,
-                        xl1=0,
-                        yl1=0,
-                        yl2=20)
+    bd.build_u_or_U(time,
+                    audio,
+                    xlab='Time',
+                    title='Noisy audio signal',
+                    fz1=12,
+                    fz2=6,
+                    legend=False)
+    bd.build_u_to_U(freq,
+                    audio,
+                    title='fft noisy audio signal',
+                    legend=False,
+                    fz1=12,
+                    fz2=6,
+                    xl1=0,
+                    yl1=0,
+                    yl2=20)
 
     bd.build_u__flt_u(time, audio, flt_u, title=title, fz1=12, fz2=6)
     bd.build_abs_u_to_U__flt_U(freq,

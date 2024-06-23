@@ -6,7 +6,7 @@ img_path = f'{src}/4.png'
 render_to = 'fm_lab6/renders/task3'
 
 img = iu.read_img(img_path)
-n = [1, 2]
+n = [1]
 for i in n:
     ans = iu.sharpen_conv2_2img(img, i)
     iu.save_img(ans, f'{render_to}/sharp_conv2_n={i}.png')

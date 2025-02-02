@@ -1235,47 +1235,147 @@ def build_f_t():
 
 \noindent Запишем коэффициент $c_n$:
 \begin{align*}
-    & c_n =\dfrac{1}{2\pi}\int\limits_{h}^{h+T}f(t)e^{-int}\,dt=\dfrac{1}{2\pi}\left(\int\limits_{-\frac{\pi}{4}}^{\frac{\pi}{4}}\left(2+\dfrac{8t}{\pi}\right)e^{-int}\,dt+\int\limits_{\frac{\pi}{4}}^{\frac{3\pi}{4}}\left(6-\dfrac{8t}{\pi}\right)e^{-int}\,dt+\right.\\
-    &\left. \int\limits_{\frac{3\pi}{4}}^{\frac{5\pi}{4}}\left(6-\dfrac{8t}{\pi}\right)e^{-int}\,dt+\int\limits_{\frac{5\pi}{4}}^{\frac{7\pi}{4}}\left(-14+\dfrac{8t}{\pi}\right)e^{-int}\,dt\right)
+    & c_n =\dfrac{1}{2\pi}\int\limits_{h}^{h+T}f(t)e^{-int}\,dt=\dfrac{1}{2\pi}\left(\int\limits_{-\frac{\pi}{4}}^{\frac{\pi}{4}}\left(2+\dfrac{8t}{\pi}i\right)e^{-int}\,dt+\int\limits_{\frac{\pi}{4}}^{\frac{3\pi}{4}}\left(4-\dfrac{8t}{\pi}+2i\right)e^{-int}\,dt+\right.\\
+    &\left. +\int\limits_{\frac{3\pi}{4}}^{\frac{5\pi}{4}}\left(-2+\left(8-\dfrac{8t}{\pi}\right)i\right)e^{-int}\,dt+\int\limits_{\frac{5\pi}{4}}^{\frac{7\pi}{4}}\left(-12+\dfrac{8t}{\pi}-2i\right)e^{-int}\,dt\right)
 \end{align*}
 
 
-\noindent Рассмотрим отдельно интеграл функции $2+\frc{8t}{\pi}$ на промежутке $[-\frc{\pi}{4}, \frc{\pi}{4})$:
-\begin{align}
-    & \int\limits_{-\frac{\pi}{4}}^{\frac{\pi}{4}}\left(2+\dfrac{8t}{\pi}\right)e^{-int}\,dt=
-    \begin{bmatrix}
-        u=2+\frc{8t}{\pi} &v=\int e^{-int}\,dt\\
-        du=\frc{8}{\pi}\,dt &dv=e^{-int}\,dt
-    \end{bmatrix},\\
-    & v=\int e^{-int}\,dt=
-    \begin{bmatrix}
-        x=-int\\
-        dx=-in\,dt\\
-        dt=\frc{i}{n}\,dx
-    \end{bmatrix}=
-    \dfrac{i}{n}\int e^{x}\,dx=\dfrac{i}{n}e^{x}=\dfrac{i}{n}e^{-int},\\
-    & \int u\,dv=uv-\int v\,du\Rightarrow (1)=\dfrac{i}{n}\left(2+\dfrac{8t}{\pi}\right)e^{-int}\bigg|_{-\frac{\pi}{4}}^{\frac{\pi}{4}}-\dfrac{8i}{\pi n}\int\limits_{-\frac{\pi}{4}}^{\frac{\pi}{4}}e^{-int}\,dt,\\
-    & \dfrac{i}{n}\left(2+\dfrac{8t}{\pi}\right)e^{-int}\bigg|_{-\frac{\pi}{4}}^{\frac{\pi}{4}}=\dfrac{i}{n}\left(\left(2+\dfrac{8\cdot\frc{\pi}{4}}{\pi}\right)e^{-\frac{\pi}{4}in}-\left(2+\dfrac{8\cdot\left(-\frc{\pi}{4}\right)}{\pi}\right)e^{\frac{\pi}{4}in}\right)=\dfrac{4i}{n}e^{-\frac{\pi}{4}in},\\
-    & -\dfrac{8i}{\pi n}\int\limits_{-\frac{\pi}{4}}^{\frac{\pi}{4}}e^{-int}\,dt=-\dfrac{8i}{\pi n}\cdot\dfrac{i}{n}e^{-int}\bigg|_{-\frac{\pi}{4}}^{\frac{\pi}{4}}=\dfrac{8}{\pi n^2}e^{-int}\bigg|_{-\frac{\pi}{4}}^{\frac{\pi}{4}}=\dfrac{8}{\pi n^2}\left(e^{-\frac{\pi}{4}in}-e^{\frac{\pi}{4}in}\right),\\
-    & (1)=(4)+(5)=\dfrac{4i}{n}e^{-\frac{\pi}{4}in}+\dfrac{8}{\pi n^2}\left(e^{-\frac{\pi}{4}in}-e^{\frac{\pi}{4}in}\right)=\dfrac{4}{n}\left(ie^{-\frac{\pi}{4}in}+\dfrac{2}{\pi n}\left(e^{-\frac{\pi}{4}in}-e^{\frac{\pi}{4}in}\right)\right)
-\end{align}
+\noindent Рассмотрим отдельно интеграл функции $2+\frc{8t}{\pi}i$ на промежутке $[-\frc{\pi}{4}, \frc{\pi}{4})$:
+$$
+\int\limits_{-\frac{\pi}{4}}^{\frac{\pi}{4}}\left(2+\dfrac{8t}{\pi}i\right)e^{-int}\,dt=
+2\int\limits_{-\frac{\pi}{4}}^{\frac{\pi}{4}}e^{-int}\,dt+\dfrac{8i}{\pi}\int\limits_{-\frac{\pi}{4}}^{\frac{\pi}{4}}te^{-int}\,dt,
+$$
+$$
+2\int\limits_{-\frac{\pi}{4}}^{\frac{\pi}{4}}e^{-int}\,dt=\begin{bmatrix}
+    x=-int\\
+    t=ix/n\\
+    dt=idx/n
+\end{bmatrix}=
+\dfrac{2i}{n}\int\limits_{x_1}^{x_2}e^x\,dx=\dfrac{2i}{n}e^{-int}\bigg|_{-\frac{\pi}{4}}^{\frac{\pi}{4}}=
+\dfrac{4}{n}\left(\dfrac{e^{in\frac{\pi}{4}}-e^{-in\frac{\pi}{4}}}{2i}\right)=\dfrac{4}{n}\sin{\left(n\dfrac{\pi}{4}\right)},
+$$
+$$
+\dfrac{8i}{\pi}\int\limits_{-\frac{\pi}{4}}^{\frac{\pi}{4}}te^{-int}\,dt=
+\begin{bmatrix}
+    u=t & dv=e^{-int}dt\\
+    du=dt & v=i/n\cdot e^{-int}
+\end{bmatrix}=
+\dfrac{8i}{\pi}\left(\dfrac{tie^{-int}}{n}\bigg|_{-\frac{\pi}{4}}^{\frac{\pi}{4}}-\dfrac{i}{n}\int\limits_{-\frac{\pi}{4}}^{\frac{\pi}{4}}e^{-int}dt\right)=
+\dfrac{8i}{\pi}\left(\dfrac{tie^{-int}}{n}\bigg|_{-\frac{\pi}{4}}^{\frac{\pi}{4}}+\dfrac{e^{-int}}{n^2}\bigg|_{-\frac{\pi}{4}}^{\frac{\pi}{4}}\right)=
+$$
+$$
+=\dfrac{8i}{\pi}\left(\left(\dfrac{\pi ie^{-i n\frac{\pi}{4}}}{4n}+\dfrac{\pi ie^{in\frac{\pi}{4}}}{4n}\right)+\dfrac{e^{-in\frac{\pi}{4}}-e^{in\frac{\pi}{4}}}{n^2}\right)=
+\dfrac{8i}{\pi}\left(\dfrac{\pi}{2n}i\left(\dfrac{e^{-in\frac{\pi}{4}}+e^{in\frac{\pi}{4}}}{2}\right)+\dfrac{e^{-in\frac{\pi}{4}}-e^{in\frac{\pi}{4}}}{n^2}\right)=
+$$
+$$
+=-\dfrac{4}{n}\cos{\left(n\dfrac{\pi}{4}\right)}+\dfrac{16}{\pi n^2}\left(\dfrac{e^{in\frac{\pi}{4}}-e^{-in\frac{\pi}{4}}}{2i}\right)=
+-\dfrac{4}{n}\cos{\left(n\dfrac{\pi}{4}\right)}+\dfrac{16}{\pi n^2}\sin{\left(n\dfrac{\pi}{4}\right)},
+$$
+$$
+\Rightarrow\int\limits_{-\frac{\pi}{4}}^{\frac{\pi}{4}}\left(2+\dfrac{8t}{\pi}i\right)e^{-int}\,dt=
+\dfrac{4}{n}\sin{\left(n\dfrac{\pi}{4}\right)}-\dfrac{4}{n}\cos{\left(n\dfrac{\pi}{4}\right)}+\dfrac{16}{\pi n^2}\sin{\left(n\dfrac{\pi}{4}\right)}
+$$
 
 
-\noindent Остальные интегралы решаются аналогичным способом, поэтому я приведу неполное решение для них:
-\begin{align*}
-    & \int\limits_{\frac{\pi}{4}}^{\frac{3\pi}{4}}\left(6-\dfrac{8t}{\pi}\right)e^{-int}\,dt=\dfrac{i}{n}\left(6-\dfrac{8t}{\pi}\right)e^{-int}\bigg|_{\frac{\pi}{4}}^{\frac{3\pi}{4}}-\dfrac{8}{\pi n^2}e^{-int}\bigg|_{\frac{\pi}{4}}^{\frac{3\pi}{4}}=-\dfrac{4}{n}\left(ie^{-\frac{\pi}{4}in}+\dfrac{2}{\pi n}\left(e^{-\frac{3\pi}{4}in}-e^{-\frac{\pi}{4}in}\right)\right)\\
-    & \int\limits_{\frac{3\pi}{4}}^{\frac{5\pi}{4}}\left(6-\dfrac{8t}{\pi}\right)e^{-int}\,dt=\dfrac{i}{n}\left(6-\dfrac{8t}{\pi}\right)e^{-int}\bigg|_{\frac{3\pi}{4}}^{\frac{5\pi}{4}}-\dfrac{8}{\pi n^2}e^{-int}\bigg|_{\frac{3\pi}{4}}^{\frac{5\pi}{4}}=-\dfrac{4}{n}\left(ie^{-\frac{5\pi}{4}in}+\dfrac{2}{\pi n}\left(e^{-\frac{5\pi}{4}in}-e^{-\frac{3\pi}{4}in}\right)\right)\\
-    & \int\limits_{\frac{5\pi}{4}}^{\frac{7\pi}{4}}\left(-14+\dfrac{8t}{\pi}\right)e^{-int}\,dt=\dfrac{i}{n}\left(-14+\dfrac{8t}{\pi}\right)e^{-int}\bigg|_{\frac{5\pi}{4}}^{\frac{7\pi}{4}}+\dfrac{8}{\pi n^2}e^{-int}\bigg|_{\frac{5\pi}{4}}^{\frac{7\pi}{4}}=\dfrac{4}{n}\left(ie^{-\frac{5\pi}{4}in}+\dfrac{2}{\pi n}\left(e^{-\frac{7\pi}{4}in}-e^{-\frac{5\pi}{4}in}\right)\right)
-\end{align*}
+\noindent Рассмотрим интеграл функции $4-8t/\pi+2i$
+$$
+\int\limits_{\frac{\pi}{4}}^{\frac{3\pi}{4}}\left(4-\dfrac{8t}{\pi}+2i\right)e^{-int}\,dt=
+\int\limits_{\frac{\pi}{4}}^{\frac{3\pi}{4}}\left(4-\dfrac{8t}{\pi}\right)e^{-int}\,dt+2i\int\limits_{\frac{\pi}{4}}^{\frac{3\pi}{4}}e^{-int}\,dt,
+$$
+$$
+\int\limits_{\frac{\pi}{4}}^{\frac{3\pi}{4}}\left(4-\dfrac{8t}{\pi}\right)e^{-int}\,dt=\begin{bmatrix}
+    u=4-8t/\pi & v=i/n\cdot e^{-int}\\
+    du=-8/\pi dt & dv=e^{-int}dt
+\end{bmatrix}=
+\dfrac{i}{n}e^{-int}\left(4-\dfrac{8t}{\pi}\right)\bigg|_{\frac{\pi}{4}}^{\frac{3\pi}{4}}+\dfrac{8i}{\pi n}\int\limits_{\frac{\pi}{4}}^{\frac{3\pi}{4}}e^{-int}\,dt=
+$$
+$$
+=-\dfrac{2i}{n}\left(e^{-in\frac{3\pi}{4}}+e^{-in\frac{\pi}{4}}\right)-\dfrac{8}{\pi n^2}\left(e^{-in\frac{3\pi}{4}}-e^{-in\frac{\pi}{4}}\right)=
+-\dfrac{2}{n}\left(i\left(e^{-in\frac{3\pi}{4}}+e^{-in\frac{\pi}{4}}\right)+\dfrac{4}{\pi n}\left(e^{-in\frac{3\pi}{4}}-e^{-in\frac{\pi}{4}}\right)\right),
+$$
+$$
+2i\int\limits_{\frac{\pi}{4}}^{\frac{3\pi}{4}}e^{-int}\,dt=2i\cdot\dfrac{i}{n}\cdot e^{-int}\bigg|_{\frac{\pi}{4}}^{\frac{3\pi}{4}}=-\dfrac{2}{n}\left(e^{-in\frac{3\pi}{4}}-e^{-in\frac{\pi}{4}}\right),
+$$
+$$
+\Rightarrow\int\limits_{\frac{\pi}{4}}^{\frac{3\pi}{4}}\left(4-\dfrac{8t}{\pi}+2i\right)e^{-int}\,dt=-\dfrac{2}{n}\left(i\left(e^{-in\frac{3\pi}{4}}+e^{-in\frac{\pi}{4}}\right)+\dfrac{4}{\pi n}\left(e^{-in\frac{3\pi}{4}}-e^{-in\frac{\pi}{4}}\right)\right)-\dfrac{2}{n}\left(e^{-in\frac{3\pi}{4}}-e^{-in\frac{\pi}{4}}\right)=
+$$
+$$
+=-\dfrac{2}{n}\left(i\left(e^{-in\frac{3\pi}{4}}+e^{-in\frac{\pi}{4}}\right)+\left(\dfrac{4}{\pi n}+1\right)\left(e^{-in\frac{3\pi}{4}}-e^{-in\frac{\pi}{4}}\right)\right)
+$$
+
+
+\noindent Рассмотрим интеграл функции $-2+\left(8-8t/\pi\right)i$
+$$
+\int\limits_{\frac{3\pi}{4}}^{\frac{5\pi}{4}}\left(-2+\left(8-\dfrac{8t}{\pi}\right)i\right)e^{-int}\,dt=
+-2\int\limits_{\frac{3\pi}{4}}^{\frac{5\pi}{4}}e^{-int}\,dt+i\int\limits_{\frac{3\pi}{4}}^{\frac{5\pi}{4}}\left(8-\dfrac{8t}{\pi}\right)e^{-int}\,dt,
+$$
+$$
+-2\int\limits_{\frac{3\pi}{4}}^{\frac{5\pi}{4}}e^{-int}\,dt=-2\cdot\dfrac{i}{n}\cdot e^{-int}\bigg|_{\frac{3\pi}{4}}^{\frac{5\pi}{4}}=-\dfrac{2i}{n}\left(e^{-in\frac{5\pi}{4}}-e^{-in\frac{3\pi}{4}}\right),
+$$
+$$
+i\int\limits_{\frac{3\pi}{4}}^{\frac{5\pi}{4}}\left(8-\dfrac{8t}{\pi}\right)e^{-int}\,dt=
+\begin{bmatrix}
+    u=8-8t/\pi & v=i/n\cdot e^{-int} \\
+    du=-8/\pi\,dt & dv=e^{-int}\,dt
+\end{bmatrix}=
+i\left(\dfrac{i}{n}e^{-int}\left(8-\dfrac{8t}{\pi}\right)\bigg|_{\frac{3\pi}{4}}^{\frac{5\pi}{4}}+\dfrac{8i}{\pi n}\int\limits_{\frac{3\pi}{4}}^{\frac{5\pi}{4}}e^{-int}\,dt\right)=
+$$
+$$
+=i\left(-\dfrac{2i}{n}\left(e^{-in\frac{5\pi}{4}}+e^{-in\frac{3\pi}{4}}\right)-\dfrac{8}{\pi n^2}\left(e^{-in\frac{5\pi}{4}}-e^{-in\frac{3\pi}{4}}\right)\right)=
+-\dfrac{2i}{n}\left(i\left(e^{-in\frac{5\pi}{4}}+e^{-in\frac{3\pi}{4}}\right)+\dfrac{4}{\pi n}\left(e^{-in\frac{5\pi}{4}}-e^{-in\frac{3\pi}{4}}\right)\right),
+$$
+$$
+\Rightarrow\int\limits_{\frac{3\pi}{4}}^{\frac{5\pi}{4}}\left(-2+\left(8-\dfrac{8t}{\pi}\right)i\right)e^{-int}\,dt=
+-\dfrac{2i}{n}\left(e^{-in\frac{5\pi}{4}}-e^{-in\frac{3\pi}{4}}\right)-\dfrac{2i}{n}\left(i\left(e^{-in\frac{5\pi}{4}}+e^{-in\frac{3\pi}{4}}\right)+\dfrac{4}{\pi n}\left(e^{-in\frac{5\pi}{4}}-e^{-in\frac{3\pi}{4}}\right)\right)=
+$$
+$$
+=-\dfrac{2i}{n}\left(i\left(e^{-in\frac{5\pi}{4}}+e^{-in\frac{3\pi}{4}}\right)+\left(\dfrac{4}{\pi n}+1\right)\left(e^{-in\frac{5\pi}{4}}-e^{-in\frac{3\pi}{4}}\right)\right)
+$$
+
+
+\noindent Рассмотрим интеграл функции $-12+8t/\pi-2i$
+$$
+\int\limits_{\frac{5\pi}{4}}^{\frac{7\pi}{4}}\left(-12+\dfrac{8t}{\pi}-2i\right)e^{-int}\,dt=
+\int\limits_{\frac{5\pi}{4}}^{\frac{7\pi}{4}}\left(-12+\dfrac{8t}{\pi}\right)e^{-int}\,dt-2i\int\limits_{\frac{5\pi}{4}}^{\frac{7\pi}{4}}e^{-int}\,dt,
+$$
+$$
+-2i\int\limits_{\frac{5\pi}{4}}^{\frac{7\pi}{4}}e^{-int}\,dt=-2i\cdot\dfrac{i}{n}\cdot e^{-int}\bigg|_{\frac{5\pi}{4}}^{\frac{7\pi}{4}}=
+\dfrac{2}{n}\left(e^{-in\frac{7\pi}{4}}-e^{-in\frac{5\pi}{4}}\right),
+$$
+$$
+\int\limits_{\frac{5\pi}{4}}^{\frac{7\pi}{4}}\left(-12+\dfrac{8t}{\pi}\right)e^{-int}\,dt=
+\begin{bmatrix}
+    u=-12+8t/\pi & v=i/n\cdot e^{-int} \\
+    du=8/\pi\,dt & dv=e^{-int}\,dt
+\end{bmatrix}=
+\dfrac{i}{n}e^{-int}\left(-12+\dfrac{8t}{\pi}\right)\bigg|_{\frac{5\pi}{4}}^{\frac{7\pi}{4}}-\dfrac{8i}{\pi n}\int\limits_{\frac{5\pi}{4}}^{\frac{7\pi}{4}}e^{-int}\,dt=
+$$
+$$
+=\dfrac{2i}{n}\left(e^{-in\frac{7\pi}{4}}+e^{-in\frac{5\pi}{4}}\right)+\dfrac{8}{\pi n^2}\left(e^{-in\frac{7\pi}{4}}-e^{-in\frac{5\pi}{4}}\right)=
+\dfrac{2}{n}\left(i\left(e^{-in\frac{7\pi}{4}}+e^{-in\frac{5\pi}{4}}\right)+\dfrac{4}{\pi n}\left(e^{-in\frac{7\pi}{4}}-e^{-in\frac{5\pi}{4}}\right)\right),
+$$
+$$
+\Rightarrow\int\limits_{\frac{5\pi}{4}}^{\frac{7\pi}{4}}\left(-12+\dfrac{8t}{\pi}-2i\right)e^{-int}\,dt=
+\dfrac{2}{n}\left(i\left(e^{-in\frac{7\pi}{4}}+e^{-in\frac{5\pi}{4}}\right)+\dfrac{4}{\pi n}\left(e^{-in\frac{7\pi}{4}}-e^{-in\frac{5\pi}{4}}\right)\right)+\dfrac{2}{n}\left(e^{-in\frac{7\pi}{4}}-e^{-in\frac{5\pi}{4}}\right)=
+$$
+$$
+=\dfrac{2}{n}\left(i\left(e^{-in\frac{7\pi}{4}}+e^{-in\frac{5\pi}{4}}\right)+\left(\dfrac{4}{\pi n}+1\right)\left(e^{-in\frac{7\pi}{4}}-e^{-in\frac{5\pi}{4}}\right)\right)
+$$
 
 
 \noindent Суммируем все вычисленные интегралы и упростим выражение:
-\begin{align*}
-    & \dfrac{4}{n}\left(ie^{-\frac{\pi}{4}in}+\dfrac{2}{\pi n}\left(e^{-\frac{\pi}{4}in}-e^{\frac{\pi}{4}in}\right)\right)-\dfrac{4}{n}\left(ie^{-\frac{\pi}{4}in}+\dfrac{2}{\pi n}\left(e^{-\frac{3\pi}{4}in}-e^{-\frac{\pi}{4}in}\right)\right)-\dfrac{4}{n}\left(ie^{-\frac{5\pi}{4}in}+\dfrac{2}{\pi n}\left(e^{-\frac{5\pi}{4}in}-e^{-\frac{3\pi}{4}in}\right)\right)+\\
-    & +\dfrac{4}{n}\left(ie^{-\frac{5\pi}{4}in}+\dfrac{2}{\pi n}\left(e^{-\frac{7\pi}{4}in}-e^{-\frac{5\pi}{4}in}\right)\right)=\dfrac{4}{n}\left(ie^{-\frac{\pi}{4}in}+\dfrac{2}{\pi n}\left(e^{-\frac{\pi}{4}in}-e^{\frac{\pi}{4}in}\right)-ie^{-\frac{\pi}{4}in}-\dfrac{2}{\pi n}\left(e^{-\frac{3\pi}{4}in}-e^{-\frac{\pi}{4}in}\right)+\right.\\
-    & \left. -ie^{-\frac{5\pi}{4}in}-\dfrac{2}{\pi n}\left(e^{-\frac{5\pi}{4}in}-e^{-\frac{3\pi}{4}in}\right)+ie^{-\frac{5\pi}{4}in}+\dfrac{2}{\pi n}\left(e^{-\frac{7\pi}{4}in}-e^{-\frac{5\pi}{4}in}\right)\right)=\dfrac{4}{n}\cdot\dfrac{2}{\pi n}\left(e^{-\frac{\pi}{4}in}-e^{\frac{\pi}{4}in}-e^{-\frac{3\pi}{4}in}+e^{-\frac{\pi}{4}in}+\right.\\
-    & \left. -e^{-\frac{5\pi}{4}in}+e^{-\frac{3\pi}{4}in}+e^{-\frac{7\pi}{4}in}-e^{-\frac{5\pi}{4}in}\right)=\dfrac{8}{\pi n^2}\left(2\left(e^{-\frac{\pi}{4}in}-e^{-\frac{5\pi}{4}in}\right)+e^{-\frac{7\pi}{4}in}-e^{\frac{\pi}{4}in}\right)
-\end{align*}
+$$
+\dfrac{4}{n}\sin{\left(n\dfrac{\pi}{4}\right)}-\dfrac{4}{n}\cos{\left(n\dfrac{\pi}{4}\right)}+\dfrac{16}{\pi n^2}\sin{\left(n\dfrac{\pi}{4}\right)}+
+$$
+$$
+-\dfrac{2}{n}\left(i\left(e^{-in\frac{3\pi}{4}}+e^{-in\frac{\pi}{4}}\right)+\left(\dfrac{4}{\pi n}+1\right)\left(e^{-in\frac{3\pi}{4}}-e^{-in\frac{\pi}{4}}\right)\right)+
+$$
+$$
+-\dfrac{2i}{n}\left(i\left(e^{-in\frac{5\pi}{4}}+e^{-in\frac{3\pi}{4}}\right)+\left(\dfrac{4}{\pi n}+1\right)\left(e^{-in\frac{5\pi}{4}}-e^{-in\frac{3\pi}{4}}\right)\right)+
+$$
+$$
++\dfrac{2}{n}\left(i\left(e^{-in\frac{7\pi}{4}}+e^{-in\frac{5\pi}{4}}\right)+\left(\dfrac{4}{\pi n}+1\right)\left(e^{-in\frac{7\pi}{4}}-e^{-in\frac{5\pi}{4}}\right)\right)
+$$
 
 
 \noindent Тогда коэффициент $c_n$ будет иметь вид:

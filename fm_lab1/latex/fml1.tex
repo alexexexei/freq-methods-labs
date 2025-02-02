@@ -1363,31 +1363,26 @@ $$
 $$
 
 
-\noindent Суммируем все вычисленные интегралы и упростим выражение:
+\noindent Тогда коэффициент $c_n$ будет иметь вид:
 $$
-\dfrac{4}{n}\sin{\left(n\dfrac{\pi}{4}\right)}-\dfrac{4}{n}\cos{\left(n\dfrac{\pi}{4}\right)}+\dfrac{16}{\pi n^2}\sin{\left(n\dfrac{\pi}{4}\right)}+
-$$
-$$
+c_n=\dfrac{1}{2\pi}\left(\dfrac{4}{n}\sin{\left(n\dfrac{\pi}{4}\right)}-\dfrac{4}{n}\cos{\left(n\dfrac{\pi}{4}\right)}+\dfrac{16}{\pi n^2}\sin{\left(n\dfrac{\pi}{4}\right)}\right.
 -\dfrac{2}{n}\left(i\left(e^{-in\frac{3\pi}{4}}+e^{-in\frac{\pi}{4}}\right)+\left(\dfrac{4}{\pi n}+1\right)\left(e^{-in\frac{3\pi}{4}}-e^{-in\frac{\pi}{4}}\right)\right)+
 $$
 $$
--\dfrac{2i}{n}\left(i\left(e^{-in\frac{5\pi}{4}}+e^{-in\frac{3\pi}{4}}\right)+\left(\dfrac{4}{\pi n}+1\right)\left(e^{-in\frac{5\pi}{4}}-e^{-in\frac{3\pi}{4}}\right)\right)+
-$$
-$$
-+\dfrac{2}{n}\left(i\left(e^{-in\frac{7\pi}{4}}+e^{-in\frac{5\pi}{4}}\right)+\left(\dfrac{4}{\pi n}+1\right)\left(e^{-in\frac{7\pi}{4}}-e^{-in\frac{5\pi}{4}}\right)\right)
+-\dfrac{2i}{n}\left(i\left(e^{-in\frac{5\pi}{4}}+e^{-in\frac{3\pi}{4}}\right)+\left(\dfrac{4}{\pi n}+1\right)\left(e^{-in\frac{5\pi}{4}}-e^{-in\frac{3\pi}{4}}\right)\right)
+\left.+\dfrac{2}{n}\left(i\left(e^{-in\frac{7\pi}{4}}+e^{-in\frac{5\pi}{4}}\right)+\left(\dfrac{4}{\pi n}+1\right)\left(e^{-in\frac{7\pi}{4}}-e^{-in\frac{5\pi}{4}}\right)\right)\right)
 $$
 
 
-\noindent Тогда коэффициент $c_n$ будет иметь вид:
-\begin{align*}
-    & c_n=\dfrac{1}{2\pi}\cdot\dfrac{8}{\pi n^2}\left(2\left(e^{-\frac{\pi}{4}in}-e^{-\frac{5\pi}{4}in}\right)+e^{-\frac{7\pi}{4}in}-e^{\frac{\pi}{4}in}\right)=\dfrac{4}{\left(\pi n\right)^2}\left(2\left(e^{-\frac{\pi}{4}in}-e^{-\frac{5\pi}{4}in}\right)+e^{-\frac{7\pi}{4}in}-e^{\frac{\pi}{4}in}\right)
-\end{align*}
-
-
-\noindent Получим следующий ряд Фурье $G_N(t)$:
-\begin{align*}
-    & G_N(t)=\sum_{n=-N}^{N}\dfrac{4e^{int}}{\left(\pi n\right)^2}\left(2\left(e^{-\frac{\pi}{4}in}-e^{-\frac{5\pi}{4}in}\right)+e^{-\frac{7\pi}{4}in}-e^{\frac{\pi}{4}in}\right)
-\end{align*}
+\noindent Упростим выражение и получим следующий ряд Фурье $G_N(t)$:
+$$
+G_N(t)=\dfrac{1}{\pi}\sum\limits_{n=-N}^{N}\dfrac{1}{n}e^{int}\left(2\left(\sin{\left(n\dfrac{\pi}{4}\right)}-\cos{\left(n\dfrac{\pi}{4}\right)}+\dfrac{4}{\pi n}\sin{\left(n\dfrac{\pi}{4}\right)}\right)\right.
+-i\left(e^{-in\frac{3\pi}{4}}+e^{-in\frac{\pi}{4}}\right)-\left(\dfrac{4}{\pi n}+1\right)\left(e^{-in\frac{3\pi}{4}}-e^{-in\frac{\pi}{4}}\right)+
+$$
+$$
++\left(e^{-in\frac{5\pi}{4}}+e^{-in\frac{3\pi}{4}}\right)-i\left(\dfrac{4}{\pi n}+1\right)\left(e^{-in\frac{5\pi}{4}}-e^{-in\frac{3\pi}{4}}\right)
+\left.+i\left(e^{-in\frac{7\pi}{4}}+e^{-in\frac{5\pi}{4}}\right)+\left(\dfrac{4}{\pi n}+1\right)\left(e^{-in\frac{7\pi}{4}}-e^{-in\frac{5\pi}{4}}\right)\right)
+$$
 
 
 \noindent Вычислим коэффициенты $c_0,\,c_1,\,c_2$:
